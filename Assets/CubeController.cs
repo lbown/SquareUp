@@ -1,0 +1,97 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CubeController : MonoBehaviour
+{
+    private bool inRotation = false;
+    private Quaternion cubeRot;
+    Vector2 actualXY, targetXY;
+    [SerializeField] private GameObject camera;
+
+    private void Start()
+    {
+        cubeRot = gameObject.transform.rotation;
+    }
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump") && !inRotation)
+        {
+            StartRotation();
+        }
+        if (inRotation)
+        {
+            gameObject.transform.rotation = cubeRot;
+
+            targetXY = new Vector2(rubberBandX(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")),
+                                   rubberBandY(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+
+            Vector2 diff = targetXY - actualXY;
+            if(diff.magnitude < 0.1)
+            {
+                actualXY = targetXY;
+            } else
+            {
+                actualXY += diff.normalized * 0.05f;
+            }
+            
+            gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.up), actualXY.x * 90);
+            gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.left), actualXY.y * 90);
+            if (Input.GetButtonDown("Fire1") && actualXY.x == Mathf.Floor(actualXY.x) && actualXY.y == Mathf.Floor(actualXY.y))
+            {
+                cubeRot = gameObject.transform.rotation;
+                targetXY = new Vector2(0, 0);
+                actualXY = new Vector2(0, 0);
+                StopRotation();
+            }
+        }
+    }
+
+    void StartRotation()
+    {
+        inRotation = true;
+        camera.transform.position = camera.transform.position + new Vector3(0, 0, -20);
+    }
+
+    void StopRotation()
+    {
+        inRotation = false;
+        camera.transform.position = camera.transform.position + new Vector3(0, 0, 20);
+
+    }
+
+    float rubberBandX(float x, float y)
+    {
+        if (x > 0.85)
+        {
+            return 1;
+        }
+        if (x < -0.85)
+        {
+            return -1;
+        }
+        if ((y > 0.65 || y < -0.65) && x < 0.3 && x > -0.3)
+        {
+            return 0;
+        }
+        return x;
+    }
+
+    float rubberBandY(float x, float y)
+    {
+        if (y > 0.85)
+        {
+            return 1;
+        }
+        if (y < -0.85)
+        {
+            return -1;
+        }
+        if ((x > 0.65 || x < -0.65) && y < 0.3 && y > -0.3)
+        {
+            return 0;
+        }
+        return y;
+    }
+    
+}
