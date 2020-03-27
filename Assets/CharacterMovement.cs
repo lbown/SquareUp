@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
     private PhotonView PV;
     
     public CharacterController cc;
-    public float speed = 12f;
-    public float gravity = -9.8f*3;
+    public float speed = 50f;
+    public float gravity = -9.8f;
     public float jumpHeight = 2;
 
     public Transform groundCheck;
@@ -18,7 +19,9 @@ public class CharacterMovement : MonoBehaviour
 
 
     Vector3 velocity;
+    Vector2 lMovement;
     bool isGround;
+    private int jumpNum;
 
     void Start()
     {
@@ -35,36 +38,49 @@ public class CharacterMovement : MonoBehaviour
             if (isGround && velocity.y < 0)
             {
                 velocity.y = -2f;
+                jumpNum = 2;
             }
 
             velocity.y += gravity * Time.deltaTime;
 
             cc.Move(velocity * Time.deltaTime);
+
+            Move();
         }
     }
 
-    private void OnMove()
+    private void Move()
+    {
+        Vector3 move = transform.right * lMovement.x;
+
+        cc.Move(move * speed * Time.deltaTime);
+    }
+
+    private void OnMove(InputValue value)
     {
         if (PV.IsMine)
         {
+            lMovement = value.Get<Vector2>();
             float x = Input.GetAxis("Horizontal");
-
-            Vector3 move = transform.right * x;
-
-            cc.Move(move * speed * Time.deltaTime);
         }
     }
 
-    private void OnJump()
+    private void OnJump(InputValue val)
     {
         if (PV.IsMine)
         {
-            Debug.Log("Jump");
-            if (isGround)
+            if (jumpNum == 2)
             {
-                Debug.Log("Jump");
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                if (isGround)
+                {
+                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                }
             }
+            if (jumpNum == 1)
+            {
+                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity / 2);
+            }
+            jumpNum -= 1;
         }
     }
 }

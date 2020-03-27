@@ -131,8 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cc: {fileID: 4060611263659829760}
-  speed: 12
-  gravity: -9.8
+  speed: 20
+  gravity: -29.4
   jumpHeight: 4
   groundCheck: {fileID: 4060611264255985508}
   groundDistance: 0.4
