@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6977788022497997638}
   - component: {fileID: 5336070738553178328}
   m_Layer: 0
-  m_Name: PhotonPlayer
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795682470695660721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.1237214, y: 7.19516, z: -36.632595}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5209121127573546229}
@@ -201,7 +201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2586936537279181394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.1237214, y: -7.19516, z: 16.632595}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3869698264556274994}
@@ -272,17 +272,17 @@ PrefabInstance:
     - target: {fileID: 1609274916378299154, guid: 020fa5078f6938c459e7f6a3177cd0a1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.1237214
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1609274916378299154, guid: 020fa5078f6938c459e7f6a3177cd0a1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.19516
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1609274916378299154, guid: 020fa5078f6938c459e7f6a3177cd0a1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -36.632595
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1609274916378299154, guid: 020fa5078f6938c459e7f6a3177cd0a1,
         type: 3}
@@ -327,7 +327,7 @@ PrefabInstance:
     - target: {fileID: 4255108497417151121, guid: 020fa5078f6938c459e7f6a3177cd0a1,
         type: 3}
       propertyPath: m_Name
-      value: PhotonPlayer
+      value: player
       objectReference: {fileID: 0}
     - target: {fileID: 6041769848563779642, guid: 020fa5078f6938c459e7f6a3177cd0a1,
         type: 3}
