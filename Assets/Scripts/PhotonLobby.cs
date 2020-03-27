@@ -4,21 +4,33 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class QuickStartLobbyController : MonoBehaviourPunCallbacks
+public class PhotonLobby : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject quickStartButton, quickCancelButton;
-    [SerializeField] private int roomSize;
+    public static PhotonLobby lobby;
+
+    [SerializeField] private GameObject startButton, cancelButton;
+
+    private void Awake()
+    {
+        lobby = this;
+    }
+
+    void Start()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+    }
 
     public override void OnConnectedToMaster()
     {
+        Debug.Log("Connected to the " + PhotonNetwork.CloudRegion + " server.");
         PhotonNetwork.AutomaticallySyncScene = true;
-        quickStartButton.SetActive(true);
+        startButton.SetActive(true);
     }
 
     public void QuickStart()
     {
-        quickStartButton.SetActive(false);
-        quickCancelButton.SetActive(true);
+        startButton.SetActive(false);
+        cancelButton.SetActive(true);
         PhotonNetwork.JoinRandomRoom();
         Debug.Log("Quick Start.");
     }
@@ -33,7 +45,7 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
     {
         Debug.Log("Creating Room.");
         int randomRoomNumber = Random.Range(0, 10000);
-        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)roomSize };
+        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)MultiplayerSettings.multiplayerSettings.maxPlayers };
         PhotonNetwork.CreateRoom("Room" + randomRoomNumber, roomOps);
         Debug.Log(randomRoomNumber);
     }
@@ -46,8 +58,8 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
 
     public void QuickCancel()
     {
-        quickCancelButton.SetActive(false);
-        quickStartButton.SetActive(true);
+        cancelButton.SetActive(false);
+        startButton.SetActive(true);
         PhotonNetwork.LeaveRoom();
     }
 }
