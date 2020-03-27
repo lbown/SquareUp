@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 4060611263659829764}
   - component: {fileID: 4060611263659829765}
   - component: {fileID: 4060611263659829766}
-  - component: {fileID: 4060611263659829767}
   - component: {fileID: 4060611263659829760}
   - component: {fileID: 4060611263659829761}
   - component: {fileID: 4060611263659829771}
   - component: {fileID: -757601939561951533}
   - component: {fileID: -605136247296562098}
+  - component: {fileID: 4972549213942900244}
   m_Layer: 0
   m_Name: PlayerAvatar
   m_TagString: Untagged
@@ -86,20 +86,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &4060611263659829767
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4060611263659829762}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &4060611263659829760
 CharacterController:
   m_ObjectHideFlags: 0
@@ -114,8 +100,8 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_StepOffset: 0
+  m_SkinWidth: 0.1
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4060611263659829761
@@ -131,14 +117,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cc: {fileID: 4060611263659829760}
-  speed: 15
-  gravity: -29.4
+  speed: 12
+  gravity: -32
   jumpHeight: 5
   groundCheck: {fileID: 4060611264255985508}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  timePaused: 0
 --- !u!114 &4060611263659829771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +194,20 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
+--- !u!136 &4972549213942900244
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4060611263659829762}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4060611264255985509
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4060611264255985509}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.002, z: 0}
+  m_LocalPosition: {x: 0, y: -1.0019999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4060611263659829764}

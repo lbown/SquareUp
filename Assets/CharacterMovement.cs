@@ -16,12 +16,21 @@ public class CharacterMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-
+    public bool timePaused = false;
 
     Vector3 velocity;
     Vector2 lMovement;
     bool isGround;
     private int jumpNum;
+
+    public void pauseTime() {
+        timePaused = true;
+    }
+
+    public void unpauseTime()
+    {
+        timePaused = false;
+    }
 
     void Start()
     {
@@ -31,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !timePaused)
         {
             isGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
@@ -46,6 +55,7 @@ public class CharacterMovement : MonoBehaviour
             cc.Move(velocity * Time.deltaTime);
 
             Move();
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,0);
         }
     }
 
@@ -71,10 +81,12 @@ public class CharacterMovement : MonoBehaviour
         {
             if (jumpNum == 2)
             {
-                if (isGround)
+                if (!isGround)
                 {
-                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                    jumpNum = 1;
                 }
+                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
             }
             if (jumpNum == 1)
             {

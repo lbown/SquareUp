@@ -7,11 +7,14 @@ public class CubeController : MonoBehaviour
     private bool inRotation = false;
     private Quaternion cubeRot;
     Vector2 actualXY, targetXY;
-    [SerializeField] private GameObject camera;
+    GameObject gameManager;
+    GameManager gm;
 
     private void Start()
     {
         cubeRot = gameObject.transform.rotation;
+        gameManager = GameObject.FindWithTag("gm");
+        gm = gameManager.GetComponent<GameManager>();
     }
     void Update()
     {
@@ -49,14 +52,16 @@ public class CubeController : MonoBehaviour
 
     void StartRotation()
     {
+        gm.pauseTime();
         inRotation = true;
-        camera.transform.position = camera.transform.position + new Vector3(0, 0, -20);
+        gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, 20);
     }
 
     void StopRotation()
     {
+        gm.unpauseTime();
         inRotation = false;
-        camera.transform.position = camera.transform.position + new Vector3(0, 0, 20);
+        gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, -20);
 
     }
 
