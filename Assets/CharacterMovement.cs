@@ -45,20 +45,26 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnMove()
     {
-        float x = Input.GetAxis("Horizontal");
+        if (PV.IsMine)
+        {
+            float x = Input.GetAxis("Horizontal");
 
-        Vector3 move = transform.right * x;
+            Vector3 move = transform.right * x;
 
-        cc.Move(move * speed * Time.deltaTime);
+            cc.Move(move * speed * Time.deltaTime);
+        }
     }
 
     private void OnJump()
     {
-        Debug.Log("Jump");
-        if (isGround)
+        if (PV.IsMine)
         {
             Debug.Log("Jump");
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            if (isGround)
+            {
+                Debug.Log("Jump");
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
         }
     }
 }
