@@ -816,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8e60ae24e49504c9e0df4648450fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timePaused: 0
 --- !u!114 &1194586571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -831,10 +832,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 1194586570}
   viewIdField: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0

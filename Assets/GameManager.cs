@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IPunObservable
 {
     private PhotonView PV;
     private List<GameObject> players;
@@ -13,6 +13,18 @@ public class GameManager : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         players = new List<GameObject>();
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(timePaused);
+        }
+        else if (stream.IsReading)
+        {
+            timePaused = (bool)stream.ReceiveNext();
+        }
     }
 
     // Update is called once per frame
