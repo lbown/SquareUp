@@ -22,6 +22,8 @@ public class CharacterMovement : MonoBehaviour
     Vector2 lMovement;
     bool isGround;
     private int jumpNum;
+    public GameObject gameManager;
+    public GameManager gm;
 
     public void pauseTime() {
         timePaused = true;
@@ -34,13 +36,15 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
+        gameManager = GameObject.FindWithTag("gm");
         PV = GetComponent<PhotonView>();
+        gm = gameManager.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PV.IsMine && !timePaused)
+        if (PV.IsMine && !gm.timePaused)
         {
             isGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 

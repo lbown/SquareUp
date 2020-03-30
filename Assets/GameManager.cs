@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private PhotonView PV;
     private List<GameObject> players;
+    public bool timePaused;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +26,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void pauseTime() {
+        timePaused = true;
         foreach (GameObject player in players) {
             player.GetComponent<CharacterMovement>().pauseTime();
         }
     }
     public void unpauseTime()
     {
+        timePaused = false;
         foreach (GameObject player in players)
         {
             player.GetComponent<CharacterMovement>().unpauseTime();
