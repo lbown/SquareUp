@@ -13,6 +13,15 @@ public class CubeController : MonoBehaviour
     GameObject gameManager;
     GameManager gm;
 
+    public void OnOwnershipRequest(object[] viewAndPlayer)
+    {
+        PhotonView view = viewAndPlayer[0] as PhotonView;
+        PhotonPlayer requestingPlayer = viewAndPlayer[1] as PhotonPlayer;
+
+        Debug.Log("OnOwnershipRequest(): Player " + requestingPlayer + " requests ownership of: " + view + ".");
+        view.TransferOwnership(requestingPlayer.ID);
+    }
+
     private void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -24,6 +33,7 @@ public class CubeController : MonoBehaviour
     {
             if (Input.GetButtonDown("Jump") && !inRotation)
             {
+                PV.RequestOwnership();
                 StartRotation();
             }
             if (inRotation)

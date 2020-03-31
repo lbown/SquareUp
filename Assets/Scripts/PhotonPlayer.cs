@@ -8,12 +8,14 @@ public class PhotonPlayer : MonoBehaviour
 {
     private PhotonView PV;
     public GameObject myAvatar;
+    public int ID;
 
     // Start is called before the first frame update
     void Start()
     {
         PV = GetComponent<PhotonView>();
         int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
+        ID = PV.GetInstanceID();
         if(PV.IsMine)
         {
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
