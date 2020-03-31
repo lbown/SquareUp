@@ -19,5 +19,7 @@ public class BulletController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Vector3 vel = gameObject.GetComponent<Rigidbody>().velocity;
+        GetComponent<Rigidbody>().velocity = new Vector3(vel.x, vel.y, 0f);
     }
 }
