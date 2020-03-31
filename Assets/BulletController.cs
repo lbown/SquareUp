@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class BulletController : MonoBehaviour
 {
     // Start is called before the first frame update
     private float life;
+
+    private PhotonView PV;
     void Start()
     {
+        PV = GetComponent<PhotonView>();
         life = 0f;
     }
 
