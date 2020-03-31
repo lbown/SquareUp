@@ -22,8 +22,6 @@ public class CubeController : MonoBehaviour
     }
     void Update()
     {
-        //if (PV.IsMine)
-        //{
             if (Input.GetButtonDown("Jump") && !inRotation)
             {
                 StartRotation();
@@ -55,7 +53,6 @@ public class CubeController : MonoBehaviour
                     StopRotation();
                 }
             }
-        //}
     }
 
     void StartRotation()

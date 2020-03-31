@@ -17,6 +17,8 @@ public class PhotonPlayer : MonoBehaviour
         if(PV.IsMine)
         {
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
+            Material pMat = myAvatar.GetComponent<Material>();
+            pMat = GameSetup.gs.p1Mat;
             GameObject gm = GameObject.FindWithTag("gm");
             gm.GetComponent<GameManager>().addPlayer(myAvatar);
         }

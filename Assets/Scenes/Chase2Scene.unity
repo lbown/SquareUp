@@ -330,6 +330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb8bc9a432432c499624a73a5b98376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  p1Mat: {fileID: 2100000, guid: a7fff5f1eed15f344a149f0cc9fc107f, type: 2}
+  p2Mat: {fileID: 2100000, guid: 88cf8a22aaefefd4d8cb5b19ad40b08f, type: 2}
+  p3Mat: {fileID: 2100000, guid: 0f199d47f215d0048a93db015e760171, type: 2}
+  p4Mat: {fileID: 2100000, guid: ce99af20e6c1a3540ada36aeb6021a63, type: 2}
   spawnPoints:
   - {fileID: 386809557}
   - {fileID: 217479570}
@@ -494,10 +498,10 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 737919968}
-  viewIdField: 1
+  viewIdField: 99
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1001 &806493754
