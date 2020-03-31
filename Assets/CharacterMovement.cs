@@ -9,6 +9,7 @@ public class CharacterMovement : MonoBehaviour
     private PhotonView PV;
     
     public CharacterController cc;
+    public GameObject bullet;
     public float speed = 50f;
     public float gravity = -9.8f;
     public float jumpHeight = 2;
@@ -24,6 +25,7 @@ public class CharacterMovement : MonoBehaviour
     private int jumpNum;
     public GameObject gameManager;
     public GameManager gm;
+    private Vector2 aimDirection;
 
     public void pauseTime() {
         timePaused = true;
@@ -63,6 +65,15 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "bullet")
+        {
+            cc.Move(collision.gameObject.GetComponent<Rigidbody>().velocity / 2f * -1f);
+            Destroy(collision.gameObject);
+        }
+    }
+
     private void Move()
     {
         Vector3 move = transform.right * lMovement.x;
@@ -97,6 +108,23 @@ public class CharacterMovement : MonoBehaviour
                  velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity / 2);
             }
             jumpNum -= 1;
+        }
+    }
+
+    private void OnShoot(InputValue value)
+    {
+        if (PV.IsMine && aimDirection != new Vector2(0f,0f))
+        {
+            GameObject clone;
+            clone = Instantiate(bullet, transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
+            clone.GetComponent<Rigidbody>().velocity = new Vector3(aimDirection.x,aimDirection.y,0)*30;
+        }
+    }
+    private void OnAim(InputValue value)
+    {
+        if (PV.IsMine)
+        {
+            aimDirection = value.Get<Vector2>();
         }
     }
 }
