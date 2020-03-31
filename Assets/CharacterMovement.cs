@@ -114,7 +114,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnShoot(InputValue value)
     {
-        if (PV.IsMine && aimDirection != new Vector2(0f,0f))
+        if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.2 || Mathf.Abs(aimDirection.y) > 0.2))
         {
             GameObject clone;
             clone = Instantiate(bullet, transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
@@ -125,6 +125,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
+            Debug.Log(aimDirection);
             aimDirection = value.Get<Vector2>();
         }
     }
