@@ -60,6 +60,7 @@ public class CubeController : MonoBehaviour
                     cubeRot = gameObject.transform.rotation;
                     targetXY = new Vector2(0, 0);
                     actualXY = new Vector2(0, 0);
+                    PV.TransferOwnership(PV.GetInstanceID());
                     StopRotation();
                 }
             }

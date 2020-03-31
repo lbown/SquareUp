@@ -68,3 +68,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAvatar: {fileID: 4060611263659829762, guid: 9a5eecabbba158f4684a397402cf9a67,
     type: 3}
+  ID: 0
