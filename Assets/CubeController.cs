@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class CubeController : MonoBehaviour
+public class CubeController : MonoBehaviourPun
 {
     private PhotonView PV;
 
-    private bool inRotation = false;
+    public bool inRotation = false;
     private Quaternion cubeRot;
     Vector2 actualXY, targetXY;
     GameObject gameManager;
@@ -65,6 +65,7 @@ public class CubeController : MonoBehaviour
     void StopRotation()
     {
         gm.unpauseTime();
+        //PV.TransferOwnership(PV.GetInstanceID());
         inRotation = false;
         gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, -20);
 

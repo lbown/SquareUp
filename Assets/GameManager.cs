@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour, IPunObservable
         players.Add(p);
     }
 
+    public void removePlayer(GameObject p)
+    {
+        players.Remove(p);
+    }
     public void pauseTime() {
         timePaused = true;
         foreach (GameObject player in players) {
