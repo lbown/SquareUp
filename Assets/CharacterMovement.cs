@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
+using System.IO;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -117,7 +118,7 @@ public class CharacterMovement : MonoBehaviour
         if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.5 || Mathf.Abs(aimDirection.y) > 0.5))
         {
             GameObject clone;
-            clone = Instantiate(bullet, transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
+            clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = new Vector3(aimDirection.x,aimDirection.y,0)*30;
         }
     }
