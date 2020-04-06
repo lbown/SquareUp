@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using System.IO;
 
 public class CharacterMovement : MonoBehaviour
@@ -28,6 +29,9 @@ public class CharacterMovement : MonoBehaviour
     public GameManager gm;
     private Vector2 aimDirection;
 
+    public GameObject menu;
+    private bool inMenu = false;
+
     public void pauseTime() {
         timePaused = true;
     }
@@ -39,6 +43,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
+        menu = GameObject.Find("Canvas");
         gameManager = GameObject.FindWithTag("gm");
         PV = GetComponent<PhotonView>();
         gm = gameManager.GetComponent<GameManager>();
@@ -47,6 +52,7 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        inMenu = menu.GetComponent<Canvas>().enabled;
         if (PV.IsMine && !gm.timePaused)
         {
             isGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -87,14 +93,20 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            lMovement = value.Get<Vector2>();
-            float x = Input.GetAxis("Horizontal");
+            if (!inMenu)
+            {
+                lMovement = value.Get<Vector2>();
+                //float x = Input.GetAxis("Horizontal");
+            } else
+            {
+                lMovement = new Vector2(0,0);
+            }
         }
     }
 
     private void OnJump(InputValue val)
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !inMenu)
         {
             if (jumpNum == 2)
             {
@@ -115,7 +127,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnShoot(InputValue value)
     {
-        if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.5 || Mathf.Abs(aimDirection.y) > 0.5))
+        if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.5 || Mathf.Abs(aimDirection.y) > 0.5) && !inMenu)
         {
             GameObject clone;
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
@@ -124,10 +136,16 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnAim(InputValue value)
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !inMenu)
         {
             Debug.Log(aimDirection);
             aimDirection = value.Get<Vector2>();
         }
+    }
+    private void OnMenu(InputValue value) {
+        //menu = GameObject.Find("Canvas");
+        menu.GetComponent<Canvas>().enabled = !menu.GetComponent<Canvas>().enabled;
+        //Debug.Log("menu toggled");
+
     }
 }
