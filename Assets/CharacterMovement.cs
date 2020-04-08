@@ -29,9 +29,6 @@ public class CharacterMovement : MonoBehaviour
     public GameManager gm;
     private Vector2 aimDirection;
 
-    public GameObject menu;
-    private bool inMenu = false;
-
     public void pauseTime() {
         timePaused = true;
     }
@@ -91,20 +88,14 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            if (!inMenu)
-            {
                 lMovement = value.Get<Vector2>();
-                //float x = Input.GetAxis("Horizontal");
-            } else
-            {
-                lMovement = new Vector2(0,0);
-            }
+                float x = Input.GetAxis("Horizontal");
         }
     }
 
     private void OnJump(InputValue val)
     {
-        if (PV.IsMine && !inMenu)
+        if (PV.IsMine)
         {
             if (jumpNum == 2)
             {
@@ -125,7 +116,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnShoot(InputValue value)
     {
-        if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.5 || Mathf.Abs(aimDirection.y) > 0.5) && !inMenu)
+        if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.5 || Mathf.Abs(aimDirection.y) > 0.5))
         {
             GameObject clone;
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
@@ -134,13 +125,10 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnAim(InputValue value)
     {
-        if (PV.IsMine && !inMenu)
+        if (PV.IsMine)
         {
             Debug.Log(aimDirection);
             aimDirection = value.Get<Vector2>();
         }
-    }
-    private void OnMenu(InputValue value) {
-        inMenu = !inMenu;
     }
 }
