@@ -84,7 +84,7 @@ public class CharacterMovement : MonoBehaviour
     {
         Vector3 move = transform.right * lMovement.x;
 
-        cc.Move(move * speed * Time.deltaTime);
+        cc.SimpleMove(move * speed);
     }
 
     private void OnMove(InputValue value)
