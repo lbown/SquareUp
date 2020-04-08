@@ -43,7 +43,6 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        menu = GameObject.Find("Canvas");
         gameManager = GameObject.FindWithTag("gm");
         PV = GetComponent<PhotonView>();
         gm = gameManager.GetComponent<GameManager>();
@@ -52,7 +51,6 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        inMenu = menu.GetComponent<Canvas>().enabled;
         if (PV.IsMine && !gm.timePaused)
         {
             isGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -143,9 +141,6 @@ public class CharacterMovement : MonoBehaviour
         }
     }
     private void OnMenu(InputValue value) {
-        //menu = GameObject.Find("Canvas");
-        menu.GetComponent<Canvas>().enabled = !menu.GetComponent<Canvas>().enabled;
-        //Debug.Log("menu toggled");
-
+        inMenu = !inMenu;
     }
 }
