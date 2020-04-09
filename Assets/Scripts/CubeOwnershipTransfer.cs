@@ -34,7 +34,7 @@ public class CubeOwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
         if (Input.GetButtonDown("Jump"))
         {
             base.photonView.RequestOwnership();
-            gm.PV.RequestOwnership();
+            gameManager.GetComponent<PhotonView>().RequestOwnership();
         }
     }
 }
