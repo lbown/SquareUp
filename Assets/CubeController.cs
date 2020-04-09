@@ -22,10 +22,6 @@ public class CubeController : MonoBehaviourPun
     }
     void Update()
     {
-            if (Input.GetButtonDown("Jump") && !inRotation)
-            {    
-                StartRotation();
-            }
             if (inRotation)
             {
                 gameObject.transform.rotation = cubeRot;
@@ -55,7 +51,7 @@ public class CubeController : MonoBehaviourPun
             }
     }
 
-    void StartRotation()
+    public void StartRotation()
     {
         gm.pauseTime();
         inRotation = true;

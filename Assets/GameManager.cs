@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.IO;
 
 public class GameManager : MonoBehaviour, IPunObservable
 {
     public PhotonView PV;
     private List<GameObject> players;
     public bool timePaused;
+    public GameObject currentRotatePowerUp;
+    [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()
     {
         PV = GetComponent<PhotonView>();
         players = new List<GameObject>();
+        totalTimeUntilRotatePowerup = 60;
+        powerUpTimer = totalTimeUntilRotatePowerup;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -27,10 +32,19 @@ public class GameManager : MonoBehaviour, IPunObservable
         }
     }
 
+    public void ResetRotatePowerUpTimer()
+    {
+        powerUpTimer = totalTimeUntilRotatePowerup;
+    }
     // Update is called once per frame
     void Update()
     {
-
+        powerUpTimer -= Time.deltaTime;
+        if (powerUpTimer <= 0 && currentRotatePowerUp == null)
+        {
+            int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
+            currentRotatePowerUp = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
+        }
     }
 
     public void addPlayer(GameObject p) {

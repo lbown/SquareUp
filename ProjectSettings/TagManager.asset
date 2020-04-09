@@ -7,6 +7,8 @@ TagManager:
   - gm
   - bullet
   - menu
+  - Bullet
+  - RotatePowerUp
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,9 @@ using System.IO;
 public class CharacterMovement : MonoBehaviour
 {
     private PhotonView PV;
+    private GameObject cube;
+    private CubeController cubeControl;
+    private GameObject currentRotatePowerUp;
     
     public CharacterController cc;
     public GameObject bullet;
@@ -43,6 +46,8 @@ public class CharacterMovement : MonoBehaviour
         gameManager = GameObject.FindWithTag("gm");
         PV = GetComponent<PhotonView>();
         gm = gameManager.GetComponent<GameManager>();
+        cube = GameObject.Find("Cube");
+        cubeControl = cube.GetComponent<CubeController>();
     }
 
     // Update is called once per frame
@@ -74,6 +79,16 @@ public class CharacterMovement : MonoBehaviour
             Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
             cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
             Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
+        {
+            cubeControl.StartRotation();
+            PhotonNetwork.Destroy(gm.currentRotatePowerUp);
+            gm.ResetRotatePowerUpTimer();
         }
     }
 

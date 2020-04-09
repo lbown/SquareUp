@@ -944,6 +944,11 @@ MonoBehaviour:
   - {fileID: 217479570}
   - {fileID: 239751802}
   - {fileID: 1518954395}
+  powerUpLocations:
+  - {fileID: 386809557}
+  - {fileID: 217479570}
+  - {fileID: 239751802}
+  - {fileID: 1518954395}
 --- !u!4 &647478955
 Transform:
   m_ObjectHideFlags: 0
@@ -1625,6 +1630,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   timePaused: 0
+  totalTimeUntilRotatePowerup: 0
+  powerUpTimer: 0
 --- !u!114 &1194586571
 MonoBehaviour:
   m_ObjectHideFlags: 0
