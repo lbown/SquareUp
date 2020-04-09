@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class CubeController : MonoBehaviourPun
 {
-    public PhotonView PV;
+    private PhotonView PV;
 
     public bool inRotation = false;
     private Quaternion cubeRot;
@@ -65,7 +65,6 @@ public class CubeController : MonoBehaviourPun
     void StopRotation()
     {
         gm.unpauseTime();
-        //PV.TransferOwnership(PV.GetInstanceID());
         inRotation = false;
         gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, -20);
 
