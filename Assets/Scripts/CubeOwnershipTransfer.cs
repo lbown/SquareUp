@@ -7,10 +7,14 @@ using Photon.Realtime;
 public class CubeOwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
 {
     private CubeController cubeControl;
+    private GameObject gameManager;
+    GameManager gm;
     void Awake()
     {
         PhotonNetwork.AddCallbackTarget(this);
         cubeControl = gameObject.GetComponent<CubeController>();
+        gameManager = GameObject.FindWithTag("gm");
+        gm = gameManager.GetComponent<GameManager>();
     }
     
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
@@ -27,6 +31,10 @@ public class CubeOwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump")) base.photonView.RequestOwnership();
+        if (Input.GetButtonDown("Jump"))
+        {
+            base.photonView.RequestOwnership();
+            gm.PV.RequestOwnership();
+        }
     }
 }

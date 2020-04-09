@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class CubeController : MonoBehaviourPun
 {
-    private PhotonView PV;
+    public PhotonView PV;
 
     public bool inRotation = false;
     private Quaternion cubeRot;

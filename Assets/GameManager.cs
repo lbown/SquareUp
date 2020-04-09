@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class GameManager : MonoBehaviour, IPunObservable
 {
-    private PhotonView PV;
+    public PhotonView PV;
     private List<GameObject> players;
     public bool timePaused;
     // Start is called before the first frame update
