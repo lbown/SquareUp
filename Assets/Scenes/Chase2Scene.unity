@@ -675,7 +675,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: eb7543f4-06a8-491f-ba40-cde6ebb3f123
+  m_DefaultActionMap: OpenMenu
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &486066931
@@ -1641,7 +1641,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 2
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 1194586570}
   viewIdField: 2
