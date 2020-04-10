@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour, IPunObservable
 {
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         {
             int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
             currentRotatePowerUp = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
-        }
+        }       
     }
 
     public void addPlayer(GameObject p) {

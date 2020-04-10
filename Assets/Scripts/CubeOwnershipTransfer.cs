@@ -22,6 +22,7 @@ public class CubeOwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
         if (targetView != base.photonView) return;
         if (cubeControl.inRotation) return;
         base.photonView.TransferOwnership(requestingPlayer);
+        gameManager.GetComponent<PhotonView>().TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
@@ -29,12 +30,4 @@ public class CubeOwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
         if (targetView != base.photonView) return;
     }
 
-    void Update()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            base.photonView.RequestOwnership();
-            gameManager.GetComponent<PhotonView>().RequestOwnership();
-        }
-    }
 }

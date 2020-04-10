@@ -20,6 +20,13 @@ public class CubeController : MonoBehaviourPun
         gameManager = GameObject.FindWithTag("gm");
         gm = gameManager.GetComponent<GameManager>();
     }
+
+    public void TransferOwnershipOfCube()
+    {
+        base.photonView.RequestOwnership();
+        gameManager.GetComponent<PhotonView>().RequestOwnership();
+    }
+
     void Update()
     {
             if (inRotation)

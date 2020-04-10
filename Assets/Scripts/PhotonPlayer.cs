@@ -10,25 +10,28 @@ public class PhotonPlayer : MonoBehaviour
     public GameObject myAvatar;
     private GameManager gm; 
     public int ID;
+    public CharSelectionController charSelect;
 
     // Start is called before the first frame update
     void Start()
     {
         PV = GetComponent<PhotonView>();
         gm = GameObject.FindWithTag("gm").GetComponent<GameManager>();
-        Spawn();
+        myAvatar = null;
+        charSelect = GameObject.Find("MenuController").GetComponent<CharSelectionController>();
     }
 
-    private void Spawn()
+    public void Spawn()
     {
-        int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
-        ID = PV.GetInstanceID();
-        if (PV.IsMine)
-        {            
-            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
-            Material pMat = myAvatar.GetComponent<Material>();
-            pMat = GameSetup.gs.p1Mat;
-            gm.addPlayer(myAvatar);
+        if (charSelect.readyToSpawn)
+        {
+            int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
+            ID = PV.GetInstanceID();
+            if (PV.IsMine)
+            {
+                myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
+                gm.addPlayer(myAvatar);
+            }
         }
     }
 
@@ -36,7 +39,11 @@ public class PhotonPlayer : MonoBehaviour
     void Update()
     {
         //temporary respawn for testing
-        if(myAvatar.transform.position.y <= -100)
+        if (myAvatar == null)
+        {
+            Spawn();
+        }
+        else if (myAvatar.transform.position.y <= -100)
         {
             gm.removePlayer(myAvatar);
             PhotonNetwork.Destroy(myAvatar);
