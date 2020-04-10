@@ -34,8 +34,11 @@ public class CharacterMovement : MonoBehaviour
 
     private int WhichPlayerAmI;
 
+    public int health;
+
     public void pauseTime() {
         timePaused = true;
+
     }
 
     public void unpauseTime()
@@ -51,6 +54,8 @@ public class CharacterMovement : MonoBehaviour
         cube = GameObject.Find("Cube");
         cubeControl = cube.GetComponent<CubeController>();
         WhichPlayerAmI = GetPlayerSkin();
+
+        health = 100;
     }
 
     // Update is called once per frame
@@ -84,7 +89,6 @@ public class CharacterMovement : MonoBehaviour
             collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
@@ -93,6 +97,10 @@ public class CharacterMovement : MonoBehaviour
             cubeControl.TransferOwnershipOfCube();
             PhotonNetwork.Destroy(gm.currentRotatePowerUp);
             gm.ResetRotatePowerUpTimer();
+        } else if (other.gameObject.tag == "bullet")
+        {
+            health -= 20;
+            other.gameObject.GetComponent<BulletController>().Remove(other.gameObject);
         }
     }
 

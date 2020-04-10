@@ -43,7 +43,7 @@ public class PhotonPlayer : MonoBehaviour
         {
             Spawn();
         }
-        else if (myAvatar.transform.position.y <= -100)
+        else if (myAvatar.transform.position.y <= -100 || myAvatar.GetComponent<CharacterMovement>().health <= 0)
         {
             gm.removePlayer(myAvatar);
             PhotonNetwork.Destroy(myAvatar);
