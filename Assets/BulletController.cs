@@ -20,9 +20,14 @@ public class BulletController : MonoBehaviour
         life += Time.deltaTime;
         if(life > 5)
         {
-            PhotonNetwork.Destroy(gameObject);
+            Remove(gameObject);
         }
         Vector3 vel = gameObject.GetComponent<Rigidbody>().velocity;
         GetComponent<Rigidbody>().velocity = new Vector3(vel.x, vel.y, 0f);
     }
+
+    public void Remove(GameObject bullet)
+    {
+        if (PV.IsMine) PhotonNetwork.Destroy(bullet);
+    }  
 }

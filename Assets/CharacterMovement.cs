@@ -78,7 +78,7 @@ public class CharacterMovement : MonoBehaviour
         {
             Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
             cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
         }
     }
 
