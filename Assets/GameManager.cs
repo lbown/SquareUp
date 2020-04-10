@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         powerUpTimer = totalTimeUntilRotatePowerup;
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         powerUpTimer -= Time.deltaTime;
         if (powerUpTimer <= 0 && currentRotatePowerUp == null)
