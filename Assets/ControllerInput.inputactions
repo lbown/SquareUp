@@ -23,9 +23,9 @@
                 },
                 {
                     "name": "Shoot",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "a16da11f-ecf4-4a8c-9be8-e8ad7d371bfc",
-                    "expectedControlType": "",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 },
@@ -83,7 +83,18 @@
                 {
                     "name": "",
                     "id": "653fc5e1-3e95-4ed1-8b08-c92f10f462e9",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b59d268c-56c4-4bbe-bdfd-78cc71837a78",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -144,6 +144,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnShoot(InputValue value)
     {
+
         if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.5 || Mathf.Abs(aimDirection.y) > 0.5))
         {
             GameObject clone;
