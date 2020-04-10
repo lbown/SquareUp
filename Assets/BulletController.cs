@@ -18,7 +18,7 @@ public class BulletController : MonoBehaviour
     void Update()
     {
         life += Time.deltaTime;
-        if(life > 5)
+        if(life > 5 || GetComponent<Rigidbody>().velocity.magnitude <= 5)
         {
             Remove(gameObject);
         }

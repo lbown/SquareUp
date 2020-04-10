@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inRotation: 0
+  lights: []
 --- !u!1 &8381292249060440256
 GameObject:
   m_ObjectHideFlags: 0
