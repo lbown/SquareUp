@@ -32,6 +32,8 @@ public class CharacterMovement : MonoBehaviour
     public GameManager gm;
     private Vector2 aimDirection;
 
+    private int WhichPlayerAmI;
+
     public void pauseTime() {
         timePaused = true;
     }
@@ -48,6 +50,7 @@ public class CharacterMovement : MonoBehaviour
         gm = gameManager.GetComponent<GameManager>();
         cube = GameObject.Find("Cube");
         cubeControl = cube.GetComponent<CubeController>();
+        WhichPlayerAmI = GetPlayerSkin();
     }
 
     // Update is called once per frame
@@ -97,7 +100,8 @@ public class CharacterMovement : MonoBehaviour
     {
         Vector3 move = transform.right * lMovement.x;
 
-        cc.SimpleMove(move * speed);
+        //cc.SimpleMove(move * speed);
+        cc.Move(move * speed * Time.deltaTime);
     }
 
     private void OnMove(InputValue value)
@@ -124,7 +128,7 @@ public class CharacterMovement : MonoBehaviour
             }
             if (jumpNum == 1)
             {
-                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity / 2);
+                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
             jumpNum -= 1;
         }
@@ -146,5 +150,10 @@ public class CharacterMovement : MonoBehaviour
             Debug.Log(aimDirection);
             aimDirection = value.Get<Vector2>();
         }
+    }
+
+    private int GetPlayerSkin()
+    {
+        return PlayerInfo.PI.mySelectedCharacter;
     }
 }
