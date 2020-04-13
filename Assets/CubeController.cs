@@ -12,7 +12,6 @@ public class CubeController : MonoBehaviourPun
     Vector2 actualXY, targetXY;
     GameObject gameManager;
     GameManager gm;
-    public List<GameObject> lights;
 
     private void Start()
     {
@@ -26,11 +25,6 @@ public class CubeController : MonoBehaviourPun
     {
         base.photonView.RequestOwnership();
         gameManager.GetComponent<PhotonView>().RequestOwnership();
-        /*
-        foreach(GameObject light in lights)
-        {
-            light.GetComponent<PhotonView>().RequestOwnership();
-        }*/
     }
 
     void Update()
@@ -69,12 +63,6 @@ public class CubeController : MonoBehaviourPun
         gm.pauseTime();
         inRotation = true;
         gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, 20);
-        /*
-        foreach (GameObject light in lights)
-        {
-            light.transform.position += new Vector3(0, 0, 20);
-        }
-        */
     }
 
     void StopRotation()
@@ -82,12 +70,6 @@ public class CubeController : MonoBehaviourPun
         gm.unpauseTime();
         inRotation = false;
         gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, -20);
-        /*
-        foreach (GameObject light in lights)
-        {
-            light.transform.position += new Vector3(0, 0, -20);
-        }
-        */
     }
 
     float rubberBandX(float x, float y)
