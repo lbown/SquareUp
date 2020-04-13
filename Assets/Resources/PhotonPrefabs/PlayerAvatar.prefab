@@ -130,6 +130,7 @@ MonoBehaviour:
   timePaused: 0
   gameManager: {fileID: 0}
   gm: {fileID: 0}
+  health: 0
 --- !u!114 &4060611263659829771
 MonoBehaviour:
   m_ObjectHideFlags: 0

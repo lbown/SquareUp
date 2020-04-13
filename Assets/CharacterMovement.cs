@@ -93,8 +93,8 @@ public class CharacterMovement : MonoBehaviour
     {
         if(other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
         {
-            cubeControl.StartRotation();
             cubeControl.TransferOwnershipOfCube();
+            cubeControl.StartRotation();
             PhotonNetwork.Destroy(gm.currentRotatePowerUp);
             gm.ResetRotatePowerUpTimer();
         } else if (other.gameObject.tag == "bullet")
@@ -156,7 +156,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            Debug.Log(aimDirection);
             aimDirection = value.Get<Vector2>();
         }
     }
