@@ -9,7 +9,7 @@ public class LightController : MonoBehaviour
     private void Awake()
     {
         cubeControl = GameObject.Find("Cube").GetComponent<CubeController>();
-        cubeControl.lights.Add(gameObject);
+        //cubeControl.lights.Add(gameObject);
     }
 
 }
