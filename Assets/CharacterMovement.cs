@@ -134,8 +134,9 @@ public class CharacterMovement : MonoBehaviour
             if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
             {
                 cubeControl.TransferOwnershipOfCube();
-                cubeControl.StartRotation();
+                GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
                 PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
+                cubeControl.StartRotation();
                 gm.ResetRotatePowerUpTimer();
             }
         }
