@@ -54,7 +54,7 @@ public class CharacterMovement : MonoBehaviour
         gm = gameManager.GetComponent<GameManager>();
         cube = GameObject.Find("Cube");
         cubeControl = cube.GetComponent<CubeController>();
-        //WhichPlayerAmI = GetPlayerSkin();
+        WhichPlayerAmI = GetPlayerSkin();
 
         health = 100;
 
