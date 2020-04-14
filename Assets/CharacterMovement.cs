@@ -129,12 +129,15 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
+        if (PV.IsMine)
         {
-            cubeControl.TransferOwnershipOfCube();
-            cubeControl.StartRotation();
-            PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
-            gm.ResetRotatePowerUpTimer();
+            if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
+            {
+                cubeControl.TransferOwnershipOfCube();
+                cubeControl.StartRotation();
+                PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
+                gm.ResetRotatePowerUpTimer();
+            }
         }
     }
 
