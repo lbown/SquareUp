@@ -7,6 +7,8 @@ public class BulletController : MonoBehaviour
     // Start is called before the first frame update
     private float life;
 
+    public int whoShotMe;
+
     private PhotonView PV;
     void Start()
     {

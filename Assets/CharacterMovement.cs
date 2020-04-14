@@ -31,6 +31,8 @@ public class CharacterMovement : MonoBehaviour
     public GameManager gm;
     private Vector2 aimDirection;
 
+    private Vector3 impact;
+
     private int WhichPlayerAmI;
 
     public int health;
@@ -55,6 +57,8 @@ public class CharacterMovement : MonoBehaviour
         WhichPlayerAmI = GetPlayerSkin();
 
         health = 100;
+
+        impact = Vector2.zero;
     }
 
     // Update is called once per frame
@@ -81,11 +85,18 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "bullet")
+        if(collision.gameObject.tag == "bullet" )
         {
-            Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
-            cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
-            collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
+            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != WhichPlayerAmI)
+            {
+                health -= 20;
+                collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
+                Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
+                Vector3 imp = new Vector3(vel.x, vel.y, 0f);
+                //cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
+                //collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
+                impact += imp;
+            }
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -97,11 +108,6 @@ public class CharacterMovement : MonoBehaviour
             PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
             gm.ResetRotatePowerUpTimer();
         }
-        else if (other.gameObject.tag == "bullet")
-        {
-            health -= 20;
-            other.gameObject.GetComponent<BulletController>().Remove(other.gameObject);
-        }
     }
 
     private void Move()
@@ -109,7 +115,8 @@ public class CharacterMovement : MonoBehaviour
         Vector3 move = transform.right * lMovement.x;
 
         //cc.SimpleMove(move * speed);
-        cc.Move(move * speed * Time.deltaTime);
+        cc.Move((move * speed + impact) * Time.deltaTime);
+        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
     private void OnMove(InputValue value)
@@ -150,13 +157,13 @@ public class CharacterMovement : MonoBehaviour
             GameObject clone;
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = new Vector3(aimDirection.x,aimDirection.y,0)*30;
+            clone.GetComponent<BulletController>().whoShotMe = WhichPlayerAmI;
         }
     }
     private void OnAim(InputValue value)
     {
         if (PV.IsMine)
         {
-            Debug.Log(aimDirection);
             aimDirection = value.Get<Vector2>();
         }
     }
