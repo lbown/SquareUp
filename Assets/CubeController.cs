@@ -33,6 +33,7 @@ public class CubeController : MonoBehaviourPun
        if(PV.IsMine) { 
         if (inRotation)
             {
+                PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
                 gameObject.transform.rotation = cubeRot;
 
                 targetXY = new Vector2(rubberBandX(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")),

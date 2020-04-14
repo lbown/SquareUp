@@ -135,7 +135,6 @@ public class CharacterMovement : MonoBehaviour
             {
                 cubeControl.TransferOwnershipOfCube();
                 GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
-                PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
                 cubeControl.StartRotation();
                 gm.ResetRotatePowerUpTimer();
             }
