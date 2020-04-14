@@ -92,6 +92,7 @@ public class CharacterMovement : MonoBehaviour
                 health -= 20;
                 collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
                 Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
+                Debug.Log(vel);
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 //cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
                 //collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
