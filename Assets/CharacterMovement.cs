@@ -39,6 +39,8 @@ public class CharacterMovement : MonoBehaviour
 
     private int cooldown;
     private int levitate;
+    private int invulnerable;
+    private int invert;
 
     public void pauseTime() {
         timePaused = true;
@@ -61,6 +63,8 @@ public class CharacterMovement : MonoBehaviour
         levitate = 0;
         health = 100;
         cooldown = 0;
+        invulnerable = 0;
+        invert = 1;
         impact = Vector2.zero;
     }
 
@@ -78,7 +82,7 @@ public class CharacterMovement : MonoBehaviour
             }
             else if (levitate == 0)
             {
-                velocity.y += gravity * Time.deltaTime;
+                velocity.y += gravity*invert * Time.deltaTime;
             }
 
             
@@ -100,6 +104,10 @@ public class CharacterMovement : MonoBehaviour
         {
             levitate -= 1;
         }
+        if (invulnerable > 0)
+        {
+            invulnerable -= 1;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -108,12 +116,13 @@ public class CharacterMovement : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<BulletController>().whoShotMe != WhichPlayerAmI)
             {
-                health -= 20;
+                if (invulnerable == 0)
+                {
+                    health -= 20;
+                }
                 collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
                 Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
-                //cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
-                //collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
                 impact += Vector3.Normalize(imp);
             }
         }
@@ -131,10 +140,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        //Vector3 move = transform.right * lMovement;
         Vector3 move = new Vector3(lMovement.x,velocity.y,0f);
-
-        //cc.SimpleMove(move * speed);
+        if (levitate > 0)
+        {
+            move.y = 0f;
+        }
         cc.Move((move * speed + impact*-10f) * Time.deltaTime);
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
@@ -201,13 +211,34 @@ public class CharacterMovement : MonoBehaviour
                 }
                 if (WhichPlayerAmI == 1)
                 {
-                    
+                    //invulnerable = 60;
+                    if (invert == 1)
+                    {
+                        invert = -1;
+                        velocity.y = 0;
+                        cooldown = 10;
+                    }
+                    else
+                    {
+                        invert = 1;
+                        velocity.y = 0;
+                        cooldown = 180;
+                    }
                 }
                 if (WhichPlayerAmI == 2)
                 {
                     levitate = 60;
                     jumpNum = 2;
                     cooldown = 180;
+                }
+                if (WhichPlayerAmI == 3)
+                {
+                    cc.enabled = false;
+                    Vector3 pos = cc.transform.position;
+                    Vector3 move = Vector3.Normalize(new Vector3(lMovement.x, lMovement.y, 0f))*5;
+                    cc.transform.position = new Vector3(pos.x + move.x, pos.y + move.y, pos.z);
+                    cooldown = 30;
+                    cc.enabled = true;
                 }
             }
         }
