@@ -44,15 +44,16 @@ public class GameManager : MonoBehaviour, IPunObservable
     // Update is called once per frame
     void FixedUpdate()
     {
-        powerUpTimer -= Time.deltaTime;
-        if (powerUpTimer <= 0 && currentRotatePowerUp == false)
+        if (PV.IsMine)
         {
-            if (PV.IsMine) { 
+            powerUpTimer -= Time.deltaTime;
+            if (powerUpTimer <= 0 && currentRotatePowerUp == false)
+            {
                 PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, true);
                 int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
             }
-        }       
+        }
     }
 
     public void addPlayer(GameObject p) {
