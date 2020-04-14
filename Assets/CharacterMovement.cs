@@ -19,7 +19,7 @@ public class CharacterMovement : MonoBehaviour
     public float jumpHeight = 2;
 
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
+    public float groundDistance = 0.6f;
     public LayerMask groundMask;
     public bool timePaused = false;
 
@@ -70,13 +70,17 @@ public class CharacterMovement : MonoBehaviour
 
             if (isGround && velocity.y < 0)
             {
-                velocity.y = -2f;
+                velocity.y = 0f;
                 jumpNum = 2;
             }
+            else
+            {
+                velocity.y += gravity * Time.deltaTime;
+            }
 
-            velocity.y += gravity * Time.deltaTime;
+            
 
-            cc.Move(velocity * Time.deltaTime);
+            //cc.Move(velocity * Time.deltaTime);
 
             Move();
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,0);
@@ -113,10 +117,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector3 move = transform.right * lMovement.x;
+        //Vector3 move = transform.right * lMovement;
+        Vector3 move = new Vector3(lMovement.x,velocity.y,0f);
 
         //cc.SimpleMove(move * speed);
-        cc.Move((move * speed + impact*-5f) * Time.deltaTime);
+        cc.Move((move * speed + impact*-10f) * Time.deltaTime);
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
