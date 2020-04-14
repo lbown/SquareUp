@@ -25,7 +25,7 @@ public class CubeController : MonoBehaviourPun
     public void TransferOwnershipOfCube()
     {
         gameObject.GetComponent<PhotonView>().RequestOwnership();
-        gameManager.GetComponent<PhotonView>().RequestOwnership();
+        //gameManager.GetComponent<PhotonView>().RequestOwnership();
     }
 
     void Update()
