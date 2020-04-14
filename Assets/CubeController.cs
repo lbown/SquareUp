@@ -16,7 +16,7 @@ public class CubeController : MonoBehaviourPun
 
     private void Start()
     {
-        PV = GetComponent<PhotonView>();
+        PV = gameObject.GetComponent<PhotonView>();
         cubeRot = gameObject.transform.rotation;
         gameManager = GameObject.FindWithTag("gm");
         gm = gameManager.GetComponent<GameManager>();

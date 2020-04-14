@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8381292246948837707}
   - component: {fileID: 8381292246948837716}
   - component: {fileID: 8381292246948837717}
-  - component: {fileID: 8381292246948837718}
   m_Layer: 0
   m_Name: BabyCube
   m_TagString: RotatePowerUp
@@ -100,20 +99,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8381292246948837718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8381292246948837715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5c921e021d1aa241a0f0716a350b9a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inRotation: 0
-  lights: []
 --- !u!1 &8381292249060440256
 GameObject:
   m_ObjectHideFlags: 0
