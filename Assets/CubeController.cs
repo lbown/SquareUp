@@ -26,10 +26,6 @@ public class CubeController : MonoBehaviourPun
     {
         base.photonView.RequestOwnership();
         gameManager.GetComponent<PhotonView>().RequestOwnership();
-        foreach(GameObject light in lights)
-        {
-            light.GetComponent<PhotonView>().RequestOwnership();
-        }
     }
 
     void Update()

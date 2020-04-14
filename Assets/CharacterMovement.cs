@@ -11,7 +11,6 @@ public class CharacterMovement : MonoBehaviour
     private PhotonView PV;
     private GameObject cube;
     private CubeController cubeControl;
-    private GameObject currentRotatePowerUp;
     
     public CharacterController cc;
     public GameObject bullet;
@@ -91,13 +90,14 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
+        if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
         {
-            cubeControl.StartRotation();
             cubeControl.TransferOwnershipOfCube();
-            PhotonNetwork.Destroy(gm.currentRotatePowerUp);
+            cubeControl.StartRotation();
+            PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
             gm.ResetRotatePowerUpTimer();
-        } else if (other.gameObject.tag == "bullet")
+        }
+        else if (other.gameObject.tag == "bullet")
         {
             health -= 20;
             other.gameObject.GetComponent<BulletController>().Remove(other.gameObject);

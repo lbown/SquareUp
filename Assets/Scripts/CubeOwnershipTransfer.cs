@@ -16,7 +16,7 @@ public class CubeOwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
         gameManager = GameObject.FindWithTag("gm");
         gm = gameManager.GetComponent<GameManager>();
     }
-    
+
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
         if (targetView != base.photonView) return;
