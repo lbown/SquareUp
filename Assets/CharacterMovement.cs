@@ -37,6 +37,9 @@ public class CharacterMovement : MonoBehaviour
 
     public int health;
 
+    private int cooldown;
+    private int levitate;
+
     public void pauseTime() {
         timePaused = true;
 
@@ -55,9 +58,9 @@ public class CharacterMovement : MonoBehaviour
         cube = GameObject.Find("Cube");
         cubeControl = cube.GetComponent<CubeController>();
         WhichPlayerAmI = GetPlayerSkin();
-
+        levitate = 0;
         health = 100;
-
+        cooldown = 0;
         impact = Vector2.zero;
     }
 
@@ -73,7 +76,7 @@ public class CharacterMovement : MonoBehaviour
                 velocity.y = 0f;
                 jumpNum = 2;
             }
-            else
+            else if (levitate == 0)
             {
                 velocity.y += gravity * Time.deltaTime;
             }
@@ -87,6 +90,18 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (cooldown > 0)
+        {
+            cooldown -= 1;
+        }
+        if (levitate > 0)
+        {
+            levitate -= 1;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "bullet" )
@@ -96,7 +111,6 @@ public class CharacterMovement : MonoBehaviour
                 health -= 20;
                 collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
                 Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
-                Debug.Log(vel);
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 //cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
                 //collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
@@ -171,6 +185,31 @@ public class CharacterMovement : MonoBehaviour
         if (PV.IsMine)
         {
             aimDirection = value.Get<Vector2>();
+        }
+    }
+    private void OnAbility()
+    {
+        if (PV.IsMine)
+        {
+            if (cooldown == 0)
+            {
+                if (WhichPlayerAmI == 0)
+                {
+                    Vector3 move = new Vector3(lMovement.x, lMovement.y, 0f);
+                    impact += Vector3.Normalize(move) * -4;
+                    cooldown = 60;
+                }
+                if (WhichPlayerAmI == 1)
+                {
+                    
+                }
+                if (WhichPlayerAmI == 2)
+                {
+                    levitate = 60;
+                    jumpNum = 2;
+                    cooldown = 180;
+                }
+            }
         }
     }
 

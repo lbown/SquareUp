@@ -31,5 +31,10 @@ public class BulletController : MonoBehaviour
     public void Remove(GameObject bullet)
     {
         if (PV.IsMine) PhotonNetwork.Destroy(bullet);
-    }  
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        Destroy(gameObject);
+    }
 }
