@@ -24,13 +24,14 @@ public class CubeController : MonoBehaviourPun
 
     public void TransferOwnershipOfCube()
     {
-        base.photonView.RequestOwnership();
+        gameObject.GetComponent<PhotonView>().RequestOwnership();
         gameManager.GetComponent<PhotonView>().RequestOwnership();
     }
 
     void Update()
     {
-            if (inRotation)
+       if(PV.IsMine) { 
+        if (inRotation)
             {
                 gameObject.transform.rotation = cubeRot;
 
@@ -55,8 +56,9 @@ public class CubeController : MonoBehaviourPun
                     targetXY = new Vector2(0, 0);
                     actualXY = new Vector2(0, 0);
                     StopRotation();
+                }
             }
-            }
+        }
     }
 
     public void StartRotation()

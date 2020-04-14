@@ -21,7 +21,7 @@ public class CubeOwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
     {
         if (targetView != base.photonView) return;
         if (cubeControl.inRotation) return;
-        base.photonView.TransferOwnership(requestingPlayer);
+        gameObject.GetComponent<PhotonView>().TransferOwnership(requestingPlayer);
         gameManager.GetComponent<PhotonView>().TransferOwnership(requestingPlayer);
     }
 
