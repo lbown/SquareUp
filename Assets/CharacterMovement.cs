@@ -33,7 +33,7 @@ public class CharacterMovement : MonoBehaviour
 
     private Vector3 impact;
 
-    private int WhichPlayerAmI;
+    public int WhichPlayerAmI;
 
     public int health;
 
