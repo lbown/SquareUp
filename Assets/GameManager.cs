@@ -26,12 +26,10 @@ public class GameManager : MonoBehaviour, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(timePaused);
-            stream.SendNext(powerUpTimer);
         }
         else if (stream.IsReading)
         {
             timePaused = (bool)stream.ReceiveNext();
-            powerUpTimer = (float)stream.ReceiveNext();
         }
     }
 
@@ -83,6 +81,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     private void RPC_SynchronizePowerUps(bool isActive)
     {
         currentRotatePowerUp = isActive;
+        powerUpTimer = 60;
     }
 
 }
