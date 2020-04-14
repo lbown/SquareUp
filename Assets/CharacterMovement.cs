@@ -96,7 +96,7 @@ public class CharacterMovement : MonoBehaviour
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 //cc.Move(new Vector3(vel.x,vel.y,0f) / 2f * -1f * Time.deltaTime);
                 //collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
-                impact += imp;
+                impact += Vector3.Normalize(imp);
             }
         }
     }
@@ -116,7 +116,7 @@ public class CharacterMovement : MonoBehaviour
         Vector3 move = transform.right * lMovement.x;
 
         //cc.SimpleMove(move * speed);
-        cc.Move((move * speed + impact) * Time.deltaTime);
+        cc.Move((move * speed + impact*-2f) * Time.deltaTime);
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
