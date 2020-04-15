@@ -116,10 +116,10 @@ public class CharacterMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "bullet" )
         {
-            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != WhichPlayerAmI)
+            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != gameObject.GetComponent<PhotonPlayer>()) ;
             {
                 //TODO: Bullet needs to know which 
-                lastShotMe = null; // collision.gameObject.GetComponent<BulletController>().whoShotMe
+                lastShotMe = collision.gameObject.GetComponent<BulletController>().whoShotMe;
                 if (invulnerable == 0)
                 {
                     health -= 20;
@@ -194,7 +194,7 @@ public class CharacterMovement : MonoBehaviour
             GameObject clone;
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDirection.x,aimDirection.y,0))*30;
-            clone.GetComponent<BulletController>().whoShotMe = PV;
+            clone.GetComponent<BulletController>().whoShotMe = gameObject.GetComponent<PhotonPlayer>();
         }
     }
     private void OnAim(InputValue value)
