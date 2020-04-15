@@ -42,6 +42,8 @@ public class CharacterMovement : MonoBehaviour
     private int invulnerable;
     private int invert;
 
+    public PhotonPlayer lastShotMe;
+
     public void pauseTime() {
         timePaused = true;
 
@@ -116,6 +118,8 @@ public class CharacterMovement : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<BulletController>().whoShotMe != WhichPlayerAmI)
             {
+                //TODO: Bullet needs to know which 
+                lastShotMe = null; // collision.gameObject.GetComponent<BulletController>().whoShotMe
                 if (invulnerable == 0)
                 {
                     health -= 20;

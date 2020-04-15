@@ -11,6 +11,7 @@ public class PhotonPlayer : MonoBehaviour
     private GameManager gm; 
     public int ID;
     public CharSelectionController charSelect;
+    public int numKills;
 
     // Start is called before the first frame update
     void Start()
@@ -43,12 +44,26 @@ public class PhotonPlayer : MonoBehaviour
         {
             Spawn();
         }
-        else if (myAvatar.transform.position.y <= -100 || myAvatar.GetComponent<CharacterMovement>().health <= 0)
+        else if (myAvatar.transform.position.y <= -100)
         {
+            gm.removePlayer(myAvatar);
+            PhotonNetwork.Destroy(myAvatar);
+            Spawn();
+        } else if (myAvatar.GetComponent<CharacterMovement>().health <= 0)
+        {
+            PhotonPlayer killer = myAvatar.GetComponent<CharacterMovement>().lastShotMe;
+            if (this != killer)
+            {
+                killer.RPC_GiveKill();
+            }
             gm.removePlayer(myAvatar);
             PhotonNetwork.Destroy(myAvatar);
             Spawn();
         }
     }
-
+    [PunRPC]
+    public void RPC_GiveKill()
+    {
+        numKills += 1;
+    }
 }

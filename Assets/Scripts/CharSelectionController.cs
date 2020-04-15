@@ -24,7 +24,6 @@ public class CharSelectionController : MonoBehaviour
             readyToSpawn = true;
             PlayerInfo.PI.mySelectedCharacter = whichCharacter;
             PlayerPrefs.SetInt("SelectedCharacter", whichCharacter);
-            canvas.enabled = !canvas.enabled;
             panel.SetActive(false);
         }
     }
