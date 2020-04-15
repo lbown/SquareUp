@@ -194,7 +194,7 @@ public class CharacterMovement : MonoBehaviour
             GameObject clone;
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDirection.x,aimDirection.y,0))*30;
-            clone.GetComponent<BulletController>().whoShotMe = WhichPlayerAmI;
+            clone.GetComponent<BulletController>().whoShotMe = PV;
         }
     }
     private void OnAim(InputValue value)
