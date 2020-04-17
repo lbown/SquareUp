@@ -124,10 +124,11 @@ public class CharacterMovement : MonoBehaviour
                 {
                     health -= 20;
                 }
-                collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
+                
                 Vector3 vel = collision.gameObject.GetComponent<BulletController>().impulse;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
+                collision.gameObject.GetComponent<BulletController>().Remove();
             }
         }
     }

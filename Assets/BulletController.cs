@@ -31,15 +31,15 @@ public class BulletController : MonoBehaviour
         GetComponent<Rigidbody>().velocity = new Vector3(vel.x, vel.y, 0f);
     }
 
-    public void Remove(GameObject bullet)
+    public void Remove()
     {
-        if (PV.IsMine) PhotonNetwork.Destroy(bullet);
+        if (PV.IsMine) PhotonNetwork.Destroy(gameObject);
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        Destroy(gameObject);
-    }
+//    private void OnCollisionExit(Collision collision)
+ //   {
+//        Destroy(gameObject);
+ //   }
 
     [PunRPC]
     public void syncBullet_RPC(int howLong, int firerer, Vector3 speed)
