@@ -36,10 +36,18 @@ public class BulletController : MonoBehaviour
         if (PV.IsMine) PhotonNetwork.Destroy(gameObject);
     }
 
-//    private void OnCollisionExit(Collision collision)
- //   {
-//        Destroy(gameObject);
- //   }
+    //    private void OnCollisionExit(Collision collision)
+    //   {
+    //        Destroy(gameObject);
+    //   }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == 8)
+        {
+            NetRemove();
+        }
+    }
 
     [PunRPC]
     public void syncBullet_RPC(int howLong, int firerer, Vector3 speed)
@@ -48,4 +56,6 @@ public class BulletController : MonoBehaviour
         whoShotMe = firerer;
         impulse = speed;
     }
+
+    
 }

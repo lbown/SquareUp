@@ -155,7 +155,7 @@ public class CharacterMovement : MonoBehaviour
         {
             move.y = 0f;
         }
-        cc.Move((move * speed + impact*-10f) * Time.deltaTime);
+        cc.Move((move * speed + impact*10f) * Time.deltaTime);
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 

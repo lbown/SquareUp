@@ -78,13 +78,13 @@ public class GameManager : MonoBehaviour, IPunObservable
     }
     public void giveKill(int killer)
     {
-        foreach(GameObject player in players)
-        {
-            if(player.GetComponent<PhotonPlayer>().ID == killer)
-            {
-                player.GetComponent<PhotonView>().RPC("RPC_GiveKill", RpcTarget.AllBuffered);
-            }
-        }
+        //foreach(GameObject player in players)
+       // {
+       //     if(player.GetComponent<PhotonPlayer>().ID == killer)
+       //     {
+      //          player.GetComponent<PhotonView>().RPC("RPC_GiveKill", RpcTarget.AllBuffered);
+      //      }
+       // }
     }
 
     [PunRPC]
