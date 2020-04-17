@@ -25,13 +25,13 @@ public class BulletController : MonoBehaviour
         life += Time.deltaTime;
         if(life > 5 || GetComponent<Rigidbody>().velocity.magnitude <= 5)
         {
-            Remove(gameObject);
+            NetRemove();
         }
         Vector3 vel = gameObject.GetComponent<Rigidbody>().velocity;
         GetComponent<Rigidbody>().velocity = new Vector3(vel.x, vel.y, 0f);
     }
 
-    public void Remove()
+    public void NetRemove()
     {
         if (PV.IsMine) PhotonNetwork.Destroy(gameObject);
     }
