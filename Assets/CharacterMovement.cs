@@ -116,7 +116,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "bullet" )
         {
-            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != gameObject.GetComponent<PhotonPlayer>().ID) ;
+            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != gameObject.GetComponent<PhotonPlayer>().ID)
             {
                 //TODO: Bullet needs to know which 
                 lastShotMe = collision.gameObject.GetComponent<BulletController>().whoShotMe;
