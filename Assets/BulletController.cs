@@ -9,6 +9,8 @@ public class BulletController : MonoBehaviour
 
     public PhotonPlayer whoShotMe;
 
+    public Vector3 impulse;
+
     private PhotonView PV;
     void Start()
     {

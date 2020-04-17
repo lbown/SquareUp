@@ -40,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
     private int cooldown;
     private int levitate;
     private int invulnerable;
-    private int invert;
+    private Vector3 portalPos;
 
     public PhotonPlayer lastShotMe;
 
@@ -66,7 +66,7 @@ public class CharacterMovement : MonoBehaviour
         health = 100;
         cooldown = 0;
         invulnerable = 0;
-        invert = 1;
+        portalPos = new Vector3(0f, 0f, -100f);
         impact = Vector2.zero;
     }
 
@@ -84,7 +84,7 @@ public class CharacterMovement : MonoBehaviour
             }
             else if (levitate == 0)
             {
-                velocity.y += gravity*invert * Time.deltaTime;
+                velocity.y += gravity * Time.deltaTime;
             }
 
             
@@ -125,7 +125,7 @@ public class CharacterMovement : MonoBehaviour
                     health -= 20;
                 }
                 collision.gameObject.GetComponent<BulletController>().Remove(collision.gameObject);
-                Vector3 vel = collision.gameObject.GetComponent<Rigidbody>().velocity;
+                Vector3 vel = collision.gameObject.GetComponent<BulletController>().impulse;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
             }
@@ -195,6 +195,7 @@ public class CharacterMovement : MonoBehaviour
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDirection.x,aimDirection.y,0))*30;
             clone.GetComponent<BulletController>().whoShotMe = gameObject.GetComponentInParent<PhotonPlayer>();
+            clone.GetComponent<BulletController>().impulse = Vector3.Normalize(new Vector3(aimDirection.x, aimDirection.y, 0)) * 30;
         }
     }
     private void OnAim(InputValue value)
@@ -219,17 +220,19 @@ public class CharacterMovement : MonoBehaviour
                 if (WhichPlayerAmI == 1)
                 {
                     //invulnerable = 60;
-                    if (invert == 1)
-                    {
-                        invert = -1;
-                        velocity.y = 0;
-                        cooldown = 10;
+                    if (portalPos.z < 0f)
+                    {   
+                        portalPos = cc.transform.position;
+                        cooldown = 30;
                     }
                     else
                     {
-                        invert = 1;
+                        cc.enabled = false;
+                        cc.transform.position = portalPos;
+                        cc.enabled = true;
+                        portalPos.z = -100f;
+                        cooldown = 30;
                         velocity.y = 0;
-                        cooldown = 180;
                     }
                 }
                 if (WhichPlayerAmI == 2)
