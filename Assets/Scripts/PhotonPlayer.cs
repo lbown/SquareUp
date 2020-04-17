@@ -72,6 +72,12 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     public void RPC_SetParent()
     {
-        myAvatar.transform.SetParent(gameObject.transform);
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("PhotonPlayer"))
+        {
+            if(player.GetComponent<PhotonPlayer>().ID == ID)
+            {
+                myAvatar.transform.SetParent(player.transform);
+            }
+        }
     }
 }
