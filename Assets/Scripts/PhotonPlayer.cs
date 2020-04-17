@@ -32,7 +32,7 @@ public class PhotonPlayer : MonoBehaviour
             {
                 ID = PV.ViewID;
                 myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
-                PV.RPC("RPC_SetParent", RpcTarget.AllBuffered);
+                PV.RPC("RPC_SetParent", RpcTarget.AllBuffered,myAvatar);
                 gm.addPlayer(myAvatar);
             }
         }
@@ -70,13 +70,13 @@ public class PhotonPlayer : MonoBehaviour
         numKills += 1;
     }
     [PunRPC]
-    public void RPC_SetParent()
+    public void RPC_SetParent(GameObject avitar)
     {
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("PhotonPlayer"))
         {
             if(player.GetComponent<PhotonPlayer>().ID == ID)
             {
-                myAvatar.transform.SetParent(player.transform);
+                avitar.transform.SetParent(player.transform);
             }
         }
     }
