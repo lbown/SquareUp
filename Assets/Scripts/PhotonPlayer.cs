@@ -52,10 +52,11 @@ public class PhotonPlayer : MonoBehaviour
             Spawn();
         } else if (myAvatar.GetComponent<CharacterMovement>().health <= 0)
         {
-            PhotonPlayer killer = myAvatar.GetComponent<CharacterMovement>().lastShotMe;
-            if (this != killer)
+            int killerID = myAvatar.GetComponent<CharacterMovement>().lastShotMe;
+            if (ID != killerID)
             {
-                killer.RPC_GiveKill();
+                gm.giveKill(ID);
+                //killer.RPC_GiveKill();
             }
             gm.removePlayer(myAvatar);
             PhotonNetwork.Destroy(myAvatar);

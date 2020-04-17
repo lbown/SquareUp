@@ -42,7 +42,7 @@ public class CharacterMovement : MonoBehaviour
     private int invulnerable;
     private Vector3 portalPos;
 
-    public PhotonPlayer lastShotMe;
+    public int lastShotMe;
 
     public void pauseTime() {
         timePaused = true;
@@ -116,7 +116,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "bullet" )
         {
-            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != gameObject.GetComponent<PhotonPlayer>()) ;
+            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != gameObject.GetComponent<PhotonPlayer>().ID) ;
             {
                 //TODO: Bullet needs to know which 
                 lastShotMe = collision.gameObject.GetComponent<BulletController>().whoShotMe;
@@ -194,8 +194,9 @@ public class CharacterMovement : MonoBehaviour
             GameObject clone;
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDirection.x,aimDirection.y,0))*30;
-            clone.GetComponent<BulletController>().whoShotMe = gameObject.GetComponentInParent<PhotonPlayer>();
+            clone.GetComponent<BulletController>().whoShotMe = gameObject.GetComponentInParent<PhotonPlayer>().ID;
             clone.GetComponent<BulletController>().impulse = Vector3.Normalize(new Vector3(aimDirection.x, aimDirection.y, 0)) * 30;
+            clone.GetComponent<PhotonView>().RPC("syncBullet_RPC", RpcTarget.AllBuffered, 0, gameObject.GetComponentInParent<PhotonPlayer>().ID, Vector3.Normalize(new Vector3(aimDirection.x, aimDirection.y, 0)) * 30);
         }
     }
     private void OnAim(InputValue value)

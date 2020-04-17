@@ -7,7 +7,7 @@ public class BulletController : MonoBehaviour
     // Start is called before the first frame update
     private float life;
 
-    public PhotonPlayer whoShotMe;
+    public int whoShotMe;
 
     public Vector3 impulse;
 
@@ -16,6 +16,7 @@ public class BulletController : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         life = 0f;
+        
     }
 
     // Update is called once per frame
@@ -38,5 +39,13 @@ public class BulletController : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         Destroy(gameObject);
+    }
+
+    [PunRPC]
+    public void syncBullet_RPC(int howLong, int firerer, Vector3 speed)
+    {
+        life = howLong;
+        whoShotMe = firerer;
+        impulse = speed;
     }
 }
