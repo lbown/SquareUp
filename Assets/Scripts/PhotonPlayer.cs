@@ -72,7 +72,9 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     public void RPC_SetID(int id)
     {
-        myAvatar.GetComponent<CharacterMovement>().ID = id;
+        if (myAvatar == null)
+            Spawn();
+        else myAvatar.GetComponent<CharacterMovement>().ID = id;
        // foreach(GameObject player in GameObject.FindGameObjectsWithTag("PhotonPlayer"))
        // {
        //     if(player.GetComponent<PhotonPlayer>().ID == ID)

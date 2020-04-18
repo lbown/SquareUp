@@ -39,5 +39,8 @@ MonoBehaviour:
   - RPC_AddCharacter
   - RPC_SynchronizePowerUps
   - RPC_GiveKill
+  - syncBullet_RPC
+  - RPC_SetParent
+  - RPC_SetID
   DisableAutoOpenWizard: 1
   ShowSettings: 1

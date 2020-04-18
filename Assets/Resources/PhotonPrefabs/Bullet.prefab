@@ -126,7 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf43a5df98933b4bad163c11a92339c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whoShotMe: {fileID: 0}
+  whoShotMe: 0
+  impulse: {x: 0, y: 0, z: 0}
 --- !u!114 &2384867742893590803
 MonoBehaviour:
   m_ObjectHideFlags: 0
