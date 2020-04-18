@@ -25,16 +25,17 @@ public class BulletController : MonoBehaviour
         life += Time.deltaTime;
         if(life > 5 /*|| GetComponent<Rigidbody>().velocity.magnitude <= 5*/)
         {
-            NetRemove();
+            Destroy(gameObject);
         }
         Vector3 vel = gameObject.GetComponent<Rigidbody>().velocity;
         GetComponent<Rigidbody>().velocity = new Vector3(vel.x, vel.y, 0f);
     }
 
-    public void NetRemove()
-    {
-        if (PV.IsMine) PhotonNetwork.Destroy(gameObject);
-    }
+    //public void NetRemove()
+    //{
+    //    //if (PV.IsMine) PhotonNetwork.Destroy(gameObject);
+    //    if (this != null) PV.RPC("kys_RPC", RpcTarget.AllBuffered);
+    //}
 
     //    private void OnCollisionExit(Collision collision)
     //   {
@@ -45,8 +46,10 @@ public class BulletController : MonoBehaviour
     {
         if(collision.gameObject.layer == 8)
         {
-            NetRemove();
+            //NetRemove();
         }
+        //NetRemove();
+        Destroy(gameObject);
     }
 
     [PunRPC]
@@ -56,6 +59,11 @@ public class BulletController : MonoBehaviour
         whoShotMe = firerer;
         impulse = speed;
     }
+    //[PunRPC]
+    //public void kys_RPC()
+    //{
+    //    life = 5;
+    //}
 
-    
+
 }

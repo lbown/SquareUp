@@ -42,5 +42,6 @@ MonoBehaviour:
   - syncBullet_RPC
   - RPC_SetParent
   - RPC_SetID
+  - kys_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
