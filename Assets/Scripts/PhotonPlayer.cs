@@ -103,12 +103,5 @@ public class PhotonPlayer : MonoBehaviour
         if (myAvatar == null)
             Spawn();
         else myAvatar.GetComponent<CharacterMovement>().ID = id;
-       // foreach(GameObject player in GameObject.FindGameObjectsWithTag("PhotonPlayer"))
-       // {
-       //     if(player.GetComponent<PhotonPlayer>().ID == ID)
-       //     {
-                //avitar.transform.SetParent(player.transform);
-       //     }
-       // }
     }
 }

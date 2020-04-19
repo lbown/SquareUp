@@ -5,16 +5,10 @@ using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
-using XInputDotNetPure;
-using UnityEngine.InputSystem.LowLevel;
 
 public class CharacterMovement : MonoBehaviour
 {
-    //Information for controller rumble
-    PlayerIndex playerIndex;
-    GamePadState state;
-    GamepadState prevState;
-    //End of controller rumble information
+    public Material myBulletColor;
     
     private PhotonView PV;
     private GameObject cube;
@@ -78,6 +72,7 @@ public class CharacterMovement : MonoBehaviour
         invulnerable = 0;
         portalPos = new Vector3(0f, 0f, -100f);
         impact = Vector2.zero;
+        PV.RPC("RPC_SetBulletColor", RpcTarget.AllBuffered);
     }
 
     // Update is called once per frame
@@ -195,8 +190,6 @@ public class CharacterMovement : MonoBehaviour
             }
             jumpNum -= 1;
         }
-
-        GamePad.SetVibration(playerIndex, 1f, 1f);
     }
 
     private void OnShoot(InputValue value)
@@ -206,6 +199,8 @@ public class CharacterMovement : MonoBehaviour
         {
             GameObject clone;
             clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
+            int bulletID = clone.GetComponent<PhotonView>().ViewID;
+            PV.RPC("RPC_SetBulletColorOnInstanitation", RpcTarget.AllBuffered, bulletID);
             clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDirection.x,aimDirection.y,0))*30;
             clone.GetComponent<BulletController>().whoShotMe = ID;
             clone.GetComponent<BulletController>().impulse = Vector3.Normalize(new Vector3(aimDirection.x, aimDirection.y, 0)) * 30;
@@ -271,5 +266,17 @@ public class CharacterMovement : MonoBehaviour
     private int GetPlayerSkin()
     {
         return PlayerInfo.PI.mySelectedCharacter;
+    }
+
+    [PunRPC]
+    private void RPC_SetBulletColor()
+    {
+        myBulletColor = PlayerInfo.PI.allCharacters[PlayerInfo.PI.mySelectedCharacter].GetComponent<MeshRenderer>().sharedMaterial;
+    }
+    [PunRPC] 
+    private void RPC_SetBulletColorOnInstanitation(int bulletID)
+    {
+        GameObject bullet = PhotonView.Find(bulletID).gameObject;
+        bullet.GetComponent<MeshRenderer>().sharedMaterial = myBulletColor;
     }
 }

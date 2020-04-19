@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279d1a323dbb487428a776f770b386ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rumbleTimer: 0
   myAvatar: {fileID: 4060611263659829762, guid: 9a5eecabbba158f4684a397402cf9a67,
     type: 3}
   ID: 0

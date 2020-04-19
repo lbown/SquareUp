@@ -8,6 +8,7 @@ public class AvatarSetup : MonoBehaviour
     private PhotonView PV;
     public int characterValue;
     public GameObject myCharacter;
+    public Material myBulletColor;
     // Start is called before the first frame update
     void Start()
     {

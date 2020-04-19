@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c84ec15852463438452b783b6e5cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myBulletColor: {fileID: 0}
   cc: {fileID: 4060611263659829760}
   bullet: {fileID: 3688807322951788842, guid: b978ffe728abe2d47b1b9540161b47e7, type: 3}
   speed: 12
@@ -230,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterValue: 0
   myCharacter: {fileID: 0}
+  myBulletColor: {fileID: 0}
 --- !u!1 &4060611264255985509
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,5 +43,8 @@ MonoBehaviour:
   - RPC_SetParent
   - RPC_SetID
   - kys_RPC
+  - SetBulletColor
+  - RPC_SetBulletColor
+  - RPC_SetBulletColorOnInstanitation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
