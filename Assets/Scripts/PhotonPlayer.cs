@@ -3,9 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using XInputDotNetPure;
+using UnityEngine.InputSystem.LowLevel;
 
 public class PhotonPlayer : MonoBehaviour
 {
+    //Information for controller rumble
+    private PlayerIndex playerIndex;
+    private GamePadState state;
+    private GamepadState prevState;
+    [SerializeField] private float rumbleTimer; 
+    //End of controller rumble information
+
     private PhotonView PV;
     public GameObject myAvatar;
     private GameManager gm; 
@@ -20,6 +29,15 @@ public class PhotonPlayer : MonoBehaviour
         gm = GameObject.FindWithTag("gm").GetComponent<GameManager>();
         myAvatar = null;
         charSelect = GameObject.Find("MenuController").GetComponent<CharSelectionController>();
+    }
+
+    private void ControllerRumble()
+    {
+        if (rumbleTimer >= 0)
+        {
+            GamePad.SetVibration(playerIndex, 1f, 1f);
+        }
+        else GamePad.SetVibration(playerIndex, 0f, 0f);
     }
 
     public void Spawn()
@@ -38,19 +56,31 @@ public class PhotonPlayer : MonoBehaviour
         }
     }
 
+    private void DieAndRespawn()
+    {
+        rumbleTimer = 0.5f;
+        gm.removePlayer(myAvatar);
+        PhotonNetwork.Destroy(myAvatar);
+        Spawn();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        //temporary respawn for testing
+        if (PV.IsMine)
+        {
+            rumbleTimer -= Time.deltaTime;
+            ControllerRumble();
+        }
+        
+        //temporary DieAndRespawn for testing
         if (myAvatar == null)
         {
             Spawn();
         }
         else if (myAvatar.transform.position.y <= -100)
         {
-            gm.removePlayer(myAvatar);
-            PhotonNetwork.Destroy(myAvatar);
-            Spawn();
+            DieAndRespawn();
         } else if (myAvatar.GetComponent<CharacterMovement>().health <= 0)
         {
             int killerID = myAvatar.GetComponent<CharacterMovement>().lastShotMe;
@@ -59,9 +89,7 @@ public class PhotonPlayer : MonoBehaviour
                 gm.giveKill(ID);
                 //killer.RPC_GiveKill();
             }
-            gm.removePlayer(myAvatar);
-            PhotonNetwork.Destroy(myAvatar);
-            Spawn();
+            DieAndRespawn();
         }
     }
     [PunRPC]

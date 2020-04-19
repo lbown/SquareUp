@@ -5,9 +5,17 @@ using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
+using XInputDotNetPure;
+using UnityEngine.InputSystem.LowLevel;
 
 public class CharacterMovement : MonoBehaviour
 {
+    //Information for controller rumble
+    PlayerIndex playerIndex;
+    GamePadState state;
+    GamepadState prevState;
+    //End of controller rumble information
+    
     private PhotonView PV;
     private GameObject cube;
     private CubeController cubeControl;
@@ -187,6 +195,8 @@ public class CharacterMovement : MonoBehaviour
             }
             jumpNum -= 1;
         }
+
+        GamePad.SetVibration(playerIndex, 1f, 1f);
     }
 
     private void OnShoot(InputValue value)
