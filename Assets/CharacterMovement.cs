@@ -214,7 +214,7 @@ public class CharacterMovement : MonoBehaviour
                 if (WhichPlayerAmI == 0)
                 {
                     Vector3 move = new Vector3(lMovement.x, lMovement.y, 0f);
-                    impact += Vector3.Normalize(move) * -4;
+                    impact += Vector3.Normalize(move) * 4;
                     cooldown = 60;
                 }
                 if (WhichPlayerAmI == 1)
