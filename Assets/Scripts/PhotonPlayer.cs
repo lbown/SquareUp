@@ -53,9 +53,8 @@ public class PhotonPlayer : MonoBehaviour
             
             if (PV.IsMine)
             {
-                ID = PV.ViewID;
                 myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
-                PV.RPC("RPC_SetID", RpcTarget.AllBuffered,ID);
+                PV.RPC("RPC_SetID", RpcTarget.AllBuffered, PV.ViewID);
                 gm.addPlayer(myAvatar);
             }
         }
@@ -116,8 +115,11 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     public void RPC_SetID(int id)
     {
-        if (myAvatar == null)
-            Spawn();
-        else myAvatar.GetComponent<CharacterMovement>().ID = id;
+        if (myAvatar == null) Spawn();
+        else
+        {
+            myAvatar.GetComponent<CharacterMovement>().ID = id;
+            ID = id;
+        }
     }
 }
