@@ -21,6 +21,7 @@ public class CharacterMovement : MonoBehaviour
     public float jumpHeight = 2;
 
     public Transform groundCheck;
+    public Transform wallCheck;
     public float groundDistance = 0.6f;
     public LayerMask groundMask;
     public bool timePaused = false;
@@ -80,6 +81,10 @@ public class CharacterMovement : MonoBehaviour
         if (PV.IsMine && !gm.timePaused)
         {
             isGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            if(WhichPlayerAmI == 1 && !isGround)
+            {
+                isGround = Physics.CheckSphere(wallCheck.position, 0.6f, groundMask);
+            }
 
             if (isGround && velocity.y < 0)
             {
@@ -196,6 +201,10 @@ public class CharacterMovement : MonoBehaviour
         if (PV.IsMine)
         {
             PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+            if(WhichPlayerAmI == 2)
+            {
+                PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1*aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+            }
         }
     }
     private void OnAim(InputValue value)
