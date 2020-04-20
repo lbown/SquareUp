@@ -120,8 +120,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "bullet" )
         {
-            if (collision.gameObject.GetComponent<NewBulletController>().whoShotMe != ID)
-            {
                 //TODO: Bullet needs to know which 
                 lastShotMe = collision.gameObject.GetComponent<NewBulletController>().whoShotMe;
                 if (invulnerable == 0)
@@ -132,7 +130,6 @@ public class CharacterMovement : MonoBehaviour
                 Vector3 vel = collision.gameObject.GetComponent<NewBulletController>().impulse;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
-            }
         }
     }
     private void OnTriggerEnter(Collider other)
