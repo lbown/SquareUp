@@ -120,16 +120,19 @@ public class CharacterMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "bullet" )
         {
+            if (collision.gameObject.GetComponent<NewBulletController>().whoShotMe != ID)
+            {
                 //TODO: Bullet needs to know which 
                 lastShotMe = collision.gameObject.GetComponent<NewBulletController>().whoShotMe;
                 if (invulnerable == 0)
                 {
                     health -= 20;
                 }
-                
+
                 Vector3 vel = collision.gameObject.GetComponent<NewBulletController>().impulse;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
+            }
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -192,7 +195,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter);
+            PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
         }
     }
     private void OnAim(InputValue value)
@@ -255,7 +258,7 @@ public class CharacterMovement : MonoBehaviour
     {
         return PlayerInfo.PI.mySelectedCharacter;
     }
-    private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat)
+    private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID)
     {
         GameObject clone = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/NewBullet"), pos, dir);
         clone.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.allCharacters[mat].GetComponent<MeshRenderer>().sharedMaterial;
@@ -265,9 +268,9 @@ public class CharacterMovement : MonoBehaviour
     }
 
     [PunRPC] 
-    private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat)
+    private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID)
     {
-        ShootBullet(pos, dir, aimDir, mat);
+        ShootBullet(pos, dir, aimDir, mat, playerID);
 
     }
 }
