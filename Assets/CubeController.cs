@@ -12,6 +12,7 @@ public class CubeController : MonoBehaviourPun
     Vector2 actualXY, targetXY;
     GameObject gameManager;
     GameManager gm;
+    private Vector3 originalPos;
     public List<GameObject> lights;
 
     private void Start()
@@ -20,6 +21,7 @@ public class CubeController : MonoBehaviourPun
         cubeRot = gameObject.transform.rotation;
         gameManager = GameObject.FindWithTag("gm");
         gm = gameManager.GetComponent<GameManager>();
+        originalPos = transform.position;
     }
 
     public void TransferOwnershipOfCube()
@@ -30,10 +32,10 @@ public class CubeController : MonoBehaviourPun
 
     void Update()
     {
-       if(PV.IsMine) { 
-        if (inRotation)
+       if(PV.IsMine) {
+            if (inRotation)
             {
-                if(GameObject.Find("RotateCubePowerUp(Clone)") != null)
+                if (GameObject.Find("RotateCubePowerUp(Clone)") != null)
                 {
                     PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
                 }
@@ -62,6 +64,7 @@ public class CubeController : MonoBehaviourPun
                     StopRotation();
                 }
             }
+            else this.transform.position = originalPos;
         }
     }
 
