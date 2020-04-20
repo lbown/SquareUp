@@ -24,6 +24,7 @@ public class PhotonPlayer : MonoBehaviour
     public int ID;
     public CharSelectionController charSelect;
     public int numKills;
+    public int numDeaths;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +63,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void DieAndRespawn()
     {
+        PV.RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
         rumbleTimer = 0.5f;
         notWaitingForDelay = false;
         gm.removePlayer(myAvatar);
@@ -102,7 +104,6 @@ public class PhotonPlayer : MonoBehaviour
             if (ID != killerID)
             {
                 gm.giveKill(ID);
-                //killer.RPC_GiveKill();
             }
             DieAndRespawn();
         }
@@ -111,6 +112,11 @@ public class PhotonPlayer : MonoBehaviour
     public void RPC_GiveKill()
     {
         numKills += 1;
+    }
+    [PunRPC]
+    public void RPC_GiveDeath()
+    {
+        numDeaths += 1;
     }
     [PunRPC]
     public void RPC_SetID(int id)
