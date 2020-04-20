@@ -5,6 +5,7 @@ using UnityEngine;
 using System.IO;
 using XInputDotNetPure;
 using UnityEngine.InputSystem.LowLevel;
+using System.Runtime.CompilerServices;
 
 public class PhotonPlayer : MonoBehaviour
 {
@@ -12,8 +13,10 @@ public class PhotonPlayer : MonoBehaviour
     private PlayerIndex playerIndex;
     private GamePadState state;
     private GamepadState prevState;
-    [SerializeField] private float rumbleTimer; 
+    [SerializeField] private float rumbleTimer;
     //End of controller rumble information
+
+    private bool notWaitingForDelay;
 
     private PhotonView PV;
     public GameObject myAvatar;
@@ -29,6 +32,8 @@ public class PhotonPlayer : MonoBehaviour
         gm = GameObject.FindWithTag("gm").GetComponent<GameManager>();
         myAvatar = null;
         charSelect = GameObject.Find("MenuController").GetComponent<CharSelectionController>();
+        rumbleTimer = -1;
+        notWaitingForDelay = true;
     }
 
     private void ControllerRumble()
@@ -59,9 +64,17 @@ public class PhotonPlayer : MonoBehaviour
     private void DieAndRespawn()
     {
         rumbleTimer = 0.5f;
+        notWaitingForDelay = false;
         gm.removePlayer(myAvatar);
         PhotonNetwork.Destroy(myAvatar);
+        StartCoroutine(SpawnDelay());
+    }
+
+    IEnumerator SpawnDelay()
+    {
+        yield return new WaitForSeconds(2f);
         Spawn();
+        notWaitingForDelay = true;
     }
 
     // Update is called once per frame
@@ -69,14 +82,17 @@ public class PhotonPlayer : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            rumbleTimer -= Time.deltaTime;
+            if (rumbleTimer > 0)
+            {
+                rumbleTimer -= Time.deltaTime;
+            }
             ControllerRumble();
         }
-        
+
         //temporary DieAndRespawn for testing
         if (myAvatar == null)
         {
-            Spawn();
+            if(notWaitingForDelay) Spawn();
         }
         else if (myAvatar.transform.position.y <= -100)
         {

@@ -72,7 +72,6 @@ public class CharacterMovement : MonoBehaviour
         invulnerable = 0;
         portalPos = new Vector3(0f, 0f, -100f);
         impact = Vector2.zero;
-        PV.RPC("RPC_SetBulletColor", RpcTarget.AllBuffered);
     }
 
     // Update is called once per frame
@@ -121,19 +120,18 @@ public class CharacterMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "bullet" )
         {
-            if (collision.gameObject.GetComponent<BulletController>().whoShotMe != ID)
+            if (collision.gameObject.GetComponent<NewBulletController>().whoShotMe != ID)
             {
                 //TODO: Bullet needs to know which 
-                lastShotMe = collision.gameObject.GetComponent<BulletController>().whoShotMe;
+                lastShotMe = collision.gameObject.GetComponent<NewBulletController>().whoShotMe;
                 if (invulnerable == 0)
                 {
                     health -= 20;
                 }
                 
-                Vector3 vel = collision.gameObject.GetComponent<BulletController>().impulse;
+                Vector3 vel = collision.gameObject.GetComponent<NewBulletController>().impulse;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
-                //collision.gameObject.GetComponent<BulletController>().NetRemove();
             }
         }
     }
@@ -192,19 +190,12 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    //NEW SHOOT FUNCTION
     private void OnShoot(InputValue value)
     {
-
-        if (PV.IsMine && (Mathf.Abs(aimDirection.x) > 0.5 || Mathf.Abs(aimDirection.y) > 0.5))
+        if (PV.IsMine)
         {
-            GameObject clone;
-            clone = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), transform.position + new Vector3 (aimDirection.x*1.5f, aimDirection.y*1.5f, transform.position.z), Quaternion.identity);
-            int bulletID = clone.GetComponent<PhotonView>().ViewID;
-            PV.RPC("RPC_SetBulletColorOnInstanitation", RpcTarget.AllBuffered, bulletID);
-            clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDirection.x,aimDirection.y,0))*30;
-            clone.GetComponent<BulletController>().whoShotMe = ID;
-            clone.GetComponent<BulletController>().impulse = Vector3.Normalize(new Vector3(aimDirection.x, aimDirection.y, 0)) * 30;
-            clone.GetComponent<PhotonView>().RPC("syncBullet_RPC", RpcTarget.AllBuffered, 0, ID, Vector3.Normalize(new Vector3(aimDirection.x, aimDirection.y, 0)) * 30);
+            PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter);
         }
     }
     private void OnAim(InputValue value)
@@ -267,16 +258,19 @@ public class CharacterMovement : MonoBehaviour
     {
         return PlayerInfo.PI.mySelectedCharacter;
     }
-
-    [PunRPC]
-    private void RPC_SetBulletColor()
+    private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat)
     {
-        myBulletColor = PlayerInfo.PI.allCharacters[PlayerInfo.PI.mySelectedCharacter].GetComponent<MeshRenderer>().sharedMaterial;
+        GameObject clone = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/NewBullet"), pos, dir);
+        clone.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.allCharacters[mat].GetComponent<MeshRenderer>().sharedMaterial;
+        clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
+        clone.GetComponent<NewBulletController>().whoShotMe = ID;
+        clone.GetComponent<NewBulletController>().impulse = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
     }
+
     [PunRPC] 
-    private void RPC_SetBulletColorOnInstanitation(int bulletID)
+    private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat)
     {
-        GameObject bullet = PhotonView.Find(bulletID).gameObject;
-        bullet.GetComponent<MeshRenderer>().sharedMaterial = myBulletColor;
+        ShootBullet(pos, dir, aimDir, mat);
+
     }
 }
