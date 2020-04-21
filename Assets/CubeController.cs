@@ -13,7 +13,6 @@ public class CubeController : MonoBehaviourPun
     GameObject gameManager;
     GameManager gm;
     private Vector3 originalPos;
-    public List<GameObject> lights;
 
     private void Start()
     {

@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6791874904271002784}
   - component: {fileID: 542132654701353709}
-  - component: {fileID: 5557557611759513522}
-  - component: {fileID: 4495764384508876635}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -94,43 +92,6 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &5557557611759513522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3019558515012125735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 4495764384508876635}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &4495764384508876635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3019558515012125735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
 --- !u!1 &5546375756813711485
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,6 +216,7 @@ MonoBehaviour:
   gravity: -5
   jumpHeight: 0.4
   groundCheck: {fileID: 1281711370665235855}
+  wallCheck: {fileID: 0}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
