@@ -59,6 +59,11 @@ public class CharacterMovement : MonoBehaviour
         timePaused = false;
     }
 
+    public void AddMyMaterialBackToList()
+    {
+        PV.RPC("RPC_ReturnMyMat", RpcTarget.AllBuffered);
+    }
+
     void Start()
     {
         gameManager = GameObject.FindWithTag("gm");
@@ -281,5 +286,10 @@ public class CharacterMovement : MonoBehaviour
     {
         ShootBullet(pos, dir, aimDir, mat, playerID);
 
+    }
+    [PunRPC]
+    private void RPC_ReturnMyMat()
+    {
+        PlayerInfo.PI.allMaterials.Add(/*Replace this with my material variable*/ GetComponent<MeshRenderer>().sharedMaterial);
     }
 }
