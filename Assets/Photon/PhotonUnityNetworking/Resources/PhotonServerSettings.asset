@@ -49,5 +49,7 @@ MonoBehaviour:
   - RPC_TestNewBulletInstantiation
   - RPC_Fire
   - RPC_GiveDeath
+  - RPC_DisconnectPlayerMaterialReturn
+  - RPC_ReturnMyMat
   DisableAutoOpenWizard: 1
   ShowSettings: 1

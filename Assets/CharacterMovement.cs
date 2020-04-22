@@ -50,6 +50,7 @@ public class CharacterMovement : MonoBehaviour
     public int lastShotMe;
 
     public MeshRenderer mm;
+    public Material myMaterial;
 
     public void pauseTime() {
         timePaused = true;
@@ -82,6 +83,7 @@ public class CharacterMovement : MonoBehaviour
         impact = Vector2.zero;
 
         mm = GetComponentInChildren<MeshRenderer>();
+        myMaterial = mm.sharedMaterial;
     }
 
     // Update is called once per frame
@@ -279,7 +281,7 @@ public class CharacterMovement : MonoBehaviour
     private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID)
     {
         GameObject clone = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/NewBullet"), pos, dir);
-        clone.GetComponent<MeshRenderer>().sharedMaterial = GetComponentInChildren<MeshRenderer>().sharedMaterial;
+        clone.GetComponent<MeshRenderer>().sharedMaterial = myMaterial;
         clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
         clone.GetComponent<NewBulletController>().whoShotMe = ID;
         clone.GetComponent<NewBulletController>().impulse = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
@@ -294,6 +296,6 @@ public class CharacterMovement : MonoBehaviour
     [PunRPC]
     private void RPC_ReturnMyMat()
     {
-        PlayerInfo.PI.allMaterials.Add(/*Replace this with my material variable*/ GetComponent<MeshRenderer>().sharedMaterial);
+        PlayerInfo.PI.allMaterials.Add(myMaterial);
     }
 }

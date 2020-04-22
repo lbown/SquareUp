@@ -55,6 +55,7 @@ public class PhotonPlayer : MonoBehaviour
             if (PV.IsMine)
             {
                 myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
+                GameSetup.gs.myPlayer = myAvatar;
                 PV.RPC("RPC_SetID", RpcTarget.AllBuffered, PV.ViewID);
                 gm.addPlayer(myAvatar);
             }
@@ -108,6 +109,12 @@ public class PhotonPlayer : MonoBehaviour
             DieAndRespawn();
         }
     }
+
+    public void DisconnectMe()
+    {
+        GameSetup.gs.DisconnectPlayer();
+    }
+
     [PunRPC]
     public void RPC_GiveKill()
     {
