@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class Pause : MonoBehaviour
 {
-    private Canvas c;
+    public GameObject pausePanel;
     public GameObject init;
     // Start is called before the first frame update
     void Start()
     {
-        c = GetComponent<Canvas>();
+        pausePanel.SetActive(false);
         EventSystem.current.SetSelectedGameObject(init);
         Debug.Log(EventSystem.current.name);
         //Debug.Log(EventSystem.current.currentSelectedGameObject.name);
@@ -23,6 +24,6 @@ public class Pause : MonoBehaviour
     }
 
     void OnStart() {
-        c.enabled = !c.enabled;
+        pausePanel.SetActive(!pausePanel.activeSelf);
     }
 }
