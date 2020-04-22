@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 9179108140678384306}
   - component: {fileID: 4580715031198203690}
   m_Layer: 0
-  m_Name: Player2
+  m_Name: Sticky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,7 +139,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5546375756813711485}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &5310770338415005122
 MeshRenderer:
   m_ObjectHideFlags: 0
