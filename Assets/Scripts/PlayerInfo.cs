@@ -7,6 +7,7 @@ public class PlayerInfo : MonoBehaviour
     public static PlayerInfo PI;
     public int mySelectedCharacter;
     public GameObject[] allCharacters;
+    public List<Material> allMaterials;
 
     // Start is called before the first frame update
     private void OnEnable()

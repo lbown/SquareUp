@@ -131,7 +131,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   timePaused: 0
-  ID: 4001
+  ID: 1001
   gameManager: {fileID: 0}
   gm: {fileID: 0}
   WhichPlayerAmI: 0
