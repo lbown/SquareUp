@@ -92,10 +92,12 @@ MonoBehaviour:
     m_Bits: 256
   timePaused: 0
   ID: 4001
+  velocity: {x: 0, y: 0, z: 0}
   gameManager: {fileID: 0}
   gm: {fileID: 0}
   WhichPlayerAmI: 0
   health: 0
+  startingHP: 100
   lastShotMe: 0
 --- !u!114 &4060611263659829771
 MonoBehaviour:

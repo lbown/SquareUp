@@ -8,6 +8,7 @@ public class Pause : MonoBehaviour
 {
     public GameObject pausePanel;
     public GameObject init;
+    public GameObject dcButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,5 +26,6 @@ public class Pause : MonoBehaviour
 
     void OnStart() {
         pausePanel.SetActive(!pausePanel.activeSelf);
+        EventSystem.current.SetSelectedGameObject(dcButton);
     }
 }

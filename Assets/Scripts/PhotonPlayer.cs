@@ -25,6 +25,7 @@ public class PhotonPlayer : MonoBehaviour
     public CharSelectionController charSelect;
     public int numKills;
     public int numDeaths;
+    private bool dead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -67,16 +68,31 @@ public class PhotonPlayer : MonoBehaviour
         PV.RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
         rumbleTimer = 0.5f;
         notWaitingForDelay = false;
-        gm.removePlayer(myAvatar);
-        PhotonNetwork.Destroy(myAvatar);
+        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = false;
+        myAvatar.GetComponent<CharacterController>().enabled = false;
+        myAvatar.GetComponent<CapsuleCollider>().enabled = false;
+        dead = true;
+        //gm.removePlayer(myAvatar);
+        //PhotonNetwork.Destroy(myAvatar);
         StartCoroutine(SpawnDelay());
     }
 
     IEnumerator SpawnDelay()
     {
         yield return new WaitForSeconds(2f);
-        Spawn();
+        Respawn();
         notWaitingForDelay = true;
+    }
+
+    private void Respawn() {
+        int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
+        myAvatar.transform.position = GameSetup.gs.spawnPoints[spawnPicker].position;
+        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = true;
+        myAvatar.GetComponent<CharacterController>().enabled = true;
+        myAvatar.GetComponent<CapsuleCollider>().enabled = true;
+        myAvatar.GetComponent<CharacterMovement>().health = myAvatar.GetComponent<CharacterMovement>().startingHP;
+        myAvatar.GetComponent<CharacterMovement>().velocity.y = 0f;
+        dead = false;
     }
 
     // Update is called once per frame
@@ -98,7 +114,8 @@ public class PhotonPlayer : MonoBehaviour
         }
         else if (myAvatar.transform.position.y <= -100)
         {
-            DieAndRespawn();
+            if (!dead)
+                DieAndRespawn();
         } else if (myAvatar.GetComponent<CharacterMovement>().health <= 0)
         {
             int killerID = myAvatar.GetComponent<CharacterMovement>().lastShotMe;
@@ -106,7 +123,8 @@ public class PhotonPlayer : MonoBehaviour
             {
                 gm.giveKill(ID);
             }
-            DieAndRespawn();
+            if (!dead)
+                DieAndRespawn();
         }
     }
 

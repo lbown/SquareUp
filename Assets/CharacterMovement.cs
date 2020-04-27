@@ -28,7 +28,7 @@ public class CharacterMovement : MonoBehaviour
 
     public int ID;
 
-    Vector3 velocity;
+    public Vector3 velocity;
     Vector2 lMovement;
     bool isGround;
     private int jumpNum;
@@ -41,6 +41,7 @@ public class CharacterMovement : MonoBehaviour
     public int WhichPlayerAmI;
 
     public int health;
+    public int startingHP = 100;
 
     private int cooldown;
     private int levitate;
@@ -73,7 +74,7 @@ public class CharacterMovement : MonoBehaviour
         cubeControl = cube.GetComponent<CubeController>();
         WhichPlayerAmI = GetPlayerSkin();
         levitate = 0;
-        health = 100;
+        health = startingHP;
         cooldown = 0;
         invulnerable = 0;
         portalPos = new Vector3(0f, 0f, -100f);
