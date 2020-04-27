@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 37484863}
-  init: {fileID: 1541687377}
+  init: {fileID: 1251534384}
 --- !u!114 &448071009
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -97,8 +97,6 @@ MonoBehaviour:
   WhichPlayerAmI: 0
   health: 0
   lastShotMe: 0
-  mm: {fileID: 0}
-  myMaterial: {fileID: 0}
 --- !u!114 &4060611263659829771
 MonoBehaviour:
   m_ObjectHideFlags: 0
