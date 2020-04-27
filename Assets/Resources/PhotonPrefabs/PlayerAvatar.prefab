@@ -91,7 +91,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   timePaused: 0
-  ID: 4001
+  ID: 2001
   velocity: {x: 0, y: 0, z: 0}
   gameManager: {fileID: 0}
   gm: {fileID: 0}
