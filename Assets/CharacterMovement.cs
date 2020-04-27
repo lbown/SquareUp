@@ -278,7 +278,7 @@ public class CharacterMovement : MonoBehaviour
         GameObject clone = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/NewBullet"), pos, dir);
         clone.GetComponent<MeshRenderer>().sharedMaterial = GetComponentInChildren<MeshRenderer>().sharedMaterial;
         clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
-        clone.GetComponent<NewBulletController>().whoShotMe = ID;
+        clone.GetComponent<NewBulletController>().whoShotMe = playerID;
         clone.GetComponent<NewBulletController>().impulse = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
     }
 
