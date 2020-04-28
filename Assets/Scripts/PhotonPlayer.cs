@@ -69,8 +69,7 @@ public class PhotonPlayer : MonoBehaviour
         PV.RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
         rumbleTimer = 0.5f;
         notWaitingForDelay = false;
-        PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered);
-        dead = true;
+        PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
         StartCoroutine(SpawnDelay());
     }
 
@@ -84,8 +83,7 @@ public class PhotonPlayer : MonoBehaviour
     private void Respawn() {
         int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
         myAvatar.transform.position = GameSetup.gs.spawnPoints[spawnPicker].position;
-        PV.RPC("RPC_OnRespawn", RpcTarget.AllBuffered);
-        dead = false;
+        PV.RPC("RPC_OnRespawn", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
     }
 
     // Update is called once per frame
@@ -159,19 +157,23 @@ public class PhotonPlayer : MonoBehaviour
         ID = id;
     }
     [PunRPC]
-    private void RPC_OnDeath()
+    private void RPC_OnDeath(int id)
     {
-        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = false;
-        myAvatar.GetComponent<CharacterController>().enabled = false;
-        myAvatar.GetComponent<CapsuleCollider>().enabled = false;
+        GameObject avatar = PhotonView.Find(id).gameObject;
+        avatar.GetComponentInChildren<MeshRenderer>().enabled = false;
+        avatar.GetComponent<CharacterController>().enabled = false;
+        avatar.GetComponent<CapsuleCollider>().enabled = false;
+        dead = true;
     }
-    private void RPC_OnRespawn()
+    private void RPC_OnRespawn(int id)
     {
-        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = true;
-        myAvatar.GetComponent<CharacterController>().enabled = true;
-        myAvatar.GetComponent<CapsuleCollider>().enabled = true;
-        myAvatar.GetComponent<CharacterMovement>().health = myAvatar.GetComponent<CharacterMovement>().startingHP;
-        myAvatar.GetComponent<CharacterMovement>().velocity.y = 0f;
+        GameObject avatar = PhotonView.Find(id).gameObject;
+        avatar.GetComponentInChildren<MeshRenderer>().enabled = true;
+        avatar.GetComponent<CharacterController>().enabled = true;
+        avatar.GetComponent<CapsuleCollider>().enabled = true;
+        avatar.GetComponent<CharacterMovement>().health = myAvatar.GetComponent<CharacterMovement>().startingHP;
+        avatar.GetComponent<CharacterMovement>().velocity.y = 0f;
+        dead = false;
     }
 }
 
