@@ -8,7 +8,7 @@ public class CubeController : MonoBehaviourPun
     private PhotonView PV;
 
     public bool inRotation = false;
-    private Quaternion cubeRot;
+    public Quaternion cubeRot;
     Vector2 actualXY, targetXY;
     GameObject gameManager;
     GameManager gm;

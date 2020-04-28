@@ -51,5 +51,9 @@ MonoBehaviour:
   - RPC_GiveDeath
   - RPC_DisconnectPlayerMaterialReturn
   - RPC_ReturnMyMat
+  - RPC_SetAvatarID
+  - RPC_SetPhotonPlayerID
+  - RPC_OnDeath
+  - RPC_OnRespawn
   DisableAutoOpenWizard: 1
   ShowSettings: 1

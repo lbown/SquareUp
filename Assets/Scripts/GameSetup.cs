@@ -10,7 +10,7 @@ public class GameSetup : MonoBehaviour
     public Material[] playerColors;
     public Transform[] spawnPoints;
     public Transform[] powerUpLocations;
-    public GameObject myPlayer;
+    public GameObject myAvatar;
 
     private void OnEnable()
     {
@@ -27,7 +27,7 @@ public class GameSetup : MonoBehaviour
 
     IEnumerator DisconnectAndLoad()
     {
-        myPlayer.GetComponent<CharacterMovement>().AddMyMaterialBackToList();
+        myAvatar.GetComponent<CharacterMovement>().AddMyMaterialBackToList();
         PhotonNetwork.Disconnect();
         while(PhotonNetwork.IsConnected)
         {

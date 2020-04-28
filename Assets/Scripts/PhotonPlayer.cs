@@ -9,6 +9,8 @@ using System.Runtime.CompilerServices;
 
 public class PhotonPlayer : MonoBehaviour
 {
+    private ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
+    
     //Information for controller rumble
     private PlayerIndex playerIndex;
     private GamePadState state;
@@ -131,6 +133,7 @@ public class PhotonPlayer : MonoBehaviour
 
     public void DisconnectMe()
     {
+        GameSetup.gs.myAvatar = myAvatar;
         GameSetup.gs.DisconnectPlayer();
     }
 
