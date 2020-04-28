@@ -105,30 +105,31 @@ public class PhotonPlayer : MonoBehaviour
                 rumbleTimer -= Time.deltaTime;
             }
             ControllerRumble();
-        }
 
-        //temporary DieAndRespawn for testing
-        if (myAvatar == null)
-        {
-            if(notWaitingForDelay) Spawn();
-        }
-        else if (myAvatar.transform.position.y <= -100)
-        {
-            if (!dead)
+            //temporary DieAndRespawn for testing
+            if (myAvatar == null)
             {
-                DieAndRespawn();
-                giveKill(ID);
+                if (notWaitingForDelay) Spawn();
             }
-        } else if (myAvatar.GetComponent<CharacterMovement>().health <= 0)
-        {
-            int killerID = myAvatar.GetComponent<CharacterMovement>().lastShotMe;
-            if (!dead)
+            else if (myAvatar.transform.position.y <= -100)
             {
-                if (ID != killerID)
+                if (!dead)
                 {
+                    DieAndRespawn();
                     giveKill(ID);
                 }
-                DieAndRespawn();
+            }
+            else if (myAvatar.GetComponent<CharacterMovement>().health <= 0)
+            {
+                int killerID = myAvatar.GetComponent<CharacterMovement>().lastShotMe;
+                if (!dead)
+                {
+                    if (ID != killerID)
+                    {
+                        giveKill(ID);
+                    }
+                    DieAndRespawn();
+                }
             }
         }
     }
@@ -158,6 +159,7 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     public void RPC_SetID(int id)
     {
+        if (!PV.IsMine) return;
         if (myAvatar == null) Spawn();
         else
         {
