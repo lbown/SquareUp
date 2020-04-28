@@ -76,17 +76,6 @@ public class GameManager : MonoBehaviour, IPunObservable
             player.GetComponent<CharacterMovement>().unpauseTime();
         }
     }
-    /*
-    public void giveKill(int killer)
-    {
-        foreach(GameObject player in players)
-        {
-            if(player.GetComponent<CharacterMovement>().ID == killer)
-            {
-                player.GetComponent<PhotonView>().RPC("RPC_GiveKill", RpcTarget.AllBuffered);
-            }
-       }
-    } */
 
     [PunRPC]
     private void RPC_SynchronizePowerUps(bool isActive)

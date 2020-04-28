@@ -58,7 +58,7 @@ public class PhotonPlayer : MonoBehaviour
             {
                 myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
                 GameSetup.gs.myPlayer = myAvatar;
-                PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, PV.ViewID);
+                PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, PV.ViewID);
                 gm.addPlayer(myAvatar);
             }
         }
@@ -126,9 +126,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void giveKill(int killer)
     {
-
-        Debug.Log("Killer ID is " + killer);
-        PhotonView.Find(killer)/*.gameObject.GetComponent<PhotonPlayer>().PV*/.RPC("RPC_GiveKill", RpcTarget.AllBuffered);
+        PhotonView.Find(killer).RPC("RPC_GiveKill", RpcTarget.AllBuffered);
     }
 
     public void DisconnectMe()
@@ -147,9 +145,10 @@ public class PhotonPlayer : MonoBehaviour
         numDeaths += 1;
     }
     [PunRPC]
-    public void RPC_SetAvatarID(int id)
+    public void RPC_SetAvatarID(int avatarViewID, int id)
     {
-       myAvatar.GetComponent<CharacterMovement>().ID = id;
+        GameObject avatar = PhotonView.Find(avatarViewID).gameObject;
+        avatar.GetComponent<CharacterMovement>().ID = id;
     }
     [PunRPC]
     private void RPC_SetPhotonPlayerID(int id)
@@ -172,7 +171,7 @@ public class PhotonPlayer : MonoBehaviour
         avatar.GetComponentInChildren<MeshRenderer>().enabled = true;
         avatar.GetComponent<CharacterController>().enabled = true;
         avatar.GetComponent<CapsuleCollider>().enabled = true;
-        avatar.GetComponent<CharacterMovement>().health = myAvatar.GetComponent<CharacterMovement>().startingHP;
+        avatar.GetComponent<CharacterMovement>().health = avatar.GetComponent<CharacterMovement>().startingHP;
         avatar.GetComponent<CharacterMovement>().velocity.y = 0f;
         dead = false;
     }
