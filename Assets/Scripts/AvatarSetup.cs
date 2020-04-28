@@ -28,7 +28,7 @@ public class AvatarSetup : MonoBehaviour
         myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
         myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
         myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.allMaterials[0];
-        gm.playerMaterials[PV.ViewID] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
+        gm.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
         PlayerInfo.PI.allMaterials.Remove(PlayerInfo.PI.allMaterials[0]);
 
     }

@@ -73,10 +73,10 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        Debug.Log(otherPlayer.CustomProperties["ViewID"]);
-        //Material returnMat = GameObject.FindWithTag("gm").GetComponent<GameManager>().playerMaterials[otherPlayer.CustomProperties["ViewID"]];
-        //PlayerInfo.PI.allMaterials.Add(returnMat);
-        //GameObject.FindWithTag("gm").GetComponent<GameManager>().playerMaterials.Remove(otherPlayer.CustomProperties["ViewID"]);
+        Debug.Log(otherPlayer.ActorNumber);
+        Material returnMat = GameObject.FindWithTag("gm").GetComponent<GameManager>().playerMaterials[otherPlayer.ActorNumber];
+        PlayerInfo.PI.allMaterials.Add(returnMat);
+        GameObject.FindWithTag("gm").GetComponent<GameManager>().playerMaterials.Remove(otherPlayer.ActorNumber);
         base.OnPlayerLeftRoom(otherPlayer);
     }
 
