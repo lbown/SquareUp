@@ -115,7 +115,6 @@ public class PhotonPlayer : MonoBehaviour
                 if (!dead)
                 {
                     DieAndRespawn();
-                    giveKill(ID);
                 }
             }
             else if (myAvatar.GetComponent<CharacterMovement>().health <= 0)
@@ -125,7 +124,7 @@ public class PhotonPlayer : MonoBehaviour
                 {
                     if (ID != killerID)
                     {
-                        giveKill(ID);
+                        giveKill(killerID);
                     }
                     DieAndRespawn();
                 }
@@ -137,7 +136,7 @@ public class PhotonPlayer : MonoBehaviour
     {
 
         Debug.Log("Killer ID is " + killer);
-        PhotonView.Find(killer).gameObject.GetComponent<PhotonPlayer>().PV.RPC("RPC_GiveKill", RpcTarget.AllBuffered);
+        PhotonView.Find(killer)/*.gameObject.GetComponent<PhotonPlayer>().PV*/.RPC("RPC_GiveKill", RpcTarget.AllBuffered);
     }
 
     public void DisconnectMe()
