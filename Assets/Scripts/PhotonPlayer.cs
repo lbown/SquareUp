@@ -159,7 +159,7 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     public void RPC_SetID(int id)
     {
-        if (!PV.IsMine) return;
+        //(!PV.IsMine) return;
         if (myAvatar == null) Spawn();
         else
         {
