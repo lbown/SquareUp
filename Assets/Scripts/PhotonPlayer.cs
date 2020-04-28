@@ -69,9 +69,7 @@ public class PhotonPlayer : MonoBehaviour
         PV.RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
         rumbleTimer = 0.5f;
         notWaitingForDelay = false;
-        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = false;
-        myAvatar.GetComponent<CharacterController>().enabled = false;
-        myAvatar.GetComponent<CapsuleCollider>().enabled = false;
+        PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered);
         dead = true;
         StartCoroutine(SpawnDelay());
     }
@@ -86,11 +84,7 @@ public class PhotonPlayer : MonoBehaviour
     private void Respawn() {
         int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
         myAvatar.transform.position = GameSetup.gs.spawnPoints[spawnPicker].position;
-        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = true;
-        myAvatar.GetComponent<CharacterController>().enabled = true;
-        myAvatar.GetComponent<CapsuleCollider>().enabled = true;
-        myAvatar.GetComponent<CharacterMovement>().health = myAvatar.GetComponent<CharacterMovement>().startingHP;
-        myAvatar.GetComponent<CharacterMovement>().velocity.y = 0f;
+        PV.RPC("RPC_OnRespawn", RpcTarget.AllBuffered);
         dead = false;
     }
 
@@ -164,4 +158,20 @@ public class PhotonPlayer : MonoBehaviour
     {
         ID = id;
     }
+    [PunRPC]
+    private void RPC_OnDeath()
+    {
+        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = false;
+        myAvatar.GetComponent<CharacterController>().enabled = false;
+        myAvatar.GetComponent<CapsuleCollider>().enabled = false;
+    }
+    private void RPC_OnRespawn()
+    {
+        myAvatar.GetComponentInChildren<MeshRenderer>().enabled = true;
+        myAvatar.GetComponent<CharacterController>().enabled = true;
+        myAvatar.GetComponent<CapsuleCollider>().enabled = true;
+        myAvatar.GetComponent<CharacterMovement>().health = myAvatar.GetComponent<CharacterMovement>().startingHP;
+        myAvatar.GetComponent<CharacterMovement>().velocity.y = 0f;
+    }
 }
+
