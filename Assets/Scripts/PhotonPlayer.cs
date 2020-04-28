@@ -32,6 +32,7 @@ public class PhotonPlayer : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         gm = GameObject.FindWithTag("gm").GetComponent<GameManager>();
+        PV.RPC("RPC_SetPhotonPlayerID", RpcTarget.AllBuffered, PV.ViewID);
         myAvatar = null;
         charSelect = GameObject.Find("MenuController").GetComponent<CharSelectionController>();
         rumbleTimer = -1;
@@ -57,7 +58,7 @@ public class PhotonPlayer : MonoBehaviour
             {
                 myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
                 GameSetup.gs.myPlayer = myAvatar;
-                PV.RPC("RPC_SetID", RpcTarget.AllBuffered, PV.ViewID);
+                PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, PV.ViewID);
                 gm.addPlayer(myAvatar);
             }
         }
@@ -72,8 +73,6 @@ public class PhotonPlayer : MonoBehaviour
         myAvatar.GetComponent<CharacterController>().enabled = false;
         myAvatar.GetComponent<CapsuleCollider>().enabled = false;
         dead = true;
-        //gm.removePlayer(myAvatar);
-        //PhotonNetwork.Destroy(myAvatar);
         StartCoroutine(SpawnDelay());
     }
 
@@ -157,14 +156,13 @@ public class PhotonPlayer : MonoBehaviour
         numDeaths += 1;
     }
     [PunRPC]
-    public void RPC_SetID(int id)
+    public void RPC_SetAvatarID(int id)
     {
-        //(!PV.IsMine) return;
-        if (myAvatar == null) Spawn();
-        else
-        {
-            myAvatar.GetComponent<CharacterMovement>().ID = id;
-            ID = id;
-        }
+       myAvatar.GetComponent<CharacterMovement>().ID = id;
+    }
+    [PunRPC]
+    private void RPC_SetPhotonPlayerID(int id)
+    {
+        ID = id;
     }
 }
