@@ -165,6 +165,7 @@ public class PhotonPlayer : MonoBehaviour
         avatar.GetComponent<CapsuleCollider>().enabled = false;
         dead = true;
     }
+    [PunRPC]
     private void RPC_OnRespawn(int id)
     {
         GameObject avatar = PhotonView.Find(id).gameObject;
