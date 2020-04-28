@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
@@ -76,7 +77,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         //Material returnMat = GameObject.FindWithTag("gm").GetComponent<GameManager>().playerMaterials[otherPlayer.CustomProperties["ViewID"]];
         //PlayerInfo.PI.allMaterials.Add(returnMat);
         //GameObject.FindWithTag("gm").GetComponent<GameManager>().playerMaterials.Remove(otherPlayer.CustomProperties["ViewID"]);
-        
         base.OnPlayerLeftRoom(otherPlayer);
     }
 
