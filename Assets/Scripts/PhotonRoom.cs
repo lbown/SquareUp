@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
@@ -72,8 +73,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        /*
+        int id = Int32.Parse(otherPlayer.ToString().ToCharArray()[2] + "001");
+        Debug.Log(id);
+        PhotonView.Find(id).gameObject.GetComponent<PhotonPlayer>().myAvatar.GetComponent<CharacterMovement>().AddMyMaterialBackToList();
+        */
         base.OnPlayerLeftRoom(otherPlayer);
-        Debug.Log(otherPlayer);
     }
 
 }
