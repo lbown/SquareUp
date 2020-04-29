@@ -11,12 +11,10 @@ public class GameManager : MonoBehaviour, IPunObservable
     private List<GameObject> players;
     public bool timePaused;
     private bool currentRotatePowerUp;
-    public Dictionary<int, int> playerMaterials;
     [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()
     {
-        playerMaterials = new Dictionary<int, int>();
         PV = GetComponent<PhotonView>();
         players = new List<GameObject>();
         totalTimeUntilRotatePowerup = 60;

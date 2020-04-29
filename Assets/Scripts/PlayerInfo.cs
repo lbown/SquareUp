@@ -11,6 +11,7 @@ public class PlayerInfo : MonoBehaviour
     public List<Material> totalMaterials;
     public Dictionary<int, Material> materialList;
     public List<int> alreadySelectedMaterials;
+    public Dictionary<int, int> playerMaterials;
 
     // Start is called before the first frame update
     private void OnEnable()
@@ -32,6 +33,8 @@ public class PlayerInfo : MonoBehaviour
 
     private void Start()
     {
+        playerMaterials = new Dictionary<int, int>();
+
         if (PlayerPrefs.HasKey("SelectedCharacter"))
         {
             mySelectedCharacter = PlayerPrefs.GetInt("SelectedCharacter");

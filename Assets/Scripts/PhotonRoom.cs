@@ -73,16 +73,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        GameManager gameManager = GameObject.FindWithTag("gm").GetComponent<GameManager>();
-        if (gameManager == null) base.OnPlayerLeftRoom(otherPlayer);
-        else
-        {
-            //PlayerInfo.PI.alreadySelectedMaterials.Remove(PlayerInfo.PI.alreadySelectedMaterials[gameManager.playerMaterials[otherPlayer.ActorNumber]]);
-            // Material returnMat = gameManager.playerMaterials[otherPlayer.ActorNumber];
-            //PlayerInfo.PI.totalMaterials.Add(returnMat);
-            //gameManager.playerMaterials.Remove(otherPlayer.ActorNumber);
+            PlayerInfo.PI.alreadySelectedMaterials.Remove(PlayerInfo.PI.alreadySelectedMaterials[PlayerInfo.PI.playerMaterials[otherPlayer.ActorNumber]]);
             base.OnPlayerLeftRoom(otherPlayer);
-        }
     }
 
 }
