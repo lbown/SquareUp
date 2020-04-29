@@ -15,13 +15,13 @@ public class CharacterMovement : MonoBehaviour
     private CubeController cubeControl;
     
     public CharacterController cc;
-    public GameObject bullet;
     public float speed = 50f;
     public float gravity = -9.8f;
     public float jumpHeight = 2;
 
     public Transform groundCheck;
     public Transform wallCheck;
+    public Transform GunPivot;
     public float groundDistance = 0.6f;
     public LayerMask groundMask;
     public bool timePaused = false;
@@ -49,6 +49,8 @@ public class CharacterMovement : MonoBehaviour
     private Vector3 portalPos;
 
     public int lastShotMe;
+
+    public GameObject gun;
 
     public void pauseTime() {
         timePaused = true;
@@ -79,6 +81,9 @@ public class CharacterMovement : MonoBehaviour
         invulnerable = 0;
         portalPos = new Vector3(0f, 0f, -100f);
         impact = Vector2.zero;
+
+        gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(1,0,0), gameObject.transform.rotation);
+        gun.transform.parent = GunPivot;
     }
 
     // Update is called once per frame
@@ -222,6 +227,11 @@ public class CharacterMovement : MonoBehaviour
         if (PV.IsMine)
         {
             aimDirection = value.Get<Vector2>();
+            Vector2 ang = aimDirection.normalized;
+            if(ang.x < 0 && ang.y < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
+            else if(ang.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
+            else GunPivot.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg*Mathf.Atan(ang.y / ang.x));
+
         }
     }
     private void OnAbility()
