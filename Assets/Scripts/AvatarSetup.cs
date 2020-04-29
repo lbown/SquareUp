@@ -29,6 +29,7 @@ public class AvatarSetup : MonoBehaviour
             myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
             myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
             PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
+        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber + "Is actor number on joining");
             if (PlayerInfo.PI.playerMaterials.ContainsKey(PhotonNetwork.LocalPlayer.ActorNumber))
             {
                 PlayerInfo.PI.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = randomMaterialID;

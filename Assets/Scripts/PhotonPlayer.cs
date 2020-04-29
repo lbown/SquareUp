@@ -39,13 +39,6 @@ public class PhotonPlayer : MonoBehaviour
         charSelect = GameObject.Find("MenuController").GetComponent<CharSelectionController>();
         rumbleTimer = -1;
         notWaitingForDelay = true;
-        //ExitGames.Client.Photon.Hashtable setPlayerID = new ExitGames.Client.Photon.Hashtable() { { "ViewID", PV.ViewID } };
-        /*
-        customProperties["ViewID"] = PV.ViewID;
-        PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
-        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["ViewID"]);
-
-    */
     }
 
     private void ControllerRumble()
