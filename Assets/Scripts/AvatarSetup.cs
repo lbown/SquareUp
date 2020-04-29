@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UIElements;
 
 public class AvatarSetup : MonoBehaviour
 {
@@ -25,11 +26,14 @@ public class AvatarSetup : MonoBehaviour
     void RPC_AddCharacter(int whichCharacter)
     {
         characterValue = whichCharacter;
+        int materialID = Random.Range(0, gm.totalMaterials.Count);
         myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
         myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
-        myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.allMaterials[0];
-        gm.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
-        PlayerInfo.PI.allMaterials.Remove(PlayerInfo.PI.allMaterials[0]);
+        myCharacter.GetComponent<MeshRenderer>().sharedMaterial = gm.totalMaterials[materialID];
+        gm.playerMaterials.Add(PhotonNetwork.LocalPlayer.ActorNumber, gm.totalMaterials[materialID]);
+        gm.totalMaterials.Remove(gm.totalMaterials[materialID]);
+        //gm.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
+        //PlayerInfo.PI.allMaterials.Remove(PlayerInfo.PI.allMaterials[0]);
 
     }
 }

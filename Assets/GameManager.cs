@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     public bool timePaused;
     private bool currentRotatePowerUp;
     public Dictionary<int, Material> playerMaterials;
+    public List<Material> totalMaterials;
     [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         PV = GetComponent<PhotonView>();
         players = new List<GameObject>();
         totalTimeUntilRotatePowerup = 60;
-        powerUpTimer = totalTimeUntilRotatePowerup;
+        powerUpTimer = totalTimeUntilRotatePowerup; 
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

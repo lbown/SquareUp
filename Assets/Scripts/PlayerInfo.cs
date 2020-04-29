@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class PlayerInfo : MonoBehaviour
     public int mySelectedCharacter;
     public GameObject[] allCharacters;
     public List<Material> allMaterials;
+    public Dictionary<int, Material> materialList;
+
     // Start is called before the first frame update
     private void OnEnable()
     {

@@ -55,5 +55,6 @@ MonoBehaviour:
   - RPC_SetPhotonPlayerID
   - RPC_OnDeath
   - RPC_OnRespawn
+  - RPC_AddPlayerMaterialToDictionary
   DisableAutoOpenWizard: 1
   ShowSettings: 1
