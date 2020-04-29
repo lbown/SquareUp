@@ -41,8 +41,17 @@ public class PlayerInfo : MonoBehaviour
             mySelectedCharacter = 0;
             PlayerPrefs.SetInt("SelectedCharacter", mySelectedCharacter);
         }
-        
-        myRandomColor = Random.Range(0, totalMaterials.Count);
-        while (alreadySelectedMaterials.Contains(myRandomColor)) myRandomColor = Random.Range(0, totalMaterials.Count);
+
+        myRandomColor = GenerateNewColor();
+    }
+
+    private int GenerateNewColor()
+    {
+        int color = Random.Range(0, totalMaterials.Count);
+        if(alreadySelectedMaterials.IndexOf(color) != -1)
+        {
+            return GenerateNewColor();
+        }
+        else return color;
     }
 }
