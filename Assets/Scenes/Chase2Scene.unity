@@ -2051,12 +2051,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySelectedCharacter: 0
+  myRandomColor: 0
   allCharacters:
   - {fileID: 1312496622854319688, guid: 34409e461e0447740a7bf32249f9c33d, type: 3}
   - {fileID: 5546375756813711485, guid: 35edffd86249bd245974e3dd0a1c8342, type: 3}
   - {fileID: 7027671213237011199, guid: fcdb6d6a6f943c94ca69da7808d409ec, type: 3}
   - {fileID: 2628457656446899522, guid: 1f01490ba039cb346aa56646ae790873, type: 3}
-  allMaterials:
+  totalMaterials:
   - {fileID: 2100000, guid: a7fff5f1eed15f344a149f0cc9fc107f, type: 2}
   - {fileID: 2100000, guid: 88cf8a22aaefefd4d8cb5b19ad40b08f, type: 2}
   - {fileID: 2100000, guid: 0f199d47f215d0048a93db015e760171, type: 2}
@@ -2923,11 +2924,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   timePaused: 0
-  totalMaterials:
-  - {fileID: 2100000, guid: a7fff5f1eed15f344a149f0cc9fc107f, type: 2}
-  - {fileID: 2100000, guid: 88cf8a22aaefefd4d8cb5b19ad40b08f, type: 2}
-  - {fileID: 2100000, guid: 0f199d47f215d0048a93db015e760171, type: 2}
-  - {fileID: 2100000, guid: ce99af20e6c1a3540ada36aeb6021a63, type: 2}
   totalTimeUntilRotatePowerup: 0
   powerUpTimer: 0
 --- !u!114 &1194586571

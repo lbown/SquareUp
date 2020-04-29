@@ -40,6 +40,6 @@ public class PlayerInfo : MonoBehaviour
             mySelectedCharacter = 0;
             PlayerPrefs.SetInt("SelectedCharacter", mySelectedCharacter);
         }
-        myRandomColor = Random.Range(0, gm.totalMaterials.Count);
+        myRandomColor = Random.Range(0, totalMaterials.Count);
     }
 }

@@ -302,9 +302,4 @@ public class CharacterMovement : MonoBehaviour
         ShootBullet(pos, dir, aimDir, mat, playerID);
 
     }
-    [PunRPC]
-    private void RPC_ReturnMyMat()
-    {
-        PlayerInfo.PI.allMaterials.Add(GetComponentInChildren<MeshRenderer>().sharedMaterial);
-    }
 }
