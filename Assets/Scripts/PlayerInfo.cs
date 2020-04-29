@@ -48,7 +48,7 @@ public class PlayerInfo : MonoBehaviour
     private int GenerateNewColor()
     {
         int color = Random.Range(0, totalMaterials.Count);
-        if(alreadySelectedMaterials.IndexOf(color) != -1)
+        if(alreadySelectedMaterials.Contains(color))
         {
             return GenerateNewColor();
         }
