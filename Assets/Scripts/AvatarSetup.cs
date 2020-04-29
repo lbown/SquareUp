@@ -41,7 +41,6 @@ public class AvatarSetup : MonoBehaviour
         int color = Random.Range(0, PlayerInfo.PI.totalMaterials.Count);
         if (PlayerInfo.PI.alreadySelectedMaterials.Contains(color))
         {
-            Debug.Log("Cooper stop it broh");
             return GenerateNewColor();
         }
         else return color;

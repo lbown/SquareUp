@@ -73,7 +73,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-            PlayerInfo.PI.alreadySelectedMaterials.Remove(PlayerInfo.PI.alreadySelectedMaterials[PlayerInfo.PI.playerMaterials[otherPlayer.ActorNumber]]);
+            PlayerInfo.PI.alreadySelectedMaterials.Remove(PlayerInfo.PI.playerMaterials[otherPlayer.ActorNumber]);
             base.OnPlayerLeftRoom(otherPlayer);
     }
 
