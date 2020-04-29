@@ -228,8 +228,7 @@ public class CharacterMovement : MonoBehaviour
         {
             aimDirection = value.Get<Vector2>();
             Vector2 ang = aimDirection.normalized;
-            if(ang.x < 0 && ang.y < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
-            else if(ang.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
+            if(ang.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
             else GunPivot.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg*Mathf.Atan(ang.y / ang.x));
 
         }

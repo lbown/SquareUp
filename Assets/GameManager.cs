@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour, IPunObservable
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
             }
         }
+
     }
 
     public void addPlayer(GameObject p) {
