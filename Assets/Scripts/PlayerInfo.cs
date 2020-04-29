@@ -42,7 +42,7 @@ public class PlayerInfo : MonoBehaviour
             PlayerPrefs.SetInt("SelectedCharacter", mySelectedCharacter);
         }
 
-        myRandomColor = GenerateNewColor();
+        //myRandomColor = GenerateNewColor();
     }
 
     private int GenerateNewColor()
@@ -50,6 +50,7 @@ public class PlayerInfo : MonoBehaviour
         int color = Random.Range(0, totalMaterials.Count);
         if(alreadySelectedMaterials.Contains(color))
         {
+            Debug.Log("Cooper stop it broh");
             return GenerateNewColor();
         }
         else return color;

@@ -18,7 +18,7 @@ public class AvatarSetup : MonoBehaviour
         if(PV.IsMine)
         {
             gm = GameObject.FindWithTag("gm").GetComponent<GameManager>();
-            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, PlayerInfo.PI.myRandomColor);
+            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, GenerateNewColor());
         }
     }
 
@@ -34,5 +34,15 @@ public class AvatarSetup : MonoBehaviour
             //gm.totalMaterials.Remove(gm.totalMaterials[randomMaterialID]);
             //gm.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
             //PlayerInfo.PI.allMaterials.Remove(PlayerInfo.PI.allMaterials[0]);
+    }
+    private int GenerateNewColor()
+    {
+        int color = Random.Range(0, PlayerInfo.PI.totalMaterials.Count);
+        if (PlayerInfo.PI.alreadySelectedMaterials.Contains(color))
+        {
+            Debug.Log("Cooper stop it broh");
+            return GenerateNewColor();
+        }
+        else return color;
     }
 }
