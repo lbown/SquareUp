@@ -9,6 +9,7 @@ TagManager:
   - menu
   - Bullet
   - RotatePowerUp
+  - CubeCanvas
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - 
   - 
   - Platform
-  - 
+  - Canvas
   - 
   - 
   - 
