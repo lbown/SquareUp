@@ -18,22 +18,21 @@ public class AvatarSetup : MonoBehaviour
         if(PV.IsMine)
         {
             gm = GameObject.FindWithTag("gm").GetComponent<GameManager>();
-            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter);
+            int materialID = Random.Range(0, gm.totalMaterials.Count);
+            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, materialID);
         }
     }
 
     [PunRPC]
-    void RPC_AddCharacter(int whichCharacter)
+    void RPC_AddCharacter(int whichCharacter, int randomMaterialID)
     {
-        characterValue = whichCharacter;
-        int materialID = Random.Range(0, gm.totalMaterials.Count);
-        myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
-        myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
-        myCharacter.GetComponent<MeshRenderer>().sharedMaterial = gm.totalMaterials[materialID];
-        gm.playerMaterials.Add(PhotonNetwork.LocalPlayer.ActorNumber, gm.totalMaterials[materialID]);
-        gm.totalMaterials.Remove(gm.totalMaterials[materialID]);
-        //gm.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
-        //PlayerInfo.PI.allMaterials.Remove(PlayerInfo.PI.allMaterials[0]);
-
+            characterValue = whichCharacter;
+            myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
+            myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
+            myCharacter.GetComponent<MeshRenderer>().sharedMaterial = gm.totalMaterials[randomMaterialID];
+            gm.playerMaterials.Add(PhotonNetwork.LocalPlayer.ActorNumber, gm.totalMaterials[randomMaterialID]);
+            gm.totalMaterials.Remove(gm.totalMaterials[randomMaterialID]);
+            //gm.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
+            //PlayerInfo.PI.allMaterials.Remove(PlayerInfo.PI.allMaterials[0]);
     }
 }
