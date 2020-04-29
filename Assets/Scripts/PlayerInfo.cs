@@ -10,6 +10,7 @@ public class PlayerInfo : MonoBehaviour
     public GameObject[] allCharacters;
     public List<Material> totalMaterials;
     public Dictionary<int, Material> materialList;
+    public List<int> alreadySelectedMaterials;
 
     // Start is called before the first frame update
     private void OnEnable()
@@ -40,6 +41,8 @@ public class PlayerInfo : MonoBehaviour
             mySelectedCharacter = 0;
             PlayerPrefs.SetInt("SelectedCharacter", mySelectedCharacter);
         }
+        
         myRandomColor = Random.Range(0, totalMaterials.Count);
+        while (alreadySelectedMaterials.Contains(myRandomColor)) myRandomColor = Random.Range(0, totalMaterials.Count);
     }
 }

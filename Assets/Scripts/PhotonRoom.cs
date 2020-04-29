@@ -77,7 +77,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         if (gameManager == null) base.OnPlayerLeftRoom(otherPlayer);
         else
         {
-           // Material returnMat = gameManager.playerMaterials[otherPlayer.ActorNumber];
+            PlayerInfo.PI.alreadySelectedMaterials.Remove(PlayerInfo.PI.alreadySelectedMaterials[gameManager.playerMaterials[otherPlayer.ActorNumber]]);
+            // Material returnMat = gameManager.playerMaterials[otherPlayer.ActorNumber];
             //PlayerInfo.PI.totalMaterials.Add(returnMat);
             //gameManager.playerMaterials.Remove(otherPlayer.ActorNumber);
             base.OnPlayerLeftRoom(otherPlayer);
