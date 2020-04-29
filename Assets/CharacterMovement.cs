@@ -228,10 +228,7 @@ public class CharacterMovement : MonoBehaviour
         if (PV.IsMine)
         {
             aimDirection = value.Get<Vector2>();
-            Vector2 ang = aimDirection.normalized;
-            if(ang.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
-            else GunPivot.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg*Mathf.Atan(ang.y / ang.x));
-
+            PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
         }
     }
     private void OnAbility()
@@ -296,10 +293,23 @@ public class CharacterMovement : MonoBehaviour
         clone.GetComponent<NewBulletController>().impulse = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
     }
 
+    private void RotateGun(Vector2 angle)
+    {
+        Vector2 ang = aimDirection.normalized;
+        if (ang.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
+        else GunPivot.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
+
+    }
+
     [PunRPC] 
     private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID)
     {
         ShootBullet(pos, dir, aimDir, mat, playerID);
 
+    }
+    [PunRPC]
+    private void RPC_Aim(Vector2 angle)
+    {
+        RotateGun(angle);
     }
 }
