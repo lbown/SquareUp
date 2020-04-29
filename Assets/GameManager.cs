@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour, IPunObservable
     public bool timePaused;
     private bool currentRotatePowerUp;
     public Dictionary<int, Material> playerMaterials;
-    public List<Material> totalMaterials;
     [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()

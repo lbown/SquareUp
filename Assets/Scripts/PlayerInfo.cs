@@ -8,7 +8,7 @@ public class PlayerInfo : MonoBehaviour
     public static PlayerInfo PI;
     public int mySelectedCharacter, myRandomColor;
     public GameObject[] allCharacters;
-    public List<Material> allMaterials;
+    public List<Material> totalMaterials;
     public Dictionary<int, Material> materialList;
 
     // Start is called before the first frame update
