@@ -17,25 +17,26 @@ public class AvatarSetup : MonoBehaviour
         PV = GetComponent<PhotonView>();
         if(PV.IsMine)
         {
-            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, GenerateNewColor());
+            int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, GenerateNewColor(), actorNumber);
         }
     }
 
     [PunRPC]
-    void RPC_AddCharacter(int whichCharacter, int randomMaterialID)
+    void RPC_AddCharacter(int whichCharacter, int randomMaterialID, int actorID)
     {
             characterValue = whichCharacter;
             myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
             myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
             myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
             PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
-        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber + "Is actor number on joining");
-            if (PlayerInfo.PI.playerMaterials.ContainsKey(PhotonNetwork.LocalPlayer.ActorNumber))
+        Debug.Log(actorID + " Is actor number on joining");
+            if (PlayerInfo.PI.playerMaterials.ContainsKey(actorID))
             {
-                PlayerInfo.PI.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = randomMaterialID;
+                PlayerInfo.PI.playerMaterials[actorID] = randomMaterialID;
             }
             else
-                PlayerInfo.PI.playerMaterials.Add(PhotonNetwork.LocalPlayer.ActorNumber, randomMaterialID);
+                PlayerInfo.PI.playerMaterials.Add(actorID, randomMaterialID);
     }
     private int GenerateNewColor()
     {

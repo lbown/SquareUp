@@ -14,7 +14,6 @@ public class Pause : MonoBehaviour
     {
         pausePanel.SetActive(false);
         EventSystem.current.SetSelectedGameObject(init);
-        Debug.Log(EventSystem.current.name);
         //Debug.Log(EventSystem.current.currentSelectedGameObject.name);
     }
 
