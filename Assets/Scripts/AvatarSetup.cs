@@ -29,7 +29,12 @@ public class AvatarSetup : MonoBehaviour
             myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
             myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
             PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
-            PlayerInfo.PI.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = randomMaterialID;
+            if (PlayerInfo.PI.playerMaterials.ContainsKey(PhotonNetwork.LocalPlayer.ActorNumber))
+            {
+                PlayerInfo.PI.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = randomMaterialID;
+            }
+            else
+                PlayerInfo.PI.playerMaterials.Add(PhotonNetwork.LocalPlayer.ActorNumber, randomMaterialID);
     }
     private int GenerateNewColor()
     {
