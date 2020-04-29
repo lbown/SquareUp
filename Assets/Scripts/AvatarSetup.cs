@@ -18,8 +18,7 @@ public class AvatarSetup : MonoBehaviour
         if(PV.IsMine)
         {
             gm = GameObject.FindWithTag("gm").GetComponent<GameManager>();
-            int materialID = Random.Range(0, gm.totalMaterials.Count);
-            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, materialID);
+            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, PlayerInfo.PI.myRandomColor);
         }
     }
 
@@ -29,9 +28,9 @@ public class AvatarSetup : MonoBehaviour
             characterValue = whichCharacter;
             myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
             myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
-            myCharacter.GetComponent<MeshRenderer>().sharedMaterial = gm.totalMaterials[randomMaterialID];
-            gm.playerMaterials.Add(PhotonNetwork.LocalPlayer.ActorNumber, gm.totalMaterials[randomMaterialID]);
-            gm.totalMaterials.Remove(gm.totalMaterials[randomMaterialID]);
+            myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
+            gm.playerMaterials.Add(PhotonNetwork.LocalPlayer.ActorNumber, PlayerInfo.PI.totalMaterials[randomMaterialID]);
+            //gm.totalMaterials.Remove(gm.totalMaterials[randomMaterialID]);
             //gm.playerMaterials[PhotonNetwork.LocalPlayer.ActorNumber] = myCharacter.GetComponent<MeshRenderer>().sharedMaterial;
             //PlayerInfo.PI.allMaterials.Remove(PlayerInfo.PI.allMaterials[0]);
     }

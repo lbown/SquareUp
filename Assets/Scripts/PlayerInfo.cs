@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerInfo : MonoBehaviour
 {
     public static PlayerInfo PI;
-    public int mySelectedCharacter;
+    public int mySelectedCharacter, myRandomColor;
     public GameObject[] allCharacters;
     public List<Material> allMaterials;
     public Dictionary<int, Material> materialList;
@@ -40,5 +40,6 @@ public class PlayerInfo : MonoBehaviour
             mySelectedCharacter = 0;
             PlayerPrefs.SetInt("SelectedCharacter", mySelectedCharacter);
         }
+        myRandomColor = Random.Range(0, gm.totalMaterials.Count);
     }
 }

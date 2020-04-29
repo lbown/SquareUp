@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
+using Photon.Realtime;
 
 public class CharacterMovement : MonoBehaviour
 {
