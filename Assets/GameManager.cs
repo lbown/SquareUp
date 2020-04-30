@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System.IO;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour, IPunObservable
 {
@@ -11,6 +12,9 @@ public class GameManager : MonoBehaviour, IPunObservable
     private List<GameObject> players;
     public bool timePaused;
     private bool currentRotatePowerUp;
+    public TextMeshProUGUI timer;
+    private float StartTime;
+    public int TimeLimitMinutes;
     [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()
@@ -18,7 +22,8 @@ public class GameManager : MonoBehaviour, IPunObservable
         PV = GetComponent<PhotonView>();
         players = new List<GameObject>();
         totalTimeUntilRotatePowerup = 60;
-        powerUpTimer = totalTimeUntilRotatePowerup; 
+        powerUpTimer = totalTimeUntilRotatePowerup;
+        StartTime = Time.time;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -39,6 +44,15 @@ public class GameManager : MonoBehaviour, IPunObservable
         PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, false);
     }
 
+    void Update()
+    {
+        float t = Time.time;
+        int minutes = ((int)t / 60);
+        int seconds = (int) (t % 60);
+
+        timer.text = (TimeLimitMinutes - minutes).ToString() + ":" + (60 - seconds).ToString();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -51,6 +65,13 @@ public class GameManager : MonoBehaviour, IPunObservable
                 int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
             }
+
+            float t = Time.time;
+            int minutes = ((int)t / 60) -1;
+            int seconds = (int)(t % 60);
+
+            string time = (TimeLimitMinutes - minutes).ToString() + ":" + (60 - seconds).ToString();
+            PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, time);
         }
 
     }
@@ -83,6 +104,11 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         currentRotatePowerUp = isActive;
         powerUpTimer = 60;
+    }
+    [PunRPC]
+    private void RPC_SyncTimer(string time)
+    {
+        timer.text = time;
     }
 
 }

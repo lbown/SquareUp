@@ -56,5 +56,6 @@ MonoBehaviour:
   - RPC_OnDeath
   - RPC_OnRespawn
   - RPC_AddPlayerMaterialToDictionary
+  - RPC_Aim
   DisableAutoOpenWizard: 1
   ShowSettings: 1
