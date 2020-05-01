@@ -12,24 +12,26 @@ public class Crown : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PV = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        foreach (GameObject p in gm.GetComponent<GameManager>().players)
-        {
-            if (Winner == null)
+            foreach (GameObject p in gm.GetComponent<GameManager>().players)
             {
-                Winner = p;
-                setPlayer();
+                if (Winner == null)
+                {
+                    Winner = p;
+                    setPlayer();
+                }
+                if (p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths > Winner.GetComponent<CharacterMovement>().numKills - Winner.GetComponent<CharacterMovement>().numDeaths)
+                {
+                    Winner = p;
+                    setPlayer();
+                }
             }
-            if (p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths > Winner.GetComponent<CharacterMovement>().numKills - Winner.GetComponent<CharacterMovement>().numDeaths)
-            {
-                Winner = p;
-                setPlayer();
-            }
-        }
+        
     }
     private void setPlayer()
     {

@@ -4934,6 +4934,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7783906320297805621, guid: 6b9a8e7a292fa4545bb74432e93126a2,
         type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7783906320297805621, guid: 6b9a8e7a292fa4545bb74432e93126a2,
+        type: 3}
       propertyPath: viewIdField
       value: 7
       objectReference: {fileID: 0}
