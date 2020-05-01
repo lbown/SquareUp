@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2608292941188479974}
   m_Layer: 0
   m_Name: PhotonPlayer
-  m_TagString: Untagged
+  m_TagString: PP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,5 +71,3 @@ MonoBehaviour:
     type: 3}
   ID: 0
   charSelect: {fileID: 0}
-  numKills: 0
-  numDeaths: 0

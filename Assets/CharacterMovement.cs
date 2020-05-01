@@ -53,6 +53,9 @@ public class CharacterMovement : MonoBehaviour
 
     public GameObject gun;
 
+    public int numKills;
+    public int numDeaths;
+
     public void pauseTime() {
         timePaused = true;
 
@@ -82,6 +85,8 @@ public class CharacterMovement : MonoBehaviour
         invulnerable = 0;
         portalPos = new Vector3(0f, 0f, -100f);
         impact = Vector2.zero;
+        numDeaths = 0;
+        numKills = 0;
 
         gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(1,0,0), gameObject.transform.rotation);
         gun.transform.parent = GunPivot;
@@ -194,20 +199,11 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            if (jumpNum == 2)
+            if (jumpNum > 0)
             {
-                if (!isGround)
-                {
-                    jumpNum = 1;
-                }
-                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                jumpNum -= 1;
             }
-            if (jumpNum == 1)
-            {
-                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            }
-            jumpNum -= 1;
         }
     }
 
@@ -311,5 +307,15 @@ public class CharacterMovement : MonoBehaviour
     private void RPC_Aim(Vector2 angle)
     {
         RotateGun(angle);
+    }
+    [PunRPC]
+    public void RPC_GiveKill()
+    {
+        numKills += 1;
+    }
+    [PunRPC]
+    public void RPC_GiveDeath()
+    {
+        numDeaths += 1;
     }
 }

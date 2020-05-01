@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 448631394103988159}
   m_Layer: 0
   m_Name: PlayerAvatar
-  m_TagString: Untagged
+  m_TagString: PA
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,8 @@ MonoBehaviour:
   startingHP: 100
   lastShotMe: 0
   gun: {fileID: 0}
+  numKills: 0
+  numDeaths: 0
 --- !u!114 &4060611263659829771
 MonoBehaviour:
   m_ObjectHideFlags: 0

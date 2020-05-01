@@ -57,5 +57,8 @@ MonoBehaviour:
   - RPC_OnRespawn
   - RPC_AddPlayerMaterialToDictionary
   - RPC_Aim
+  - RPC_SyncTimer
+  - RPC_EndGame
+  - RPC_MoveCrown
   DisableAutoOpenWizard: 1
   ShowSettings: 1

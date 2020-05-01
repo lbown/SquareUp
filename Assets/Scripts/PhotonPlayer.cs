@@ -25,8 +25,6 @@ public class PhotonPlayer : MonoBehaviour
     private GameManager gm; 
     public int ID;
     public CharSelectionController charSelect;
-    public int numKills;
-    public int numDeaths;
     private bool dead = false;
 
     // Start is called before the first frame update
@@ -68,7 +66,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void DieAndRespawn()
     {
-        PV.RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
+        PhotonView.Find(ID + 1).RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
         rumbleTimer = 0.5f;
         notWaitingForDelay = false;
         PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
@@ -128,7 +126,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void giveKill(int killer)
     {
-        PhotonView.Find(killer).RPC("RPC_GiveKill", RpcTarget.AllBuffered);
+        PhotonView.Find(killer+1).RPC("RPC_GiveKill", RpcTarget.AllBuffered);
     }
 
     public void DisconnectMe()
@@ -137,16 +135,6 @@ public class PhotonPlayer : MonoBehaviour
         GameSetup.gs.DisconnectPlayer();
     }
 
-    [PunRPC]
-    public void RPC_GiveKill()
-    {
-        numKills += 1;
-    }
-    [PunRPC]
-    public void RPC_GiveDeath()
-    {
-        numDeaths += 1;
-    }
     [PunRPC]
     public void RPC_SetAvatarID(int avatarViewID, int id)
     {

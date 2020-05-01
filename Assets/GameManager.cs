@@ -9,12 +9,14 @@ using TMPro;
 public class GameManager : MonoBehaviour, IPunObservable
 {
     public PhotonView PV;
-    private List<GameObject> players;
+    public List<GameObject> players;
     public bool timePaused;
     private bool currentRotatePowerUp;
     public TextMeshProUGUI timer;
     private float StartTime;
     public int TimeLimitMinutes;
+    public GameObject gameOverPanel;
+    public GameObject Winner;
     [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()
@@ -46,11 +48,11 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     void Update()
     {
-        float t = Time.time;
-        int minutes = ((int)t / 60);
-        int seconds = (int) (t % 60);
+       // float t = Time.time;
+      //  int minutes = ((int)t / 60);
+       // int seconds = (int) (t % 60);
 
-        timer.text = (TimeLimitMinutes - minutes).ToString() + ":" + (60 - seconds).ToString();
+       // timer.text = (TimeLimitMinutes - minutes).ToString() + ":" + (60 - seconds).ToString();
     }
 
     // Update is called once per frame
@@ -66,12 +68,29 @@ public class GameManager : MonoBehaviour, IPunObservable
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
             }
 
-            float t = Time.time;
-            int minutes = ((int)t / 60) -1;
-            int seconds = (int)(t % 60);
+            if (!timePaused)
+            {
+                float t = StartTime - Time.time;
+                int minutes = ((int)t / 60);
+                int seconds = (int)(t % 60);
 
-            string time = (TimeLimitMinutes - minutes).ToString() + ":" + (60 - seconds).ToString();
-            PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, time);
+                string time = (TimeLimitMinutes - minutes).ToString() + ":" + (60 + seconds).ToString();
+                PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, StartTime, time);
+                
+            }
+
+            
+            foreach (GameObject p in players)
+            {
+                if (Winner == null)
+                {
+                    Winner = p;
+                }
+                if(p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths > Winner.GetComponent<CharacterMovement>().numKills - Winner.GetComponent<CharacterMovement>().numDeaths)
+                {
+                    Winner = p;
+                }
+            }
         }
 
     }
@@ -98,6 +117,10 @@ public class GameManager : MonoBehaviour, IPunObservable
             player.GetComponent<CharacterMovement>().unpauseTime();
         }
     }
+    public void countTime(int min, int sec)
+    {
+
+    }
 
     [PunRPC]
     private void RPC_SynchronizePowerUps(bool isActive)
@@ -106,9 +129,20 @@ public class GameManager : MonoBehaviour, IPunObservable
         powerUpTimer = 60;
     }
     [PunRPC]
-    private void RPC_SyncTimer(string time)
+    private void RPC_SyncTimer(float stime,string time)
     {
+        StartTime = stime;
         timer.text = time;
+        if (System.Convert.ToInt32(time.Split(':')[0]) == 0 && System.Convert.ToInt32(time.Split(':')[1]) == 1)
+        {
+            PV.RPC("RPC_EndGame", RpcTarget.AllBuffered);
+        }
+    }
+    [PunRPC]
+    private void RPC_EndGame()
+    {
+        pauseTime();
+        gameOverPanel.SetActive(true);
     }
 
 }

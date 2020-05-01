@@ -10,6 +10,8 @@ TagManager:
   - Bullet
   - RotatePowerUp
   - CubeCanvas
+  - PA
+  - PP
   layers:
   - Default
   - TransparentFX
