@@ -98,7 +98,7 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PV.IsMine && !gm.timePaused && !timePaused)
+        if (PV.IsMine && !timePaused && !gm.timePaused)
         {
             isGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
             if(WhichPlayerAmI == 1 && !isGround)
@@ -180,18 +180,21 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector3 move = new Vector3(lMovement.x,velocity.y,0f);
-        if (levitate > 0)
+        if (!timePaused)
         {
-            move.y = 0f;
+            Vector3 move = new Vector3(lMovement.x, velocity.y, 0f);
+            if (levitate > 0)
+            {
+                move.y = 0f;
+            }
+            cc.Move((move * speed + impact * 10f) * Time.deltaTime);
+            impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
         }
-        cc.Move((move * speed + impact*10f) * Time.deltaTime);
-        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
     private void OnMove(InputValue value)
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !timePaused)
         {
                 lMovement = value.Get<Vector2>();
                 float x = Input.GetAxis("Horizontal");
@@ -200,7 +203,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnJump(InputValue val)
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !timePaused)
         {
             if (jumpNum > 0)
             {
@@ -213,7 +216,7 @@ public class CharacterMovement : MonoBehaviour
     //NEW SHOOT FUNCTION
     private void OnShoot(InputValue value)
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !timePaused)
         {
             PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
             if(WhichPlayerAmI == 2)
@@ -224,7 +227,7 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnAim(InputValue value)
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !timePaused)
         {
             aimDirection = value.Get<Vector2>();
             RotateGun(aimDirection);
@@ -233,7 +236,7 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnAbility()
     {
-        if (PV.IsMine)
+        if (PV.IsMine && !timePaused)
         {
             if (cooldown == 0)
             {

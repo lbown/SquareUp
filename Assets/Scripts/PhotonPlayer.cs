@@ -6,6 +6,7 @@ using System.IO;
 using XInputDotNetPure;
 using UnityEngine.InputSystem.LowLevel;
 using System.Runtime.CompilerServices;
+using UnityEngine.InputSystem;
 
 public class PhotonPlayer : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PhotonPlayer : MonoBehaviour
     private GameManager gm; 
     public int ID;
     public CharSelectionController charSelect;
-    private bool dead = false;
+    public bool dead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -66,11 +67,11 @@ public class PhotonPlayer : MonoBehaviour
 
     private void DieAndRespawn()
     {
-        PhotonView.Find(ID + 1).RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
-        rumbleTimer = 0.5f;
-        notWaitingForDelay = false;
-        PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
-        StartCoroutine(SpawnDelay());
+            PhotonView.Find(ID + 1).RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
+            rumbleTimer = 0.5f;
+            notWaitingForDelay = false;
+            PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
+            StartCoroutine(SpawnDelay());
     }
 
     IEnumerator SpawnDelay()
@@ -82,8 +83,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void Respawn() {
         int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
-        myAvatar.transform.position = GameSetup.gs.spawnPoints[spawnPicker].position;
-        PV.RPC("RPC_OnRespawn", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
+        PV.RPC("RPC_OnRespawn", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, GameSetup.gs.spawnPoints[spawnPicker].position);
     }
 
     // Update is called once per frame
@@ -149,19 +149,27 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     private void RPC_OnDeath(int id)
     {
-        GameObject avatar = PhotonView.Find(id).gameObject;
-        avatar.GetComponentInChildren<MeshRenderer>().enabled = false;
-        avatar.GetComponent<CharacterMovement>().pauseTime();
-        avatar.GetComponent<CapsuleCollider>().enabled = false;
-        dead = true;
+        if (!dead)
+        {
+            dead = true;
+            GameObject avatar = PhotonView.Find(id).gameObject;
+            avatar.GetComponentInChildren<MeshRenderer>().enabled = false;
+            avatar.GetComponent<PlayerInput>().enabled = false;
+            avatar.GetComponent<CharacterController>().enabled = false;
+            avatar.GetComponent<CapsuleCollider>().enabled = false;
+            avatar.GetComponent<CharacterMovement>().enabled = false;
+        }
     }
     [PunRPC]
-    private void RPC_OnRespawn(int id)
+    private void RPC_OnRespawn(int id, Vector3 pos)
     {
         GameObject avatar = PhotonView.Find(id).gameObject;
+        avatar.transform.position = pos;
         avatar.GetComponentInChildren<MeshRenderer>().enabled = true;
-        avatar.GetComponent<CharacterMovement>().unpauseTime();
+        avatar.GetComponent<PlayerInput>().enabled = true;
+        avatar.GetComponent<CharacterController>().enabled = true;
         avatar.GetComponent<CapsuleCollider>().enabled = true;
+        avatar.GetComponent<CharacterMovement>().enabled = true;
         avatar.GetComponent<CharacterMovement>().health = avatar.GetComponent<CharacterMovement>().startingHP;
         avatar.GetComponent<CharacterMovement>().velocity.y = 0f;
         dead = false;

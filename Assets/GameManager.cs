@@ -81,8 +81,6 @@ public class GameManager : MonoBehaviour, IPunObservable
                 PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, StartTime, time);
                 
             }
-
-           
         }
         foreach (GameObject p in players)
         {
@@ -102,7 +100,6 @@ public class GameManager : MonoBehaviour, IPunObservable
                 PV.RPC("RPC_GMWinner", RpcTarget.AllBuffered, Winner, WinnerScore);
             }
         }
-
     }
 
 
@@ -187,5 +184,4 @@ public class GameManager : MonoBehaviour, IPunObservable
         Winner = id;
         WinnerScore = score;
     }
-
 }
