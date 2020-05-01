@@ -60,5 +60,10 @@ MonoBehaviour:
   - RPC_SyncTimer
   - RPC_EndGame
   - RPC_MoveCrown
+  - tellLooser
+  - tellWinner
+  - RPC_tellLooser
+  - RPC_tellWinner
+  - RPC_GMWinner
   DisableAutoOpenWizard: 1
   ShowSettings: 1

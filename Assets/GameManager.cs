@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour, IPunObservable
     private float StartTime;
     public int TimeLimitMinutes;
     public GameObject gameOverPanel;
-    public GameObject Winner;
+    public int Winner;
+    public int WinnerScore;
     [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour, IPunObservable
         totalTimeUntilRotatePowerup = 60;
         powerUpTimer = totalTimeUntilRotatePowerup;
         StartTime = Time.time;
+        Winner = 0;
+        WinnerScore = 0;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -79,21 +82,29 @@ public class GameManager : MonoBehaviour, IPunObservable
                 
             }
 
-            
-            foreach (GameObject p in players)
+           
+        }
+        foreach (GameObject p in players)
+        {
+            if (Winner == 0)
             {
-                if (Winner == null)
-                {
-                    Winner = p;
-                }
-                if(p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths > Winner.GetComponent<CharacterMovement>().numKills - Winner.GetComponent<CharacterMovement>().numDeaths)
-                {
-                    Winner = p;
-                }
+                Winner = p.GetComponent<CharacterMovement>().ID;
+                PV.RPC("RPC_tellWinner", RpcTarget.AllBuffered, Winner);
+                WinnerScore = p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths;
+                PV.RPC("RPC_GMWinner", RpcTarget.AllBuffered, Winner, WinnerScore);
+            }
+            if (p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths > WinnerScore)
+            {
+                WinnerScore = p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths;
+                PV.RPC("RPC_tellLooser", RpcTarget.AllBuffered, Winner);
+                Winner = p.GetComponent<CharacterMovement>().ID;
+                PV.RPC("RPC_tellWinner", RpcTarget.AllBuffered, Winner);
+                PV.RPC("RPC_GMWinner", RpcTarget.AllBuffered, Winner, WinnerScore);
             }
         }
 
     }
+
 
     public void addPlayer(GameObject p) {
         players.Add(p);
@@ -143,6 +154,38 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         pauseTime();
         gameOverPanel.SetActive(true);
+    }
+    [PunRPC]
+    private void RPC_tellWinner(int id)
+    {
+        foreach (GameObject p in GameObject.FindGameObjectsWithTag("PA"))
+        {
+            if (p.GetComponent<CharacterMovement>().ID == id)
+            {
+                p.GetComponent<CharacterMovement>().isWinner();
+            }
+        }
+        
+    }
+    [PunRPC]
+    private void RPC_tellLooser(int id)
+    {
+        foreach (GameObject p in GameObject.FindGameObjectsWithTag("PA"))
+        {
+            if (p.GetComponent<CharacterMovement>().ID == id)
+            {
+                p.GetComponent<CharacterMovement>().isLooser();
+            }
+        }
+
+    }
+    [PunRPC]
+    private void RPC_GMWinner(int id, int score)
+    {
+        Debug.Log(id);
+        Debug.Log(score);
+        Winner = id;
+        WinnerScore = score;
     }
 
 }

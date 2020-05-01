@@ -52,6 +52,7 @@ public class CharacterMovement : MonoBehaviour
     public int lastShotMe;
 
     public GameObject gun;
+    public GameObject crown;
 
     public int numKills;
     public int numDeaths;
@@ -90,6 +91,8 @@ public class CharacterMovement : MonoBehaviour
 
         gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(1,0,0), gameObject.transform.rotation);
         gun.transform.parent = GunPivot;
+
+        crown.GetComponent<MeshRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -295,6 +298,15 @@ public class CharacterMovement : MonoBehaviour
         if (ang.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
         else GunPivot.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
 
+    }
+
+    public void isWinner()
+    {
+        crown.GetComponent<MeshRenderer>().enabled = true;
+    }
+    public void isLooser()
+    {
+        crown.GetComponent<MeshRenderer>().enabled = false;
     }
 
     [PunRPC] 
