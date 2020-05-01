@@ -98,7 +98,7 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PV.IsMine && !gm.timePaused)
+        if (PV.IsMine && !gm.timePaused && !timePaused)
         {
             isGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
             if(WhichPlayerAmI == 1 && !isGround)

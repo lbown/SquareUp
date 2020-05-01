@@ -151,7 +151,7 @@ public class PhotonPlayer : MonoBehaviour
     {
         GameObject avatar = PhotonView.Find(id).gameObject;
         avatar.GetComponentInChildren<MeshRenderer>().enabled = false;
-        avatar.GetComponent<CharacterController>().enabled = false;
+        avatar.GetComponent<CharacterMovement>().pauseTime();
         avatar.GetComponent<CapsuleCollider>().enabled = false;
         dead = true;
     }
@@ -160,7 +160,7 @@ public class PhotonPlayer : MonoBehaviour
     {
         GameObject avatar = PhotonView.Find(id).gameObject;
         avatar.GetComponentInChildren<MeshRenderer>().enabled = true;
-        avatar.GetComponent<CharacterController>().enabled = true;
+        avatar.GetComponent<CharacterMovement>().unpauseTime();
         avatar.GetComponent<CapsuleCollider>().enabled = true;
         avatar.GetComponent<CharacterMovement>().health = avatar.GetComponent<CharacterMovement>().startingHP;
         avatar.GetComponent<CharacterMovement>().velocity.y = 0f;
