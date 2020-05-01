@@ -65,5 +65,7 @@ MonoBehaviour:
   - RPC_tellLooser
   - RPC_tellWinner
   - RPC_GMWinner
+  - RPC_IsWinner
+  - RPC_AddPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1

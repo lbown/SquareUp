@@ -82,35 +82,36 @@ public class GameManager : MonoBehaviour, IPunObservable
                 
             }
         }
+    }
+
+    public void findWinner()
+    {
+        Debug.Log("inFindWinner");
+        WinnerScore = -1000;
         foreach (GameObject p in players)
         {
-            if (Winner == 0)
-            {
-                Winner = p.GetComponent<CharacterMovement>().ID;
-                PV.RPC("RPC_tellWinner", RpcTarget.AllBuffered, Winner);
-                WinnerScore = p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths;
-                PV.RPC("RPC_GMWinner", RpcTarget.AllBuffered, Winner, WinnerScore);
-            }
+            Debug.Log((p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths));
             if (p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths > WinnerScore)
             {
                 WinnerScore = p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths;
-                PV.RPC("RPC_tellLooser", RpcTarget.AllBuffered, Winner);
                 Winner = p.GetComponent<CharacterMovement>().ID;
-                PV.RPC("RPC_tellWinner", RpcTarget.AllBuffered, Winner);
-                PV.RPC("RPC_GMWinner", RpcTarget.AllBuffered, Winner, WinnerScore);
             }
         }
+        PV.RPC("RPC_tellWinner", RpcTarget.AllBuffered, Winner);
+        PV.RPC("RPC_GMWinner", RpcTarget.AllBuffered, Winner, WinnerScore);
     }
 
 
-    public void addPlayer(GameObject p) {
-        players.Add(p);
+    public void addPlayer(GameObject p)
+    {
+        PV.RPC("RPC_AddPlayer", RpcTarget.AllBuffered, p.GetComponent<PhotonView>().ViewID);
     }
 
     public void removePlayer(GameObject p)
     {
-        players.Remove(p);
+        PV.RPC("RPC_RemovePlayer", RpcTarget.AllBuffered, p.GetComponent<PhotonView>().ViewID);
     }
+
     public void pauseTime() {
         timePaused = true;
         foreach (GameObject player in players) {
@@ -155,33 +156,28 @@ public class GameManager : MonoBehaviour, IPunObservable
     [PunRPC]
     private void RPC_tellWinner(int id)
     {
-        foreach (GameObject p in GameObject.FindGameObjectsWithTag("PA"))
+        foreach (GameObject p in players)
         {
-            if (p.GetComponent<CharacterMovement>().ID == id)
-            {
-                p.GetComponent<CharacterMovement>().isWinner();
-            }
+            p.GetComponent<PhotonView>().RPC("RPC_IsWinner", RpcTarget.AllBuffered, id);
         }
         
     }
-    [PunRPC]
-    private void RPC_tellLooser(int id)
-    {
-        foreach (GameObject p in GameObject.FindGameObjectsWithTag("PA"))
-        {
-            if (p.GetComponent<CharacterMovement>().ID == id)
-            {
-                p.GetComponent<CharacterMovement>().isLooser();
-            }
-        }
 
-    }
     [PunRPC]
     private void RPC_GMWinner(int id, int score)
     {
-        Debug.Log(id);
-        Debug.Log(score);
+        Debug.Log("w"+id);
+        Debug.Log("w"+score);
         Winner = id;
         WinnerScore = score;
+    }
+    [PunRPC]
+    private void RPC_AddPlayer(int id)
+    {
+        players.Add(PhotonView.Find(id).gameObject);
+    }
+    private void RPC_revomePlayer(int id)
+    {
+        players.Remove(PhotonView.Find(id).gameObject);
     }
 }

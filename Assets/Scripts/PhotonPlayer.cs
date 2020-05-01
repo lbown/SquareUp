@@ -67,11 +67,12 @@ public class PhotonPlayer : MonoBehaviour
 
     private void DieAndRespawn()
     {
-            PhotonView.Find(ID + 1).RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
-            rumbleTimer = 0.5f;
-            notWaitingForDelay = false;
-            PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
-            StartCoroutine(SpawnDelay());
+        PhotonView.Find(ID + 1).RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
+        rumbleTimer = 0.5f;
+        notWaitingForDelay = false;
+        PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
+        gm.findWinner();
+        StartCoroutine(SpawnDelay());
     }
 
     IEnumerator SpawnDelay()
@@ -126,6 +127,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void giveKill(int killer)
     {
+        
         PhotonView.Find(killer+1).RPC("RPC_GiveKill", RpcTarget.AllBuffered);
     }
 

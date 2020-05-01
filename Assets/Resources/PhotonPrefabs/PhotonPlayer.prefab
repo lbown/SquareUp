@@ -71,3 +71,4 @@ MonoBehaviour:
     type: 3}
   ID: 0
   charSelect: {fileID: 0}
+  dead: 0

@@ -149,7 +149,6 @@ public class CharacterMovement : MonoBehaviour
             {
                 //TODO: Bullet needs to know which 
                 lastShotMe = collision.gameObject.GetComponent<NewBulletController>().whoShotMe;
-                Debug.Log(lastShotMe);
                 if (invulnerable == 0)
                 {
                     health -= 20;
@@ -304,14 +303,6 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    public void isWinner()
-    {
-        crown.GetComponent<MeshRenderer>().enabled = true;
-    }
-    public void isLooser()
-    {
-        crown.GetComponent<MeshRenderer>().enabled = false;
-    }
 
     [PunRPC] 
     private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID)
@@ -333,5 +324,15 @@ public class CharacterMovement : MonoBehaviour
     public void RPC_GiveDeath()
     {
         numDeaths += 1;
+    }
+    [PunRPC]
+    public void RPC_IsWinner(int id)
+    {
+        Debug.Log("in IsWinner");
+        if (id == ID)
+        {
+            crown.GetComponent<MeshRenderer>().enabled = true;
+        }
+        else crown.GetComponent<MeshRenderer>().enabled = false;
     }
 }
