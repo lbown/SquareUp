@@ -227,7 +227,8 @@ public class CharacterMovement : MonoBehaviour
         if (PV.IsMine)
         {
             aimDirection = value.Get<Vector2>();
-            PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
+            RotateGun(aimDirection);
+            //PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
         }
     }
     private void OnAbility()
