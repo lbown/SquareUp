@@ -250,7 +250,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine && !timePaused)
         {
-            aimDirection = value.Get<Vector2>().normalized();
+            aimDirection = value.Get<Vector2>().normalized;
             RotateGun(aimDirection);
             //PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
         }
