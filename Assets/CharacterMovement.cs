@@ -332,6 +332,7 @@ public class CharacterMovement : MonoBehaviour
         if (id == ID)
         {
             crown.SetActive(true);
+            crown.GetComponent<MeshRenderer>().enabled = true;
         }
         else crown.SetActive(false);
     }
