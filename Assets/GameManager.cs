@@ -188,6 +188,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         players.Add(PhotonView.Find(id).gameObject);
     }
+    [PunRPC]
     private void RPC_PurgePlayerList()
     {
         foreach (GameObject player in players)
