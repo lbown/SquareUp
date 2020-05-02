@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour, IPunObservable
                 int minutes = ((int)t / 60);
                 int seconds = (int)(t % 60);
 
-                string time = (TimeLimitMinutes - minutes).ToString() + ":" + (60 + seconds).ToString();
+                string time = (TimeLimitMinutes + minutes).ToString() + ":" + (60 + seconds).ToString();
                 PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, StartTime, time);
                 
             }
