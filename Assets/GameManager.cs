@@ -197,6 +197,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         {
             if(player == null)
             {
+                Debug.Log("null in players");
                 DisconectedPlayers.Add(player);
             }
         }
