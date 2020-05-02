@@ -107,9 +107,9 @@ public class GameManager : MonoBehaviour, IPunObservable
         PV.RPC("RPC_AddPlayer", RpcTarget.AllBuffered, p.GetComponent<PhotonView>().ViewID);
     }
 
-    public void removePlayer(GameObject p)
+    public void purgePlayerList()
     {
-        PV.RPC("RPC_RemovePlayer", RpcTarget.AllBuffered, p.GetComponent<PhotonView>().ViewID);
+        PV.RPC("RPC_PurgePlayerList", RpcTarget.AllBuffered);
     }
 
     public void pauseTime() {
@@ -188,8 +188,14 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         players.Add(PhotonView.Find(id).gameObject);
     }
-    private void RPC_removePlayer(int id)
+    private void RPC_PurgePlayerList()
     {
-        players.Remove(PhotonView.Find(id).gameObject);
+        foreach (GameObject player in players)
+        {
+            if(player == null)
+            {
+                players.Remove(player);
+            }
+        }
     }
 }

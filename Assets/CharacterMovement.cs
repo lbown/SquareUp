@@ -211,10 +211,10 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine && !timePaused)
         {
-            PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+            PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
             if(WhichPlayerAmI == 2)
             {
-                PV.RPC("RPC_Fire", RpcTarget.AllBuffered, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1*aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+                PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1*aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
             }
         }
     }
