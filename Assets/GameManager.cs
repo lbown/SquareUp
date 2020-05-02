@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         foreach (GameObject p in players)
         {
-            p.GetComponent<PhotonView>().RPC("RPC_IsWinner", RpcTarget.AllBuffered, id);
+            if (p != null) p.GetComponent<PhotonView>().RPC("RPC_IsWinner", RpcTarget.AllBuffered, id);
         }
         
     }

@@ -27,7 +27,6 @@ public class GameSetup : MonoBehaviour
 
     IEnumerator DisconnectAndLoad()
     {
-        myAvatar.GetComponent<CharacterMovement>().AddMyMaterialBackToList();
         PhotonNetwork.Disconnect();
         while(PhotonNetwork.IsConnected)
         {
