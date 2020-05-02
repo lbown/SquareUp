@@ -59,17 +59,11 @@ public class CharacterMovement : MonoBehaviour
 
     public void pauseTime() {
         timePaused = true;
-
     }
 
     public void unpauseTime()
     {
         timePaused = false;
-    }
-
-    public void AddMyMaterialBackToList()
-    {
-        PV.RPC("RPC_ReturnMyMat", RpcTarget.AllBuffered);
     }
 
     void Start()

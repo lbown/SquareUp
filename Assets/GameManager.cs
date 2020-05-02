@@ -113,22 +113,34 @@ public class GameManager : MonoBehaviour, IPunObservable
     }
 
     public void pauseTime() {
+        PV.RPC("RPC_PauseTime", RpcTarget.AllBuffered);
+    }
+    public void unpauseTime()
+    {
+        PV.RPC("RPC_UnPauseTime", RpcTarget.AllBuffered);
+    }
+    public void countTime(int min, int sec)
+    {
+
+    }
+
+    [PunRPC] 
+    private void RPC_PauseTime()
+    {
         timePaused = true;
-        foreach (GameObject player in players) {
+        foreach (GameObject player in players)
+        {
             player.GetComponent<CharacterMovement>().pauseTime();
         }
     }
-    public void unpauseTime()
+    [PunRPC]
+    private void RPC_UnPauseTime()
     {
         timePaused = false;
         foreach (GameObject player in players)
         {
             player.GetComponent<CharacterMovement>().unpauseTime();
         }
-    }
-    public void countTime(int min, int sec)
-    {
-
     }
 
     [PunRPC]
