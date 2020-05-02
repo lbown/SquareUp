@@ -57,6 +57,10 @@ public class CharacterMovement : MonoBehaviour
     public int numKills;
     public int numDeaths;
 
+    private bool fireing;
+    private int fireRate;
+    private int fireCooldown;
+
     public void pauseTime() {
         timePaused = true;
     }
@@ -83,8 +87,12 @@ public class CharacterMovement : MonoBehaviour
         numDeaths = 0;
         numKills = 0;
 
+        fireing = false;
+        fireRate = 10;
+
         gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(1,0,0), gameObject.transform.rotation);
         gun.transform.parent = GunPivot;
+        fireCooldown = 0;
 
         crown.GetComponent<MeshRenderer>().enabled = false;
     }
@@ -116,6 +124,7 @@ public class CharacterMovement : MonoBehaviour
 
             Move();
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,0);
+
         }
     }
 
@@ -132,6 +141,22 @@ public class CharacterMovement : MonoBehaviour
         if (invulnerable > 0)
         {
             invulnerable -= 1;
+        }
+        if (fireCooldown > 0)
+        {
+            fireCooldown -= 1;
+        }
+        if (fireCooldown == 0)
+        {
+            fireCooldown = fireRate;
+            if (fireing)
+            {
+                PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+                if (WhichPlayerAmI == 2)
+                {
+                    PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1 * aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+                }
+            }
         }
     }
 
@@ -211,10 +236,13 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine && !timePaused)
         {
-            PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
-            if(WhichPlayerAmI == 2)
+            if (fireing)
             {
-                PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1*aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+                fireing = false;
+            }
+            else
+            {
+                fireing = true;
             }
         }
     }
@@ -222,7 +250,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine && !timePaused)
         {
-            aimDirection = value.Get<Vector2>();
+            aimDirection = value.Get<Vector2>().normalized();
             RotateGun(aimDirection);
             //PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
         }
