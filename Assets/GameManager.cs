@@ -188,7 +188,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         players.Add(PhotonView.Find(id).gameObject);
     }
-    private void RPC_revomePlayer(int id)
+    private void RPC_removePlayer(int id)
     {
         players.Remove(PhotonView.Find(id).gameObject);
     }
