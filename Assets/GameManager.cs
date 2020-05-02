@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     public void findWinner()
     {
+        PV.RPC("RPC_PurgePlayerList", RpcTarget.AllBuffered);
         Debug.Log("inFindWinner");
         WinnerScore = -1000;
         foreach (GameObject p in players)
