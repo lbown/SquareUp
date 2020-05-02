@@ -331,8 +331,8 @@ public class CharacterMovement : MonoBehaviour
         Debug.Log("in IsWinner");
         if (id == ID)
         {
-            crown.GetComponent<MeshRenderer>().enabled = true;
+            crown.SetActive(true);
         }
-        else crown.GetComponent<MeshRenderer>().enabled = false;
+        else crown.SetActive(false);
     }
 }
