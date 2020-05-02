@@ -130,31 +130,34 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (cooldown > 0)
+        if (PV.IsMine)
         {
-            cooldown -= 1;
-        }
-        if (levitate > 0)
-        {
-            levitate -= 1;
-        }
-        if (invulnerable > 0)
-        {
-            invulnerable -= 1;
-        }
-        if (fireCooldown > 0)
-        {
-            fireCooldown -= 1;
-        }
-        if (fireCooldown == 0)
-        {
-            fireCooldown = fireRate;
-            if (fireing)
+            if (cooldown > 0)
             {
-                PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
-                if (WhichPlayerAmI == 2)
+                cooldown -= 1;
+            }
+            if (levitate > 0)
+            {
+                levitate -= 1;
+            }
+            if (invulnerable > 0)
+            {
+                invulnerable -= 1;
+            }
+            if (fireCooldown > 0)
+            {
+                fireCooldown -= 1;
+            }
+            if (fireCooldown == 0)
+            {
+                fireCooldown = fireRate;
+                if (fireing)
                 {
-                    PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1 * aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+                    PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+                    if (WhichPlayerAmI == 2)
+                    {
+                        PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1 * aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
+                    }
                 }
             }
         }
