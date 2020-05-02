@@ -156,7 +156,7 @@ public class PhotonPlayer : MonoBehaviour
             dead = true;
             GameObject avatar = PhotonView.Find(id).gameObject;
             foreach (MeshRenderer item in avatar.GetComponentsInChildren<MeshRenderer>()) {
-                item.enabled = false;
+                if(item.gameObject.activeSelf)  item.enabled = false;
             }
             avatar.GetComponent<PlayerInput>().enabled = false;
             avatar.GetComponent<CharacterController>().enabled = false;
@@ -171,7 +171,7 @@ public class PhotonPlayer : MonoBehaviour
         avatar.transform.position = pos;
         foreach (MeshRenderer item in avatar.GetComponentsInChildren<MeshRenderer>())
         {
-            item.enabled = true;
+            if(item.gameObject.activeSelf) item.enabled = true;
         }
         avatar.GetComponent<PlayerInput>().enabled = true;
         avatar.GetComponent<CharacterController>().enabled = true;
