@@ -63,6 +63,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void pauseTime() {
         timePaused = true;
+        fireing = false;
     }
 
     public void unpauseTime()

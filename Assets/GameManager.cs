@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     public GameObject gameOverPanel;
     public int Winner;
     public int WinnerScore;
+    private List<GameObject> DisconectedPlayers;
     [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         StartTime = Time.time;
         Winner = 0;
         WinnerScore = 0;
+        DisconectedPlayers = new List<GameObject>();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -195,7 +197,14 @@ public class GameManager : MonoBehaviour, IPunObservable
         {
             if(player == null)
             {
-                players.Remove(player);
+                DisconectedPlayers.Add(player);
+            }
+        }
+        if(DisconectedPlayers.Count != 0)
+        {
+            foreach(GameObject p in DisconectedPlayers)
+            {
+                players.Remove(p);
             }
         }
     }
