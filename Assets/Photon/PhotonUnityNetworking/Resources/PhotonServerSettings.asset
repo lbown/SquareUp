@@ -67,5 +67,7 @@ MonoBehaviour:
   - RPC_GMWinner
   - RPC_IsWinner
   - RPC_AddPlayer
+  - RPC_PauseTime
+  - RPC_UnPauseTime
   DisableAutoOpenWizard: 1
   ShowSettings: 1
