@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour, IPunObservable
     public PhotonView PV;
     public List<GameObject> players;
     public bool timePaused;
-    private bool currentRotatePowerUp;
+    private int currentSpawnedPowerUps;
+    private bool currentSpawnedRotatePowerUp;
     public TextMeshProUGUI timer;
     private float StartTime;
     public int TimeLimitMinutes;
@@ -19,14 +20,20 @@ public class GameManager : MonoBehaviour, IPunObservable
     public int Winner;
     public int WinnerScore;
     private List<GameObject> DisconectedPlayers;
-    [SerializeField] private float totalTimeUntilRotatePowerup, powerUpTimer;
+    public List<string> pwrUps;
+    private int maxPowerUps;
+    [SerializeField] private float totalTimeUntilPowerUp, totalTimeUntilRotatePowerUp, powerUpTimer, rotatePowerUpTimer;
     // Start is called before the first frame update
     void Start()
     {
+        currentSpawnedPowerUps = 0;
+        maxPowerUps = 2;
         PV = GetComponent<PhotonView>();
         players = new List<GameObject>();
-        totalTimeUntilRotatePowerup = 60;
-        powerUpTimer = totalTimeUntilRotatePowerup;
+        totalTimeUntilRotatePowerUp = 30;
+        totalTimeUntilPowerUp = 12;
+        powerUpTimer = totalTimeUntilPowerUp;
+        rotatePowerUpTimer = totalTimeUntilRotatePowerUp;
         StartTime = Time.time;
         Winner = 0;
         WinnerScore = 0;
@@ -47,8 +54,22 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     public void ResetRotatePowerUpTimer()
     {
-        powerUpTimer = totalTimeUntilRotatePowerup;
-        PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, false);
+        rotatePowerUpTimer = totalTimeUntilRotatePowerUp;
+        PV.RPC("RPC_SynchronizeRotatePowerUps", RpcTarget.AllBuffered, true);
+        PV.RPC("RPC_SynchronizeRotatePowerUpTimer", RpcTarget.AllBuffered, rotatePowerUpTimer);
+    }
+    public void ResetPowerUpTimer()
+    {
+        powerUpTimer = totalTimeUntilPowerUp;
+        PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, currentSpawnedPowerUps);
+        PV.RPC("RPC_SynchronizePowerUpTimer", RpcTarget.AllBuffered, powerUpTimer);
+    }
+    public void DecrementPowerUps(bool isCube) {
+        PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps - 1));
+        if (isCube)
+        {
+            PV.RPC("RPC_SynchronizeRotatePowerUps", RpcTarget.AllBuffered, false);
+        }
     }
 
     void Update()
@@ -66,11 +87,35 @@ public class GameManager : MonoBehaviour, IPunObservable
         if (PV.IsMine)
         {
             powerUpTimer -= Time.deltaTime;
-            if (powerUpTimer <= 0 && currentRotatePowerUp == false)
+            rotatePowerUpTimer -= Time.deltaTime;
+            if (powerUpTimer <= 0)
             {
-                PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, true);
-                int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
+                if (currentSpawnedPowerUps < maxPowerUps && pwrUps.Count > 0)
+                {
+                    PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps + 1));
+                    ResetPowerUpTimer();
+                    int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
+                    System.Random rnd = new System.Random();
+                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", pwrUps[rnd.Next(pwrUps.Count)]), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
+                }
+                else {
+                    ResetPowerUpTimer();
+                }
+            }
+            if (rotatePowerUpTimer <= 0)
+            {
+                if (currentSpawnedPowerUps < maxPowerUps && !currentSpawnedRotatePowerUp)
+                {
+                    PV.RPC("RPC_SynchronizeRotatePowerUps", RpcTarget.AllBuffered, true);
+                    PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps + 1));
+                    ResetPowerUpTimer();
+                    ResetRotatePowerUpTimer();
+                    int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
+                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
+                }
+                else {
+                    ResetRotatePowerUpTimer();
+                }
             }
 
             if (!timePaused)
@@ -147,10 +192,26 @@ public class GameManager : MonoBehaviour, IPunObservable
     }
 
     [PunRPC]
-    private void RPC_SynchronizePowerUps(bool isActive)
+    private void RPC_SynchronizeRotatePowerUps(bool isActive)
     {
-        currentRotatePowerUp = isActive;
-        powerUpTimer = 60;
+        currentSpawnedRotatePowerUp = isActive;
+        //rotatePowerUpTimer = totalTimeUntilRotatePowerUp;
+    }
+    [PunRPC]
+    private void RPC_SynchronizePowerUps(int numUps)
+    {
+        currentSpawnedPowerUps = numUps;
+        //powerUpTimer = totalTimeUntilPowerUp;
+    }
+    [PunRPC]
+    private void RPC_SynchronizeRotatePowerUpTimer(float time)
+    {
+        rotatePowerUpTimer = time;
+    }
+    [PunRPC]
+    private void RPC_SynchronizePowerUpTimer(float time)
+    {
+        powerUpTimer = time;
     }
     [PunRPC]
     private void RPC_SyncTimer(float stime,string time)

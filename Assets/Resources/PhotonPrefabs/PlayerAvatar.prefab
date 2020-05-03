@@ -105,6 +105,13 @@ MonoBehaviour:
   crown: {fileID: 6716433922146795272}
   numKills: 0
   numDeaths: 0
+  gunLength: 0
+  bulDmg: 0
+  bulletSpeed: 0
+  ammo: 0
+  bulletsPerShot: 0
+  recoilAmt: 0
+  bulletSize: 0
 --- !u!114 &4060611263659829771
 MonoBehaviour:
   m_ObjectHideFlags: 0

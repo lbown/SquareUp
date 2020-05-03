@@ -12,6 +12,7 @@ TagManager:
   - CubeCanvas
   - PA
   - PP
+  - Gun
   layers:
   - Default
   - TransparentFX

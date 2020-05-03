@@ -57,9 +57,19 @@ public class CharacterMovement : MonoBehaviour
     public int numKills;
     public int numDeaths;
 
+    private bool autoFire;
     private bool fireing;
     private int fireRate;
     private int fireCooldown;
+
+    public float gunLength;
+    public int bulDmg;
+    public float bulletSpeed;
+    public int ammo;
+    public int bulletsPerShot;
+
+    public float recoilAmt;
+    public float bulletSize;
 
     public void pauseTime() {
         timePaused = true;
@@ -73,6 +83,13 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
+        recoilAmt = 0f;
+        bulletSize = .5f;
+        autoFire = true;
+        bulletsPerShot = 1;
+        bulDmg = 20;
+        bulletSpeed = 1f;
+        gunLength = 1;
         gameManager = GameObject.FindWithTag("gm");
         PV = GetComponent<PhotonView>();
         gm = gameManager.GetComponent<GameManager>();
@@ -90,8 +107,7 @@ public class CharacterMovement : MonoBehaviour
 
         fireing = false;
         fireRate = 10;
-
-        gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(1,0,0), gameObject.transform.rotation);
+        gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(gunLength/2 + .5f,0,0), Quaternion.identity);
         gun.transform.parent = GunPivot;
         fireCooldown = 0;
 
@@ -151,17 +167,33 @@ public class CharacterMovement : MonoBehaviour
             }
             if (fireCooldown == 0)
             {
-                fireCooldown = fireRate;
                 if (fireing)
                 {
-                    PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * 1.5f, aimDirection.y * 1.5f, transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
-                    if (WhichPlayerAmI == 2)
-                    {
-                        PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -1.5f, aimDirection.y * -1.5f, transform.position.z)), Quaternion.identity, -1 * aimDirection, PlayerInfo.PI.mySelectedCharacter, ID);
-                    }
+                    shoot();
                 }
             }
         }
+    }
+
+    private void shoot()
+    {
+        fireCooldown = fireRate;
+        PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * (gunLength + .5f), aimDirection.y * (gunLength + .5f), transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID, bulDmg, bulletSpeed);
+        impact += Vector3.Normalize(new Vector3(-aimDirection.x, -aimDirection.y, 0)) * recoilAmt;
+        if (WhichPlayerAmI == 2)
+        {
+                PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -(gunLength + .5f), aimDirection.y * -(gunLength + .5f), transform.position.z)), Quaternion.identity, -1 * aimDirection, PlayerInfo.PI.mySelectedCharacter, ID, bulDmg, bulletSpeed);
+        }
+        ammo -= 1;
+        if (ammo <= 0)
+        {
+            dropGun();
+        }
+
+    }
+
+    private void dropGun() {
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -174,7 +206,7 @@ public class CharacterMovement : MonoBehaviour
                 lastShotMe = collision.gameObject.GetComponent<NewBulletController>().whoShotMe;
                 if (invulnerable == 0)
                 {
-                    health -= 20;
+                    health -= collision.gameObject.GetComponent<NewBulletController>().damage;
                 }
 
                 Vector3 vel = collision.gameObject.GetComponent<NewBulletController>().impulse;
@@ -195,7 +227,15 @@ public class CharacterMovement : MonoBehaviour
                 cubeControl.TransferOwnershipOfCube();
                 GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
                 cubeControl.StartRotation();
-                gm.ResetRotatePowerUpTimer();
+                gm.DecrementPowerUps(true);
+            }
+            if (other.gameObject.tag == "Gun")
+            {
+                Debug.Log("picked up gun: "+other.gameObject);
+                GunScript newGun = other.gameObject.GetComponent<GunScript>();
+                PV.RPC("RPC_SetGunInfo", RpcTarget.AllBuffered, newGun.length, newGun.damage, newGun.shotSpeed, newGun.magazineSize, newGun.bulletsPerShot, newGun.reloadTime, newGun.automatic, newGun.name, newGun.recoil, newGun.bulletSize);
+                Destroy(other.gameObject);
+                gm.DecrementPowerUps(false);
             }
         }
     }
@@ -240,13 +280,15 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine && !timePaused)
         {
-            if (fireing)
+            if (autoFire)
             {
-                fireing = false;
+                fireing = !fireing;
             }
-            else
-            {
-                fireing = true;
+            else {
+                if (fireCooldown == 0)
+                {
+                    shoot();
+                }
             }
         }
     }
@@ -312,13 +354,15 @@ public class CharacterMovement : MonoBehaviour
     {
         return PlayerInfo.PI.mySelectedCharacter;
     }
-    private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID)
+    private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID, int dmg, float bulSped)
     {
         GameObject clone = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/NewBullet"), pos, dir);
         clone.GetComponent<MeshRenderer>().sharedMaterial = GetComponentInChildren<MeshRenderer>().sharedMaterial;
-        clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
+        clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30 * bulSped;
         clone.GetComponent<NewBulletController>().whoShotMe = playerID;
-        clone.GetComponent<NewBulletController>().impulse = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30;
+        clone.GetComponent<NewBulletController>().impulse = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30 * bulSped;
+        clone.GetComponent<NewBulletController>().damage = dmg;
+        clone.transform.localScale = transform.localScale * bulletSize;
     }
 
     private void RotateGun(Vector2 angle)
@@ -329,11 +373,30 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-
-    [PunRPC] 
-    private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID)
+    [PunRPC]
+    private void RPC_SetGunInfo(float l, int d, float s, int m, int bps, int rt, bool a, string gunName, float recoil, float bulSize)
     {
-        ShootBullet(pos, dir, aimDir, mat, playerID);
+        gunLength = l;
+        bulDmg = d;
+        bulletSpeed = s;
+        ammo = m;
+        bulletsPerShot = bps;
+        fireRate = rt;
+        fireing = false;
+        autoFire = a;
+        Destroy(gun);
+        gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/"+gunName), gameObject.transform.position + new Vector3(gunLength / 2 + .5f, 0, 0), Quaternion.identity);
+        Vector3 aimdirTemp = GunPivot.localEulerAngles;
+        GunPivot.localEulerAngles = new Vector3(0, 0, 0);
+        gun.transform.parent = GunPivot;
+        GunPivot.localEulerAngles = aimdirTemp;
+        recoilAmt = recoil;
+        bulletSize = bulSize;
+    }
+    [PunRPC] 
+    private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID, int dmg, float speed)
+    {
+        ShootBullet(pos, dir, aimDir, mat, playerID, dmg, speed);
 
     }
     [PunRPC]

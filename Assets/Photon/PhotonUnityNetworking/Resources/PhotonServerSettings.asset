@@ -70,5 +70,7 @@ MonoBehaviour:
   - RPC_PauseTime
   - RPC_UnPauseTime
   - RPC_PurgePlayerList
+  - RPC_SynchronizeRotatePowerUps
+  - RPC_SetGunInfo
   DisableAutoOpenWizard: 1
   ShowSettings: 1

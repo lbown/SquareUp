@@ -11,6 +11,8 @@ public class NewBulletController : MonoBehaviour
 
     public Vector3 impulse;
 
+    public int damage;
+
     void Start()
     {
         life = 0f;

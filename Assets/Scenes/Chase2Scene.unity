@@ -3082,9 +3082,15 @@ MonoBehaviour:
   timer: {fileID: 1475040520}
   TimeLimitMinutes: 1
   gameOverPanel: {fileID: 1869949350}
-  Winner: {fileID: 0}
-  totalTimeUntilRotatePowerup: 0
+  Winner: 0
+  WinnerScore: 0
+  pwrUps:
+  - SniperPowerUp
+  - UziPowerUp
+  totalTimeUntilPowerUp: 0
+  totalTimeUntilRotatePowerUp: 0
   powerUpTimer: 0
+  rotatePowerUpTimer: 0
 --- !u!114 &1194586571
 MonoBehaviour:
   m_ObjectHideFlags: 0
