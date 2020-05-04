@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 893a230d-52e2-425d-8aa2-98d5790e9a56
+    AppIdRealtime: 
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: usw
+    FixedRegion: 
     Server: 
     Port: 0
     Protocol: 0
@@ -34,45 +34,28 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - RPC_CreatePlayer
-  - RPC_LoadedGameScene
   - RPC_AddCharacter
-  - RPC_SynchronizePowerUps
-  - RPC_GiveKill
-  - syncBullet_RPC
-  - RPC_SetParent
-  - RPC_SetID
-  - kys_RPC
-  - SetBulletColor
-  - RPC_SetBulletColor
-  - RPC_SetBulletColorOnInstanitation
-  - RPC_TestNewBulletInstantiation
+  - RPC_AddPlayer
+  - RPC_Aim
+  - RPC_EndGame
   - RPC_Fire
   - RPC_GiveDeath
-  - RPC_DisconnectPlayerMaterialReturn
-  - RPC_ReturnMyMat
-  - RPC_SetAvatarID
-  - RPC_SetPhotonPlayerID
-  - RPC_OnDeath
-  - RPC_OnRespawn
-  - RPC_AddPlayerMaterialToDictionary
-  - RPC_Aim
-  - RPC_SyncTimer
-  - RPC_EndGame
-  - RPC_MoveCrown
-  - tellLooser
-  - tellWinner
-  - RPC_tellLooser
-  - RPC_tellWinner
+  - RPC_GiveKill
   - RPC_GMWinner
   - RPC_IsWinner
-  - RPC_AddPlayer
+  - RPC_OnDeath
+  - RPC_OnRespawn
   - RPC_PauseTime
-  - RPC_UnPauseTime
   - RPC_PurgePlayerList
-  - RPC_SynchronizeRotatePowerUps
+  - RPC_SetAvatarID
   - RPC_SetGunInfo
+  - RPC_SetPhotonPlayerID
+  - RPC_SynchronizePowerUps
   - RPC_SynchronizePowerUpTimer
+  - RPC_SynchronizeRotatePowerUps
   - RPC_SynchronizeRotatePowerUpTimer
+  - RPC_SyncTimer
+  - RPC_tellWinner
+  - RPC_UnPauseTime
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
