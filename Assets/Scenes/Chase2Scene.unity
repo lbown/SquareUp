@@ -3080,7 +3080,7 @@ MonoBehaviour:
   players: []
   timePaused: 0
   timer: {fileID: 1475040520}
-  TimeLimitMinutes: 1
+  TimeLimitMinutes: 0
   gameOverPanel: {fileID: 1869949350}
   Winner: 0
   WinnerScore: 0

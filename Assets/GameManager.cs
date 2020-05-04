@@ -220,13 +220,14 @@ public class GameManager : MonoBehaviour, IPunObservable
         timer.text = time;
         if (System.Convert.ToInt32(time.Split(':')[0]) == 0 && System.Convert.ToInt32(time.Split(':')[1]) == 1)
         {
-            PV.RPC("RPC_EndGame", RpcTarget.AllBuffered);
+            PV.RPC("RPC_EndGame", RpcTarget.AllBuffered,Winner);
         }
     }
     [PunRPC]
-    private void RPC_EndGame()
+    private void RPC_EndGame(int id)
     {
         pauseTime();
+        PhotonView.Find(id + 1).gameObject.transform.position = new Vector3(0, 0, -50);
         gameOverPanel.SetActive(true);
     }
     [PunRPC]
