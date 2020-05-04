@@ -25,11 +25,12 @@ public class AvatarSetup : MonoBehaviour
     [PunRPC]
     void RPC_AddCharacter(int whichCharacter, int randomMaterialID, int actorID)
     {
-            characterValue = whichCharacter;
-            myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
-            myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
-            myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
-            PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
+        characterValue = whichCharacter;
+        myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
+        myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
+        myCharacter.GetComponent<CharacterMovement>().colorID = randomMaterialID;
+        myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
+        PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
         Debug.Log(actorID + " Is actor number on joining");
             if (PlayerInfo.PI.playerMaterials.ContainsKey(actorID))
             {

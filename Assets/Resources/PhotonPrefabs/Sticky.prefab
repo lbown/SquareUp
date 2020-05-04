@@ -11,12 +11,8 @@ GameObject:
   - component: {fileID: 1705067595536309067}
   - component: {fileID: 3815474598316532957}
   - component: {fileID: 5310770338415005122}
-  - component: {fileID: 2232323101135722758}
-  - component: {fileID: 3412333640442430761}
-  - component: {fileID: 1544130053811994200}
   - component: {fileID: 2810552830361082284}
   - component: {fileID: 9179108140678384306}
-  - component: {fileID: 4580715031198203690}
   m_Layer: 0
   m_Name: Sticky
   m_TagString: Untagged
@@ -86,92 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!143 &2232323101135722758
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5546375756813711485}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0
-  m_SkinWidth: 0.1
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3412333640442430761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5546375756813711485}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70c84ec15852463438452b783b6e5cf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myBulletColor: {fileID: 2100000, guid: 88cf8a22aaefefd4d8cb5b19ad40b08f, type: 2}
-  cc: {fileID: 2232323101135722758}
-  speed: 12
-  gravity: -5
-  jumpHeight: 0.4
-  groundCheck: {fileID: 1281711370665235855}
-  wallCheck: {fileID: 0}
-  GunPivot: {fileID: 0}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  timePaused: 0
-  ID: 0
-  velocity: {x: 0, y: 0, z: 0}
-  gameManager: {fileID: 0}
-  gm: {fileID: 0}
-  WhichPlayerAmI: 0
-  health: 0
-  startingHP: 100
-  lastShotMe: 0
-  gun: {fileID: 0}
-  crown: {fileID: 0}
-  numKills: 0
-  numDeaths: 0
---- !u!114 &1544130053811994200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5546375756813711485}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: ddc9de7a589d8c446b2325924f854e7e,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: GamePadController
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &2810552830361082284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,20 +119,6 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!136 &4580715031198203690
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5546375756813711485}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8153082231106590747
 GameObject:
   m_ObjectHideFlags: 0

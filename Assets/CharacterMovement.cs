@@ -10,6 +10,7 @@ using Photon.Realtime;
 public class CharacterMovement : MonoBehaviour
 {
     public Material myBulletColor;
+    public int colorID;
     
     private PhotonView PV;
     private GameObject cube;
@@ -71,6 +72,8 @@ public class CharacterMovement : MonoBehaviour
     public float recoilAmt;
     public float bulletSize;
 
+    public GameObject Fist;
+
     public void pauseTime() {
         timePaused = true;
         fireing = false;
@@ -112,6 +115,8 @@ public class CharacterMovement : MonoBehaviour
         fireCooldown = 0;
 
         crown.GetComponent<MeshRenderer>().enabled = false;
+        Fist.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[colorID];
+
     }
 
     // Update is called once per frame
