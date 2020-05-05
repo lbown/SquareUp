@@ -237,6 +237,7 @@ public class CharacterMovement : MonoBehaviour
                 cubeControl.TransferOwnershipOfCube();
                 GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
                 cubeControl.StartRotation();
+                Destroy(other.gameObject);
                 gm.DecrementPowerUps(true);
             }
             if (other.gameObject.tag == "Gun")

@@ -36,7 +36,7 @@ public class CubeController : MonoBehaviourPun
             {
                 if (GameObject.Find("RotateCubePowerUp(Clone)") != null)
                 {
-                    PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
+                    //PhotonNetwork.Destroy(GameObject.Find("RotateCubePowerUp(Clone)"));
                 }
                 gameObject.transform.rotation = cubeRot;
 
