@@ -219,6 +219,7 @@ public class CharacterMovement : MonoBehaviour
                 Vector3 vel = collision.gameObject.GetComponent<NewBulletController>().impulse;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
+                ps.GetComponent<ParticleSystemRenderer>().material.color = collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial.color;
                 ps.Play();
             }
             else {

@@ -25,13 +25,13 @@ public class CollideListener : MonoBehaviour
         ParticlePhysicsExtensions.GetCollisionEvents(other.GetComponent<ParticleSystem>(), gameObject, collisionEvents);
 
         foreach(ParticleCollisionEvent p in collisionEvents) {
-            GameObject blood = Instantiate(bloodObj, transform);
+            GameObject blood = Instantiate(bloodObj);
             blood.transform.position = p.intersection;
             blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
             bool offEdge = false;
             foreach(Transform t in blood.transform)
             {
-                if (!Physics.CheckSphere(t.position, 0.01f, canvasMask))
+                if (!Physics.CheckSphere(t.position, 0.01f, canvasMask) && !Physics.CheckSphere(t.position, 0.01f, groundMask))
                 {
                     offEdge = true;
                 }
