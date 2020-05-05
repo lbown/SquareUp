@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
-        TimeLimitMinutes = 2;
+        TimeLimitMinutes = 0;
         activeGame = false;
         currentSpawnedPowerUps = 0;
         maxPowerUps = 2;
@@ -127,9 +127,9 @@ public class GameManager : MonoBehaviour, IPunObservable
             {
                 float t = StartTime + Time.time;
                 int minutes = ((int)t / 60);
-                int seconds = (int)(t % 60);
+                int seconds = (int)((t % 60));
 
-                string time = (TimeLimitMinutes - minutes).ToString() + ":" + (60 - seconds).ToString();
+                string time = (TimeLimitMinutes - minutes).ToString() + ":" + (59 - seconds).ToString();
                 PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, StartTime, time);
                 
             }
@@ -223,6 +223,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         timer.text = time;
         if (System.Convert.ToInt32(time.Split(':')[0]) == 0 && System.Convert.ToInt32(time.Split(':')[1]) == 0)
         {
+            Debug.Log("Time's Up!");
             PV.RPC("RPC_EndGame", RpcTarget.AllBuffered,Winner);
         }
     }
