@@ -218,7 +218,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         StartTime = stime;
         timer.text = time;
-        if (System.Convert.ToInt32(time.Split(':')[0]) == 0 && System.Convert.ToInt32(time.Split(':')[1]) == 1)
+        if (System.Convert.ToInt32(time.Split(':')[0]) == 0 && System.Convert.ToInt32(time.Split(':')[1]) == 69)
         {
             PV.RPC("RPC_EndGame", RpcTarget.AllBuffered,Winner);
         }
