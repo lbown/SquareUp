@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     public bool currentSpawnedRotatePowerUp;
     public TextMeshProUGUI timer;
     private float StartTime;
+    private int readyPlayers;
     public int TimeLimitMinutes;
     public bool activeGame;
     public GameObject gameOverPanel;
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
+        readyPlayers = 0;
         TimeLimitMinutes = 0;
         activeGame = false;
         currentSpawnedPowerUps = 0;
@@ -45,6 +47,13 @@ public class GameManager : MonoBehaviour, IPunObservable
         DisconectedPlayers = new List<GameObject>();
         gameActive = false;
         currentSpawnedRotatePowerUp = false;
+    }
+
+    public void incReadyPlayers() {
+        PV.RPC("RPC_incReadyPlayers", RpcTarget.AllBuffered);
+    }
+    public void decReadyPlayers() {
+        PV.RPC("RPC_decReadyPlayers", RpcTarget.AllBuffered);
     }
 
     public void StartGame() {
@@ -83,7 +92,9 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     void Update()
     {
-
+        if (readyPlayers == players.Count) {
+            StartGame();
+        }
     }
 
     // Update is called once per frame
@@ -231,6 +242,16 @@ public class GameManager : MonoBehaviour, IPunObservable
     private void RPC_StartGame() {
         StartTime = Time.time;
         activeGame = true;
+    }
+    [PunRPC]
+    public void RPC_incReadyPlayers()
+    {
+        readyPlayers += 1;
+    }
+    [PunRPC]
+    public void RPC_decReadyPlayers()
+    {
+        readyPlayers -= 1;
     }
     [PunRPC]
     private void RPC_EndGame(int id)
