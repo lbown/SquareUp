@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1889309615935908577}
   - component: {fileID: 7447686633187598078}
   - component: {fileID: 4993566097593448774}
-  - component: {fileID: 7329098647402353069}
   - component: {fileID: 651617529883655417}
   m_Layer: 11
   m_Name: Fist
@@ -112,29 +111,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!145 &7329098647402353069
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74734162076656221}
-  m_ConnectedBody: {fileID: 4529414049686380072}
-  m_Anchor: {x: 0, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  serializedVersion: 2
-  m_Spring: 10
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!114 &651617529883655417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6844712111346975211}
   - component: {fileID: 4529414049686380072}
+  - component: {fileID: 8511017934381865864}
   m_Layer: 0
   m_Name: ReturnPoint
   m_TagString: Untagged
@@ -440,6 +417,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
+--- !u!145 &8511017934381865864
+SpringJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4205235921763636105}
+  m_ConnectedBody: {fileID: 4993566097593448774}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Spring: 25
+  m_Damper: 0.2
+  m_MinDistance: 0
+  m_MaxDistance: 0
+  m_Tolerance: 0.025
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &6716433922146795272
 GameObject:
   m_ObjectHideFlags: 0

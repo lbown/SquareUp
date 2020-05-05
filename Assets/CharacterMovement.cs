@@ -73,8 +73,10 @@ public class CharacterMovement : MonoBehaviour
     public float bulletSize;
 
     public GameObject Fist;
+    private int meleCooldown;
 
     public ParticleSystem ps;
+
 
     public void pauseTime() {
         timePaused = true;
@@ -112,12 +114,13 @@ public class CharacterMovement : MonoBehaviour
 
         fireing = false;
         fireRate = 10;
-        gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(gunLength/2 + .5f,0,0), Quaternion.identity);
-        gun.transform.parent = GunPivot;
+        //gun = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/TestGun"), gameObject.transform.position + new Vector3(gunLength/2 + .5f,0,0), Quaternion.identity);
+        //gun.transform.parent = GunPivot;
         fireCooldown = 0;
 
         crown.GetComponent<MeshRenderer>().enabled = false;
         Fist.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[colorID];
+        meleCooldown = 20;
 
     }
 
@@ -178,6 +181,10 @@ public class CharacterMovement : MonoBehaviour
                 {
                     shoot();
                 }
+            }
+            if (meleCooldown > 0)
+            {
+                meleCooldown -= 1;
             }
         }
     }
@@ -289,7 +296,7 @@ public class CharacterMovement : MonoBehaviour
     //NEW SHOOT FUNCTION
     private void OnShoot(InputValue value)
     {
-        if (PV.IsMine && !timePaused)
+        if (PV.IsMine && !timePaused && gun != null)
         {
             if (autoFire)
             {
@@ -310,7 +317,21 @@ public class CharacterMovement : MonoBehaviour
             aimDirection = value.Get<Vector2>().normalized;
             RotateGun(aimDirection);
             //PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
+            if (value.Get<Vector2>().magnitude >= 0.9 && gun == null && meleCooldown <= 0)
+            {
+                meleCooldown = 30;
+                Fist.GetComponent<Rigidbody>().AddForce(aimDirection*1000);
+                StartCoroutine(FistDrag());
+            }
         }
+    }
+
+    IEnumerator FistDrag()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Fist.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        Fist.transform.localPosition = new Vector3(0, 0, 0);
+
     }
     private void OnAbility()
     {
