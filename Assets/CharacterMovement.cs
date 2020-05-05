@@ -73,7 +73,6 @@ public class CharacterMovement : MonoBehaviour
     public float bulletSize;
 
     public GameObject Fist;
-    public GameObject bloodSpray;
 
     public void pauseTime() {
         timePaused = true;
@@ -218,7 +217,6 @@ public class CharacterMovement : MonoBehaviour
                 Vector3 vel = collision.gameObject.GetComponent<NewBulletController>().impulse;
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
-                bloodSpray.GetComponent<ParticleSystem>().Play();
             }
             else {
                 Debug.Log("Stop hitting urself");
