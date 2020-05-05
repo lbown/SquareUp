@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5896895463501664380}
   - component: {fileID: 3387461030451016448}
   - component: {fileID: 7849904946077608423}
-  - component: {fileID: 999674352918095567}
   m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -80,20 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &999674352918095567
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2925801250644244186}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &3695767362626953447
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +90,6 @@ GameObject:
   - component: {fileID: 6846121306677814104}
   - component: {fileID: 4498054367421077551}
   - component: {fileID: 4877482846289784451}
-  - component: {fileID: 6916775724352110447}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -174,20 +158,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6916775724352110447
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3695767362626953447}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &5976630304707016782
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +168,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5758065724657783478}
   - component: {fileID: 7084737184398108370}
-  - component: {fileID: 5019231020592425041}
   - component: {fileID: 5799843069115373090}
   - component: {fileID: 4044066954204319526}
   - component: {fileID: 8455014235162099624}
@@ -249,19 +218,6 @@ MonoBehaviour:
   name: Uzi
   recoil: 0
   bulletSize: 0.5
---- !u!65 &5019231020592425041
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5976630304707016782}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 0.2, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5799843069115373090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +279,6 @@ GameObject:
   - component: {fileID: 7822396226811420332}
   - component: {fileID: 5137713963350047139}
   - component: {fileID: 7368923034276071471}
-  - component: {fileID: 4199616802003155440}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -392,19 +347,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &4199616802003155440
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7451485944417662311}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7567234109984561684
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +358,6 @@ GameObject:
   - component: {fileID: 2469287520141900838}
   - component: {fileID: 7361907845453332229}
   - component: {fileID: 3059310536664591901}
-  - component: {fileID: 6024472643441767570}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -485,16 +426,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6024472643441767570
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7567234109984561684}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0, y: 0, z: 0}
-  m_Center: {x: 0, y: 0, z: 0}
