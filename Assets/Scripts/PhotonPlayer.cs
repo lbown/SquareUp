@@ -55,14 +55,14 @@ public class PhotonPlayer : MonoBehaviour
         {
             int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
             
-            if (PV.IsMine)
-            {
+            //if (PV.IsMine)
+            //{
                 myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
                 GameSetup.gs.myAvatar = myAvatar;
                 PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, PV.ViewID);
                 gm.addPlayer(myAvatar);
-                PV.RPC("RPC_RefreshPlayers", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
-            }
+                //PV.RPC("RPC_RefreshPlayers", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
+            //}
         }
     }
 
