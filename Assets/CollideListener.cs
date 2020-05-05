@@ -40,7 +40,7 @@ public class CollideListener : MonoBehaviour
 
             if (offEdge)
             {
-               // Destroy(blood);
+               Destroy(blood);
             } else
             {
                 blood.SetActive(true);
