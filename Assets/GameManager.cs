@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour, IPunObservable
     public bool currentSpawnedRotatePowerUp;
     public TextMeshProUGUI timer;
     private float StartTime;
+    private int readyPlayers;
     public int TimeLimitMinutes;
+    public bool activeGame;
     public GameObject gameOverPanel;
     public int Winner;
     public int WinnerScore;
@@ -28,6 +30,9 @@ public class GameManager : MonoBehaviour, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
+        readyPlayers = 0;
+        TimeLimitMinutes = 0;
+        activeGame = false;
         currentSpawnedPowerUps = 0;
         maxPowerUps = 2;
         PV = GetComponent<PhotonView>();
@@ -36,12 +41,23 @@ public class GameManager : MonoBehaviour, IPunObservable
         totalTimeUntilPowerUp = 12;
         powerUpTimer = totalTimeUntilPowerUp;
         rotatePowerUpTimer = totalTimeUntilRotatePowerUp;
-        StartTime = Time.time;
+        StartGame();
         Winner = 0;
         WinnerScore = 0;
         DisconectedPlayers = new List<GameObject>();
         gameActive = false;
         currentSpawnedRotatePowerUp = false;
+    }
+
+    public void incReadyPlayers() {
+        PV.RPC("RPC_incReadyPlayers", RpcTarget.AllBuffered);
+    }
+    public void decReadyPlayers() {
+        PV.RPC("RPC_decReadyPlayers", RpcTarget.AllBuffered);
+    }
+
+    public void StartGame() {
+        PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -76,7 +92,9 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     void Update()
     {
-
+        if (readyPlayers == players.Count && !activeGame) {
+            StartGame();
+        }
     }
 
     // Update is called once per frame
@@ -116,13 +134,13 @@ public class GameManager : MonoBehaviour, IPunObservable
                 }
             }
 
-            if (!timePaused)
+            if (!timePaused && activeGame)
             {
-                float t = StartTime - Time.time;
+                float t = StartTime + Time.time;
                 int minutes = ((int)t / 60);
-                int seconds = (int)(t % 60);
+                int seconds = (int)((t % 60));
 
-                string time = (TimeLimitMinutes + minutes).ToString() + ":" + (60 + seconds).ToString();
+                string time = (TimeLimitMinutes - minutes).ToString() + ":" + (59 - seconds).ToString();
                 PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, StartTime, time);
                 
             }
@@ -214,10 +232,26 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         StartTime = stime;
         timer.text = time;
-        if (System.Convert.ToInt32(time.Split(':')[0]) == 0 && System.Convert.ToInt32(time.Split(':')[1]) == 69)
+        if (System.Convert.ToInt32(time.Split(':')[0]) == 0 && System.Convert.ToInt32(time.Split(':')[1]) == 0)
         {
+            Debug.Log("Time's Up!");
             PV.RPC("RPC_EndGame", RpcTarget.AllBuffered,Winner);
         }
+    }
+    [PunRPC]
+    private void RPC_StartGame() {
+        StartTime = Time.time;
+        activeGame = true;
+    }
+    [PunRPC]
+    public void RPC_incReadyPlayers()
+    {
+        readyPlayers += 1;
+    }
+    [PunRPC]
+    public void RPC_decReadyPlayers()
+    {
+        readyPlayers -= 1;
     }
     [PunRPC]
     private void RPC_EndGame(int id)
@@ -225,6 +259,8 @@ public class GameManager : MonoBehaviour, IPunObservable
         pauseTime();
         PhotonView.Find(id + 1).gameObject.transform.position = new Vector3(0, 0, -50);
         gameOverPanel.SetActive(true);
+        activeGame = false;
+        readyPlayers = 0;
     }
     [PunRPC]
     private void RPC_tellWinner(int id)
