@@ -163,7 +163,10 @@ public class PhotonPlayer : MonoBehaviour
     {
         GameObject avatar = PhotonView.Find(avatarViewID).gameObject;
         avatar.GetComponent<CharacterMovement>().ID = id;
-        if(avatar != null) myAvatar = avatar;
+        if (avatar != null) myAvatar = avatar;
+        else {
+            Debug.Log("Can't set a null avatar!");
+        }
     }
     [PunRPC]
     private void RPC_SetPhotonPlayerID(int id)
