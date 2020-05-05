@@ -29,10 +29,14 @@ public class CollideListener : MonoBehaviour
         if (other != null) {
             foreach (ParticleCollisionEvent p in collisionEvents) {
                 GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
-                int otherPlayerID = other.GetComponent<ParticleSystem>().gameObject.GetComponentInParent<CharacterMovement>().lastShotMe;
-                Debug.Log("This is other player id= " + otherPlayerID);
-                int otherPlayerColorID = PhotonView.Find(otherPlayerID).gameObject.GetComponent<PhotonPlayer>().myAvatar.GetComponent<CharacterMovement>().colorID;
-                bloodObj.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[otherPlayerColorID];
+                //int otherPlayerID = other.GetComponent<ParticleSystem>().gameObject.GetComponentInParent<CharacterMovement>().lastShotMe;
+                //Debug.Log("This is other player id= " + otherPlayerID);
+                //int otherPlayerColorID = PhotonView.Find(otherPlayerID).gameObject.GetComponent<PhotonPlayer>().myAvatar.GetComponent<CharacterMovement>().colorID;
+                //bloodObj.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[otherPlayerColorID];
+                Material newMat = new Material(PlayerInfo.PI.totalMaterials[0]);
+                newMat.color = (other.GetComponent<ParticleSystem>().startColor);
+                Debug.Log(other.GetComponent<ParticleSystem>().startColor);
+                bloodObj.GetComponent<MeshRenderer>().sharedMaterial = newMat;
                 blood.transform.position = p.intersection;
                 blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
                 bool offEdge = false;
