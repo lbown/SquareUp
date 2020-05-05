@@ -231,16 +231,12 @@ public class CharacterMovement : MonoBehaviour
                 ps.GetComponent<ParticleSystem>().startColor = collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial.color;
                 ps.Play();
             }
-            else {
-                Debug.Log("Stop hitting urself");
-            }
         }
     }
     private void OnTriggerEnter(Collider other)
     {
             if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
-            {
-                if (PV == null) Debug.Log("The PhotonView is null");    
+            {  
                 if (GetComponent<PhotonView>().IsMine)
                 {
                     cubeControl.TransferOwnershipOfCube();
@@ -453,7 +449,6 @@ public class CharacterMovement : MonoBehaviour
     [PunRPC]
     public void RPC_IsWinner(int id)
     {
-        Debug.Log("in IsWinner");
         if (id == ID)
         {
             crown.SetActive(true);
