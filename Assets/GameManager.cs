@@ -242,6 +242,8 @@ public class GameManager : MonoBehaviour, IPunObservable
     private void RPC_StartGame() {
         StartTime = Time.time;
         activeGame = true;
+        //test this
+        PhotonNetwork.CurrentRoom.IsVisible = false;
     }
     [PunRPC]
     public void RPC_incReadyPlayers()

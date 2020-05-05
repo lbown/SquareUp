@@ -42,8 +42,12 @@ public class CharSelectionController : MonoBehaviour
             }
             PlayerInfo.PI.mySelectedCharacter = whichCharacter;
             PlayerPrefs.SetInt("SelectedCharacter", whichCharacter);
+            gm.incReadyPlayers();
         }
     }
 
-
+    private void Update()
+    {
+        //if (gm.activeGame) panel.SetActive(false);
+    }
 }
