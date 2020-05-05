@@ -9,6 +9,7 @@ public class CollideListener : MonoBehaviour
     [SerializeField] private GameObject bloodObj;
     public LayerMask canvasMask;
     public LayerMask groundMask;
+    public GameObject cubeTransform;
     void Start()
     {
         
@@ -25,7 +26,7 @@ public class CollideListener : MonoBehaviour
         ParticlePhysicsExtensions.GetCollisionEvents(other.GetComponent<ParticleSystem>(), gameObject, collisionEvents);
 
         foreach(ParticleCollisionEvent p in collisionEvents) {
-            GameObject blood = Instantiate(bloodObj);
+            GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
             blood.transform.position = p.intersection;
             blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
             bool offEdge = false;
@@ -39,7 +40,7 @@ public class CollideListener : MonoBehaviour
 
             if (offEdge)
             {
-                Destroy(blood);
+               // Destroy(blood);
             } else
             {
                 blood.SetActive(true);
