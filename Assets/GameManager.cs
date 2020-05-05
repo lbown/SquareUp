@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour, IPunObservable
     public List<string> pwrUps;
     private int maxPowerUps;
     [SerializeField] private float totalTimeUntilPowerUp, totalTimeUntilRotatePowerUp, powerUpTimer, rotatePowerUpTimer;
+
+    private bool gameActive;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,20 @@ public class GameManager : MonoBehaviour, IPunObservable
         Winner = 0;
         WinnerScore = 0;
         DisconectedPlayers = new List<GameObject>();
+        gameActive = false;
+    }
+
+    [PunRPC]
+    private void RPC_StartGame()
+    {
+        gameActive = true;
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<PhotonPlayer>().myAvatar == null)
+            {
+                player.GetComponent<PhotonPlayer>().SetAvatarInfo();
+            }
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -84,6 +100,12 @@ public class GameManager : MonoBehaviour, IPunObservable
     // Update is called once per frame
     void FixedUpdate()
     {
+        //CHANGE
+        if(!gameActive)
+        {
+            PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
+        }
+        //CHANGE
         if (PV.IsMine)
         {
             powerUpTimer -= Time.deltaTime;
