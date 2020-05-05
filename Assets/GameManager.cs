@@ -77,31 +77,19 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     void Update()
     {
-       // float t = Time.time;
-      //  int minutes = ((int)t / 60);
-       // int seconds = (int) (t % 60);
 
-       // timer.text = (TimeLimitMinutes - minutes).ToString() + ":" + (60 - seconds).ToString();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //CHANGE
-        /*
-        if(!gameActive && players.Count > 1)
-        {
-            PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
-        }
-        */
-        //CHANGE
         if (PV.IsMine)
         {
             powerUpTimer -= Time.deltaTime;
             rotatePowerUpTimer -= Time.deltaTime;
             if (powerUpTimer <= 0)
             {
-                if (currentSpawnedPowerUps < maxPowerUps && pwrUps.Count > 0)
+                if (currentSpawnedPowerUps < maxPowerUps)
                 {
                     PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps + 1));
                     ResetPowerUpTimer();
@@ -180,10 +168,6 @@ public class GameManager : MonoBehaviour, IPunObservable
     public void unpauseTime()
     {
         PV.RPC("RPC_UnPauseTime", RpcTarget.AllBuffered);
-    }
-    public void countTime(int min, int sec)
-    {
-
     }
 
     [PunRPC] 
