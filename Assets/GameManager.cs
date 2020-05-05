@@ -174,6 +174,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     [PunRPC] 
     private void RPC_PauseTime()
     {
+        PV.RPC("RPC_PurgePlayerList", RpcTarget.AllBuffered);
         timePaused = true;
         foreach (GameObject player in players)
         {
