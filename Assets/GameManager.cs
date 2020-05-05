@@ -43,20 +43,6 @@ public class GameManager : MonoBehaviour, IPunObservable
         gameActive = false;
     }
 
-    public void RefreshPlayers()
-    {
-        gameActive = true;
-        foreach (GameObject player in players)
-        {
-            if (player != null) { 
-                if (PhotonView.Find(player.GetComponent<CharacterMovement>().ID).gameObject.GetComponent<PhotonPlayer>().myAvatar == null)
-                {
-                    PhotonView.Find(player.GetComponent<CharacterMovement>().ID).GetComponent<PhotonPlayer>().SetAvatarInfo();
-                }
-            }
-        }
-    }
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
