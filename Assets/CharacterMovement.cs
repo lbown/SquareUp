@@ -244,7 +244,6 @@ public class CharacterMovement : MonoBehaviour
                 if (GetComponent<PhotonView>().IsMine)
                 {
                     cubeControl.TransferOwnershipOfCube();
-                    GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
                     cubeControl.StartRotation();
                 }
                 Destroy(other.gameObject);
