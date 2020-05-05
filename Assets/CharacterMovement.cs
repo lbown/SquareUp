@@ -238,14 +238,12 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (PV.IsMine)
-        {
-            if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
+            if (PV.IsMine && other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
             {
                 cubeControl.TransferOwnershipOfCube();
                 GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
                 cubeControl.StartRotation();
-                Destroy(other.gameObject);
+                PhotonNetwork.Destroy(other.gameObject);
                 gm.DecrementPowerUps(true);
             }
             if (other.gameObject.tag == "Gun")
@@ -262,7 +260,6 @@ public class CharacterMovement : MonoBehaviour
                 health -= other.gameObject.GetComponent<Fist>().damage;
                 impact += other.gameObject.GetComponent<Rigidbody>().velocity*5;
             }
-        }
     }
 
     private void Move()
