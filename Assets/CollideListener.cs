@@ -36,7 +36,8 @@ public class CollideListener : MonoBehaviour
                 Material newMat = new Material(PlayerInfo.PI.totalMaterials[0]);
                 newMat.color = (other.GetComponent<ParticleSystem>().startColor);
                 Debug.Log(other.GetComponent<ParticleSystem>().startColor);
-                bloodObj.GetComponent<MeshRenderer>().sharedMaterial = newMat;
+                Debug.Log(other.GetComponent<ParticleSystem>().startColor == newMat.color);
+                blood.GetComponent<MeshRenderer>().sharedMaterial = newMat;
                 blood.transform.position = p.intersection;
                 blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
                 bool offEdge = false;
