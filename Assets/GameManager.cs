@@ -49,9 +49,11 @@ public class GameManager : MonoBehaviour, IPunObservable
         gameActive = true;
         foreach (GameObject player in players)
         {
-            if (player.GetComponent<PhotonPlayer>().myAvatar == null)
-            {
-                player.GetComponent<PhotonPlayer>().SetAvatarInfo();
+            if (player != null) { 
+                if (player.GetComponent<PhotonPlayer>().myAvatar == null)
+                {
+                    player.GetComponent<PhotonPlayer>().SetAvatarInfo();
+                }
             }
         }
     }
