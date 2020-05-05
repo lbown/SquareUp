@@ -228,7 +228,7 @@ public class CharacterMovement : MonoBehaviour
                 Vector3 imp = new Vector3(vel.x, vel.y, 0f);
                 impact += Vector3.Normalize(imp);
                 //ps.GetComponent<ParticleSystemRenderer>().material.color = collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial.color;
-                ps.GetComponent<ParticleSystem>().startColor = collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial.color;
+                ps.GetComponent<ParticleSystem>().startColor = collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_BaseColor");
                 ps.Play();
             }
             else {
