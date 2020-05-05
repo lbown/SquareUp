@@ -55,29 +55,11 @@ public class PhotonPlayer : MonoBehaviour
         {
             int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
             
-            //if (PV.IsMine)
-            //{
                 myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
                 GameSetup.gs.myAvatar = myAvatar;
                 PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, PV.ViewID);
                 gm.addPlayer(myAvatar);
-                //PV.RPC("RPC_RefreshPlayers", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
-            //}
-        }
-    }
 
-    [PunRPC]
-    public void RPC_RefreshPlayers(int avatarID)
-    {
-        foreach (GameObject player in gm.players)
-        {
-            if (player != null)
-            {
-                if (PhotonView.Find(player.GetComponent<CharacterMovement>().ID).gameObject.GetComponent<PhotonPlayer>().myAvatar == null)
-                {
-                    PhotonView.Find(player.GetComponent<CharacterMovement>().ID).GetComponent<PhotonPlayer>().SetAvatarInfo(avatarID);
-                }
-            }
         }
     }
 
