@@ -120,6 +120,7 @@ public class CharacterMovement : MonoBehaviour
 
         crown.GetComponent<MeshRenderer>().enabled = false;
         Fist.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[colorID];
+        Fist.GetComponent<Fist>().damage = 50;
         meleCooldown = 20;
 
     }
@@ -255,6 +256,12 @@ public class CharacterMovement : MonoBehaviour
                 Destroy(other.gameObject);
                 gm.DecrementPowerUps(false);
             }
+            if (other.gameObject.tag == "Fist" && other.gameObject != Fist)
+            {
+                other.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                health -= other.gameObject.GetComponent<Fist>().damage;
+                impact += other.gameObject.GetComponent<Rigidbody>().velocity*5;
+            }
         }
     }
 
@@ -319,9 +326,7 @@ public class CharacterMovement : MonoBehaviour
             //PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
             if (value.Get<Vector2>().magnitude >= 0.9 && gun == null && meleCooldown <= 0)
             {
-                meleCooldown = 30;
-                Fist.GetComponent<Rigidbody>().AddForce(aimDirection*1000);
-                StartCoroutine(FistDrag());
+                PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, aimDirection);
             }
         }
     }
@@ -456,5 +461,12 @@ public class CharacterMovement : MonoBehaviour
             crown.GetComponent<MeshRenderer>().enabled = true;
         }
         else crown.SetActive(false);
+    }
+    [PunRPC]
+    public void RPC_MeleAttack(Vector2 aim)
+    {
+        meleCooldown = 30;
+        Fist.GetComponent<Rigidbody>().AddForce(aimDirection * 1000);
+        StartCoroutine(FistDrag());
     }
 }

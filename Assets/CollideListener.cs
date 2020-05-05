@@ -67,4 +67,12 @@ public class CollideListener : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Fist")
+        {
+            other.gameObject.GetComponent<Rigidbody>().velocity = other.gameObject.GetComponent<Rigidbody>().velocity*-.5f;
+        }
+    }
 }
