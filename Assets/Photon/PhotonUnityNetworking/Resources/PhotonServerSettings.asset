@@ -75,5 +75,8 @@ MonoBehaviour:
   - RPC_SynchronizePowerUpTimer
   - RPC_SynchronizeRotatePowerUpTimer
   - RPC_RefreshPlayers
+  - RPC_MeleAttack
+  - RPC_InstantiatePowerUp
+  - RPC_InstantiateRotatePowerUp
   DisableAutoOpenWizard: 1
   ShowSettings: 1

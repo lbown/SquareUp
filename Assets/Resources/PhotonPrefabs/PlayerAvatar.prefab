@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   player: {fileID: 4060611263659829762}
+  damage: 0
 --- !u!1 &4060611263659829762
 GameObject:
   m_ObjectHideFlags: 0
