@@ -11,6 +11,7 @@ public class CollideListener : MonoBehaviour
     public LayerMask canvasMask;
     public LayerMask groundMask;
     public GameObject cubeTransform;
+    public Material mat;
     void Start()
     {
         
@@ -28,16 +29,22 @@ public class CollideListener : MonoBehaviour
         
         if (other != null) {
             foreach (ParticleCollisionEvent p in collisionEvents) {
+                mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                //mat.color = (other.GetComponent<ParticleSystem>().startColor);
+                mat.SetColor("_Color", other.GetComponent<ParticleSystem>().startColor);
+                mat.SetColor("_EmissionColor", other.GetComponent<ParticleSystem>().startColor);
+                mat.EnableKeyword("_EMISSION");
                 GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
+                blood.GetComponent<MeshRenderer>().sharedMaterial = mat;
                 //int otherPlayerID = other.GetComponent<ParticleSystem>().gameObject.GetComponentInParent<CharacterMovement>().lastShotMe;
                 //Debug.Log("This is other player id= " + otherPlayerID);
                 //int otherPlayerColorID = PhotonView.Find(otherPlayerID).gameObject.GetComponent<PhotonPlayer>().myAvatar.GetComponent<CharacterMovement>().colorID;
                 //bloodObj.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[otherPlayerColorID];
-                Material newMat = new Material(PlayerInfo.PI.totalMaterials[0]);
-                newMat.color = (other.GetComponent<ParticleSystem>().startColor);
-                Debug.Log(other.GetComponent<ParticleSystem>().startColor);
-                Debug.Log(other.GetComponent<ParticleSystem>().startColor == newMat.color);
-                blood.GetComponent<MeshRenderer>().sharedMaterial = newMat;
+
+                //Debug.Log(other.GetComponent<ParticleSystem>().startColor);
+                //Debug.Log(other.GetComponent<ParticleSystem>().startColor == newMat.color);
+
+                //Debug.Log(other.GetComponent<ParticleSystem>().startColor == blood.GetComponent<MeshRenderer>().sharedMaterial.color);
                 blood.transform.position = p.intersection;
                 blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
                 bool offEdge = false;
