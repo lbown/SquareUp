@@ -32,8 +32,8 @@ public class CollideListener : MonoBehaviour
                 mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
                 //mat.color = (other.GetComponent<ParticleSystem>().startColor);
                 mat.SetColor("_BaseColor", other.GetComponent<ParticleSystem>().startColor);
-                mat.SetColor("_EmissionColor", other.GetComponent<ParticleSystem>().startColor);
-                mat.EnableKeyword("_EMISSION");
+                //mat.SetColor("_EmissionColor", other.GetComponent<ParticleSystem>().startColor);
+                //mat.EnableKeyword("_EMISSION");
                 GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
                 blood.GetComponent<MeshRenderer>().sharedMaterial = mat;
                 //int otherPlayerID = other.GetComponent<ParticleSystem>().gameObject.GetComponentInParent<CharacterMovement>().lastShotMe;
