@@ -30,6 +30,7 @@ public class CollideListener : MonoBehaviour
             foreach (ParticleCollisionEvent p in collisionEvents) {
                 GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
                 int otherPlayerID = other.GetComponent<ParticleSystem>().gameObject.GetComponentInParent<CharacterMovement>().lastShotMe;
+                Debug.Log("This is other player id= " + otherPlayerID);
                 int otherPlayerColorID = PhotonView.Find(otherPlayerID).gameObject.GetComponent<PhotonPlayer>().myAvatar.GetComponent<CharacterMovement>().colorID;
                 bloodObj.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[otherPlayerColorID];
                 blood.transform.position = p.intersection;
