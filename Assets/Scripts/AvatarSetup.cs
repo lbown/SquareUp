@@ -20,14 +20,7 @@ public class AvatarSetup : MonoBehaviour
         {
             int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
             PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, GenerateNewColor(), actorNumber);
-        }
-
-        foreach (GameObject player in gm.players) {
-            if (player.GetComponent<PhotonPlayer>().myAvatar == null)
-            {
-                player.GetComponent<PhotonPlayer>().SetAvatarInfo();
-            }
-        }
+        }    
     }
 
     [PunRPC]

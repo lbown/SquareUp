@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     void FixedUpdate()
     {
         //CHANGE
-        if(!gameActive)
+        if(!gameActive && players.Count > 1)
         {
             PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
         }
