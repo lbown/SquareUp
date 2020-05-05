@@ -31,7 +31,7 @@ public class CollideListener : MonoBehaviour
             foreach (ParticleCollisionEvent p in collisionEvents) {
                 mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
                 //mat.color = (other.GetComponent<ParticleSystem>().startColor);
-                mat.SetColor("_Color", other.GetComponent<ParticleSystem>().startColor);
+                mat.SetColor("_BaseColor", other.GetComponent<ParticleSystem>().startColor);
                 mat.SetColor("_EmissionColor", other.GetComponent<ParticleSystem>().startColor);
                 mat.EnableKeyword("_EMISSION");
                 GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
