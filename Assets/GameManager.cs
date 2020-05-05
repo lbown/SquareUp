@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     public List<GameObject> players;
     public bool timePaused;
     private int currentSpawnedPowerUps;
-    private bool currentSpawnedRotatePowerUp;
+    public bool currentSpawnedRotatePowerUp;
     public TextMeshProUGUI timer;
     private float StartTime;
     public int TimeLimitMinutes;
@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         WinnerScore = 0;
         DisconectedPlayers = new List<GameObject>();
         gameActive = false;
+        currentSpawnedRotatePowerUp = false;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -59,13 +60,13 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         rotatePowerUpTimer = totalTimeUntilRotatePowerUp;
         PV.RPC("RPC_SynchronizeRotatePowerUps", RpcTarget.AllBuffered, true);
-        PV.RPC("RPC_SynchronizeRotatePowerUpTimer", RpcTarget.AllBuffered, rotatePowerUpTimer);
+        //PV.RPC("RPC_SynchronizeRotatePowerUpTimer", RpcTarget.AllBuffered, rotatePowerUpTimer);
     }
     public void ResetPowerUpTimer()
     {
         powerUpTimer = totalTimeUntilPowerUp;
         PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, currentSpawnedPowerUps);
-        PV.RPC("RPC_SynchronizePowerUpTimer", RpcTarget.AllBuffered, powerUpTimer);
+        //PV.RPC("RPC_SynchronizePowerUpTimer", RpcTarget.AllBuffered, powerUpTimer);
     }
     public void DecrementPowerUps(bool isCube) {
         PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps - 1));
@@ -95,7 +96,8 @@ public class GameManager : MonoBehaviour, IPunObservable
                     ResetPowerUpTimer();
                     int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
                     System.Random rnd = new System.Random();
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", pwrUps[rnd.Next(pwrUps.Count)]), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
+                    PV.RPC("RPC_InstantiatePowerUp", RpcTarget.AllBuffered, spawnPicker, rnd.Next(pwrUps.Count));
+                    //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", pwrUps[rnd.Next(pwrUps.Count)]), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
                 }
                 else {
                     ResetPowerUpTimer();
@@ -110,7 +112,8 @@ public class GameManager : MonoBehaviour, IPunObservable
                     ResetPowerUpTimer();
                     ResetRotatePowerUpTimer();
                     int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
+                    PV.RPC("RPC_InstantiateRotatePowerUp", RpcTarget.AllBuffered, spawnPicker);
+                    //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPicker].position, GameSetup.gs.powerUpLocations[spawnPicker].rotation, 0);
                 }
                 else {
                     ResetRotatePowerUpTimer();
@@ -168,6 +171,17 @@ public class GameManager : MonoBehaviour, IPunObservable
     public void unpauseTime()
     {
         PV.RPC("RPC_UnPauseTime", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    private void RPC_InstantiateRotatePowerUp(int spawnPos)
+    {
+        Instantiate(Resources.Load<GameObject>("PhotonPrefabs/RotateCubePowerUp"), GameSetup.gs.powerUpLocations[spawnPos].position, GameSetup.gs.powerUpLocations[spawnPos].rotation);
+    }
+    [PunRPC]
+    private void RPC_InstantiatePowerUp(int spawnPos, int rndPowerUp)
+    {
+        Instantiate(Resources.Load<GameObject>("PhotonPrefabs/"+ pwrUps[rndPowerUp]), GameSetup.gs.powerUpLocations[spawnPos].position, GameSetup.gs.powerUpLocations[spawnPos].rotation);
     }
 
     [PunRPC] 

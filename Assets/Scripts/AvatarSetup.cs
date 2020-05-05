@@ -31,7 +31,6 @@ public class AvatarSetup : MonoBehaviour
         myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
         gameObject.GetComponent<CharacterMovement>().colorID = randomMaterialID;
         PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
-        Debug.Log(actorID + " Is actor number on joining");
             if (PlayerInfo.PI.playerMaterials.ContainsKey(actorID))
             {
                 PlayerInfo.PI.playerMaterials[actorID] = randomMaterialID;

@@ -238,17 +238,20 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-            if (PV.IsMine && other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
+            if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
             {
-                cubeControl.TransferOwnershipOfCube();
-                GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
-                cubeControl.StartRotation();
-                PhotonNetwork.Destroy(other.gameObject);
+                if (PV == null) Debug.Log("The PhotonView is null");    
+                if (GetComponent<PhotonView>().IsMine)
+                {
+                    cubeControl.TransferOwnershipOfCube();
+                    GameObject.Find("RotateCubePowerUp(Clone)").GetComponent<PhotonView>().RequestOwnership();
+                    cubeControl.StartRotation();
+                }
+                Destroy(other.gameObject);
                 gm.DecrementPowerUps(true);
             }
             if (other.gameObject.tag == "Gun")
             {
-                Debug.Log("picked up gun: "+other.gameObject);
                 GunScript newGun = other.gameObject.GetComponent<GunScript>();
                 PV.RPC("RPC_SetGunInfo", RpcTarget.AllBuffered, newGun.length, newGun.damage, newGun.shotSpeed, newGun.magazineSize, newGun.bulletsPerShot, newGun.reloadTime, newGun.automatic, newGun.name, newGun.recoil, newGun.bulletSize);
                 Destroy(other.gameObject);
