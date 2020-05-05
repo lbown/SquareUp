@@ -61,14 +61,29 @@ public class PhotonPlayer : MonoBehaviour
                 GameSetup.gs.myAvatar = myAvatar;
                 PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, PV.ViewID);
                 gm.addPlayer(myAvatar);
-                gm.RefreshPlayers();
+                PV.RPC("RPC_RefreshPlayers", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
             }
         }
     }
 
-    public void SetAvatarInfo()
+    [PunRPC]
+    public void RPC_RefreshPlayers(int avatarID)
     {
-        PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, PV.ViewID);
+        foreach (GameObject player in gm.players)
+        {
+            if (player != null)
+            {
+                if (PhotonView.Find(player.GetComponent<CharacterMovement>().ID).gameObject.GetComponent<PhotonPlayer>().myAvatar == null)
+                {
+                    PhotonView.Find(player.GetComponent<CharacterMovement>().ID).GetComponent<PhotonPlayer>().SetAvatarInfo(avatarID);
+                }
+            }
+        }
+    }
+
+    public void SetAvatarInfo(int avatarID)
+    {
+        PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, avatarID, PV.ViewID);
     }
 
     private void DieAndRespawn()
@@ -148,8 +163,7 @@ public class PhotonPlayer : MonoBehaviour
     {
         GameObject avatar = PhotonView.Find(avatarViewID).gameObject;
         avatar.GetComponent<CharacterMovement>().ID = id;
-        myAvatar = avatar;
-        Debug.Log("You have set your id!!");
+        if(avatar != null) myAvatar = avatar;
     }
     [PunRPC]
     private void RPC_SetPhotonPlayerID(int id)
