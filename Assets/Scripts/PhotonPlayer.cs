@@ -65,6 +65,11 @@ public class PhotonPlayer : MonoBehaviour
         }
     }
 
+    public void SetAvatarInfo()
+    {
+        PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, PV.ViewID);
+    }
+
     private void DieAndRespawn()
     {
         PhotonView.Find(ID + 1).RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
