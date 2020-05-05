@@ -24,4 +24,10 @@ public class MultiplayerSettings : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
     }
+
+    public void SetMaxPlayers(int value)
+    {
+        Debug.Log("SetMaxPlayers called.");
+        maxPlayers = value;
+    }
 }
