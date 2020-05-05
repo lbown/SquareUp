@@ -61,6 +61,7 @@ public class PhotonPlayer : MonoBehaviour
                 GameSetup.gs.myAvatar = myAvatar;
                 PV.RPC("RPC_SetAvatarID", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, PV.ViewID);
                 gm.addPlayer(myAvatar);
+                gm.RefreshPlayers();
             }
         }
     }

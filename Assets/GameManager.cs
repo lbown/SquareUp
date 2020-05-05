@@ -43,16 +43,15 @@ public class GameManager : MonoBehaviour, IPunObservable
         gameActive = false;
     }
 
-    [PunRPC]
-    private void RPC_StartGame()
+    public void RefreshPlayers()
     {
         gameActive = true;
         foreach (GameObject player in players)
         {
             if (player != null) { 
-                if (player.GetComponent<PhotonPlayer>().myAvatar == null)
+                if (PhotonView.Find(player.GetComponent<CharacterMovement>().ID).gameObject.GetComponent<PhotonPlayer>().myAvatar == null)
                 {
-                    player.GetComponent<PhotonPlayer>().SetAvatarInfo();
+                    PhotonView.Find(player.GetComponent<CharacterMovement>().ID).GetComponent<PhotonPlayer>().SetAvatarInfo();
                 }
             }
         }
@@ -103,10 +102,12 @@ public class GameManager : MonoBehaviour, IPunObservable
     void FixedUpdate()
     {
         //CHANGE
+        /*
         if(!gameActive && players.Count > 1)
         {
             PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
         }
+        */
         //CHANGE
         if (PV.IsMine)
         {
@@ -176,6 +177,10 @@ public class GameManager : MonoBehaviour, IPunObservable
     public void addPlayer(GameObject p)
     {
         PV.RPC("RPC_AddPlayer", RpcTarget.AllBuffered, p.GetComponent<PhotonView>().ViewID);
+        if(p == null)
+        {
+            Debug.Log("Attempted to add null player");
+        }
     }
 
     public void purgePlayerList()
