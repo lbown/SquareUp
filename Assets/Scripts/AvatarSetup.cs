@@ -9,8 +9,7 @@ public class AvatarSetup : MonoBehaviour
     private PhotonView PV;
     public int characterValue;
     public GameObject myCharacter;
-    public Material myBulletColor;
-    private GameManager gm;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,9 +26,8 @@ public class AvatarSetup : MonoBehaviour
     {
         characterValue = whichCharacter;
         myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
-        //myCharacter.GetComponent<CharacterMovement>().WhichPlayerAmI = whichCharacter;
-        //myCharacter.GetComponent<CharacterMovement>().colorID = randomMaterialID;
         myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
+        gameObject.GetComponent<CharacterMovement>().colorID = randomMaterialID;
         PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
         Debug.Log(actorID + " Is actor number on joining");
             if (PlayerInfo.PI.playerMaterials.ContainsKey(actorID))

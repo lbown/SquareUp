@@ -185,11 +185,11 @@ public class CharacterMovement : MonoBehaviour
     private void shoot()
     {
         fireCooldown = fireRate;
-        PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * (gunLength + .5f), aimDirection.y * (gunLength + .5f), transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID, bulDmg, bulletSpeed);
+        PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * (gunLength + .5f), aimDirection.y * (gunLength + .5f), transform.position.z)), Quaternion.identity, aimDirection, PlayerInfo.PI.mySelectedCharacter, ID, bulDmg, bulletSpeed, colorID);
         impact += Vector3.Normalize(new Vector3(-aimDirection.x, -aimDirection.y, 0)) * recoilAmt;
         if (WhichPlayerAmI == 2)
         {
-                PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -(gunLength + .5f), aimDirection.y * -(gunLength + .5f), transform.position.z)), Quaternion.identity, -1 * aimDirection, PlayerInfo.PI.mySelectedCharacter, ID, bulDmg, bulletSpeed);
+                PV.RPC("RPC_Fire", RpcTarget.All, (transform.position + new Vector3(aimDirection.x * -(gunLength + .5f), aimDirection.y * -(gunLength + .5f), transform.position.z)), Quaternion.identity, -1 * aimDirection, PlayerInfo.PI.mySelectedCharacter, ID, bulDmg, bulletSpeed, colorID);
         }
         ammo -= 1;
         if (ammo <= 0)
@@ -363,10 +363,10 @@ public class CharacterMovement : MonoBehaviour
     {
         return PlayerInfo.PI.mySelectedCharacter;
     }
-    private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID, int dmg, float bulSped)
+    private void ShootBullet(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID, int dmg, float bulSped, int cID)
     {
         GameObject clone = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/NewBullet"), pos, dir);
-        clone.GetComponent<MeshRenderer>().sharedMaterial = GetComponentInChildren<MeshRenderer>().sharedMaterial;
+        clone.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[cID];
         clone.GetComponent<Rigidbody>().velocity = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30 * bulSped;
         clone.GetComponent<NewBulletController>().whoShotMe = playerID;
         clone.GetComponent<NewBulletController>().impulse = Vector3.Normalize(new Vector3(aimDir.x, aimDir.y, 0)) * 30 * bulSped;
@@ -403,9 +403,9 @@ public class CharacterMovement : MonoBehaviour
         bulletSize = bulSize;
     }
     [PunRPC] 
-    private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID, int dmg, float speed)
+    private void RPC_Fire(Vector3 pos, Quaternion dir, Vector2 aimDir, int mat, int playerID, int dmg, float speed, int cID)
     {
-        ShootBullet(pos, dir, aimDir, mat, playerID, dmg, speed);
+        ShootBullet(pos, dir, aimDir, mat, playerID, dmg, speed, cID);
 
     }
     [PunRPC]
