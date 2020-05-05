@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     void Update()
     {
-        if (readyPlayers == players.Count) {
+        if (readyPlayers == players.Count && !activeGame) {
             StartGame();
         }
     }
@@ -260,6 +260,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         PhotonView.Find(id + 1).gameObject.transform.position = new Vector3(0, 0, -50);
         gameOverPanel.SetActive(true);
         activeGame = false;
+        readyPlayers = 0;
     }
     [PunRPC]
     private void RPC_tellWinner(int id)
