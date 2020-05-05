@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CollideListener : MonoBehaviour
 {
@@ -24,28 +25,33 @@ public class CollideListener : MonoBehaviour
     {
         List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         ParticlePhysicsExtensions.GetCollisionEvents(other.GetComponent<ParticleSystem>(), gameObject, collisionEvents);
-
-        foreach(ParticleCollisionEvent p in collisionEvents) {
-            GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
-            blood.transform.position = p.intersection;
-            blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
-            bool offEdge = false;
-            foreach(Transform t in blood.transform)
-            {
-                if (!Physics.CheckSphere(t.position, 0.01f, canvasMask) && !Physics.CheckSphere(t.position, 0.01f, groundMask))
+        
+        if (other != null) {
+            foreach (ParticleCollisionEvent p in collisionEvents) {
+                GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
+                int otherPlayerID = other.GetComponent<ParticleSystem>().gameObject.GetComponentInParent<CharacterMovement>().lastShotMe;
+                int otherPlayerColorID = PhotonView.Find(otherPlayerID).gameObject.GetComponent<PhotonPlayer>().myAvatar.GetComponent<CharacterMovement>().colorID;
+                bloodObj.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[otherPlayerColorID];
+                blood.transform.position = p.intersection;
+                blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
+                bool offEdge = false;
+                foreach (Transform t in blood.transform)
                 {
-                    offEdge = true;
+                    if (!Physics.CheckSphere(t.position, 0.01f, canvasMask) && !Physics.CheckSphere(t.position, 0.01f, groundMask))
+                    {
+                        offEdge = true;
+                    }
                 }
-            }
 
-            if (offEdge)
-            {
-               Destroy(blood);
-            } else
-            {
-                blood.SetActive(true);
-            }
+                if (offEdge)
+                {
+                    Destroy(blood);
+                } else
+                {
+                    blood.SetActive(true);
+                }
 
+            }
         }
     }
 }

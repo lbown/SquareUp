@@ -229,8 +229,8 @@ public class CharacterMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (PV.IsMine)
-        {
+        //if (PV.IsMine)
+       // {
             if (other.gameObject.tag == "RotatePowerUp" && !cubeControl.inRotation)
             {
                 cubeControl.TransferOwnershipOfCube();
@@ -246,7 +246,7 @@ public class CharacterMovement : MonoBehaviour
                 Destroy(other.gameObject);
                 gm.DecrementPowerUps(false);
             }
-        }
+      //  }
     }
 
     private void Move()

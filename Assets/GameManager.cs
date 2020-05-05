@@ -138,7 +138,6 @@ public class GameManager : MonoBehaviour, IPunObservable
         WinnerScore = -1000;
         foreach (GameObject p in players)
         {
-            Debug.Log((p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths));
             if (p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths > WinnerScore)
             {
                 WinnerScore = p.GetComponent<CharacterMovement>().numKills - p.GetComponent<CharacterMovement>().numDeaths;
