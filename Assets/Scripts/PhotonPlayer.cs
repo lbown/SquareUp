@@ -148,6 +148,7 @@ public class PhotonPlayer : MonoBehaviour
         GameObject avatar = PhotonView.Find(avatarViewID).gameObject;
         avatar.GetComponent<CharacterMovement>().ID = id;
         myAvatar = avatar;
+        Debug.Log("You have set your id!!");
     }
     [PunRPC]
     private void RPC_SetPhotonPlayerID(int id)
