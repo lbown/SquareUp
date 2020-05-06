@@ -48,6 +48,6 @@ public class CharSelectionController : MonoBehaviour
 
     private void Update()
     {
-        //if (gm.activeGame) panel.SetActive(false);
+        if (panel.activeSelf && gm.activeGame) panel.SetActive(false);
     }
 }
