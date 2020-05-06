@@ -313,7 +313,7 @@ public class CharacterMovement : MonoBehaviour
                 PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, aimDirection);
             }
 
-            if(value.Get<Vector2>().magnitude >= 0.9 && gum != null && fireCooldown <= 0 && autoFire)
+            if(value.Get<Vector2>().magnitude >= 0.9 && gun != null && autoFire)
             {
                 fireing = true;
             }
