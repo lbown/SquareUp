@@ -26,14 +26,14 @@ public class CrownColorInterpolate : MonoBehaviour
     {
         for (int i = 0; i < crownRenderers.Length; i++)
         {
-            crownRenderers[i].material.color = Color.Lerp(crownRenderers[i].material.color, myColors[colorIndex], lerpTime * Time.deltaTime);
+            crownRenderers[i].material.SetColor("_BaseColor", Color.Lerp(crownRenderers[i].material.GetColor("_BaseColor"), myColors[(colorIndex + 1) % len], lerpTime * Time.deltaTime));
         }
         t = Mathf.Lerp(t, 1f, lerpTime * Time.deltaTime);
         if (t > .9f)
         {
             t = 0f;
             colorIndex++;
-            colorIndex = colorIndex % len;//(colorIndex >= len) ? 0 : colorIndex;
+            colorIndex = colorIndex % len;
             Debug.Log("Color Index: " + colorIndex);
         }
     }
@@ -56,10 +56,10 @@ public class CrownColorInterpolate : MonoBehaviour
     {
         crownRenderers = GetComponentsInChildren<MeshRenderer>();
         myColors = new List<Color>();
-        myColors.Add(new Color(212, 175, 55));
+        myColors.Add(new Color32(212, 175, 55, 255));
         foreach (int mat in PlayerInfo.PI.alreadySelectedMaterials)
         {
-            myColors.Add(PlayerInfo.PI.totalMaterials[mat].color);
+            myColors.Add(PlayerInfo.PI.totalMaterials[mat].GetColor("_BaseColor"));
         }
         colorIndex = 0;
         t = 0f;

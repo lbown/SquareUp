@@ -119,6 +119,7 @@ public class CharacterMovement : MonoBehaviour
         fireCooldown = 0;
 
         crown.GetComponent<CrownColorInterpolate>().SetCrownRenderers(false);
+
         Fist.GetComponent<Fist>().ID = ID;
         Fist.GetComponent<Fist>().damage = 50;
         meleCooldown = 20;
