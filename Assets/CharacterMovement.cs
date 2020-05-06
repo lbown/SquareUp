@@ -118,12 +118,13 @@ public class CharacterMovement : MonoBehaviour
         //gun.transform.parent = GunPivot;
         fireCooldown = 0;
 
-        crown.GetComponent<MeshRenderer>().enabled = false;
+        crown.GetComponent<CrownColorInterpolate>().SetCrownRenderers(false);
         Fist.GetComponent<Fist>().ID = ID;
         Fist.GetComponent<Fist>().damage = 50;
         meleCooldown = 20;
 
     }
+
 
     // Update is called once per frame
     void Update()
@@ -458,7 +459,8 @@ public class CharacterMovement : MonoBehaviour
         if (id == ID)
         {
             crown.SetActive(true);
-            crown.GetComponent<MeshRenderer>().enabled = true;
+            crown.GetComponent<CrownColorInterpolate>().StartCrown();
+            crown.GetComponent<CrownColorInterpolate>().SetCrownRenderers(true);
         }
         else crown.SetActive(false);
     }
