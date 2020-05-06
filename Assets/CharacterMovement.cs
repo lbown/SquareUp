@@ -295,15 +295,9 @@ public class CharacterMovement : MonoBehaviour
     {
         if (PV.IsMine && !timePaused && gun != null)
         {
-            if (autoFire)
+            if (!autoFire && fireCooldown == 0)
             {
-                fireing = !fireing;
-            }
-            else {
-                if (fireCooldown == 0)
-                {
-                    shoot();
-                }
+                shoot();
             }
         }
     }
@@ -317,6 +311,15 @@ public class CharacterMovement : MonoBehaviour
             if (value.Get<Vector2>().magnitude >= 0.9 && gun == null && meleCooldown <= 0)
             {
                 PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, aimDirection);
+            }
+
+            if(value.Get<Vector2>().magnitude >= 0.9 && gum != null && fireCooldown <= 0 && autoFire)
+            {
+                fireing = true;
+            }
+            else
+            {
+                fireing = false;
             }
         }
     }
