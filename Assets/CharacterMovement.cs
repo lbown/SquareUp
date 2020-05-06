@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
 using Photon.Realtime;
+using TMPro;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -78,6 +79,9 @@ public class CharacterMovement : MonoBehaviour
 
     public ParticleSystem ps;
 
+    private GameObject ammoUI;
+    private GameObject abilityUI;
+
 
     public void pauseTime() {
         timePaused = true;
@@ -132,6 +136,11 @@ public class CharacterMovement : MonoBehaviour
             foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.sharedMaterial = PlayerInfo.PI.totalMaterials[colorID];
             foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.enabled = false;
         }
+
+        ammoUI = GameObject.Find("Ammo");
+        abilityUI = GameObject.Find("Ability");
+        ammoUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
+        abilityUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
 
     }
 
@@ -198,6 +207,13 @@ public class CharacterMovement : MonoBehaviour
             {
                 meleCooldown -= 1;
             }
+            if (gun == null)
+            {
+                ammoUI.GetComponent<TextMeshProUGUI>().text = "Fist";
+            }
+            else ammoUI.GetComponent<TextMeshProUGUI>().text = new string('.',ammo);
+
+            abilityUI.GetComponent<TextMeshProUGUI>().text = "Ability : " + cooldown;
         }
     }
 

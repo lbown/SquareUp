@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     public int TimeLimitMinutes;
     public bool activeGame;
     public GameObject gameOverPanel;
+    public GameObject UIPanel;
     public int Winner;
     public int WinnerScore;
     private List<GameObject> DisconectedPlayers;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         DisconectedPlayers = new List<GameObject>();
         currentSpawnedRotatePowerUp = false;
         waitingToStart = false;
+        foreach (TextMeshProUGUI t in UIPanel.GetComponentsInChildren<TextMeshProUGUI>()) t.enabled = false;
     }
 
     public void incReadyPlayers() {
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour, IPunObservable
             //PhotonNetwork.CurrentRoom.IsVisible = false;
         }
         else StartGame();
+        foreach (TextMeshProUGUI t in UIPanel.GetComponentsInChildren<TextMeshProUGUI>()) t.enabled = true;
     }
 
 
