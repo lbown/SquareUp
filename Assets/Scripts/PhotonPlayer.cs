@@ -84,6 +84,7 @@ public class PhotonPlayer : MonoBehaviour
     IEnumerator SpawnDelay()
     {
         yield return new WaitForSeconds(2f);
+        while (gm.timePaused) { };
         Respawn();
         notWaitingForDelay = true;
     }

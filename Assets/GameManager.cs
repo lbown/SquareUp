@@ -273,6 +273,9 @@ public class GameManager : MonoBehaviour, IPunObservable
     private void RPC_EndGame(int id)
     {
         pauseTime();
+        GameObject winner = PhotonView.Find(id + 1).gameObject;
+        winner.GetComponent<MeshRenderer>().enabled = true;
+        winner.GetComponentInChildren<CrownColorInterpolate>().SetCrownRenderers(true);
         PhotonView.Find(id + 1).gameObject.transform.position = new Vector3(0, 0, -50);
         gameOverPanel.SetActive(true);
         activeGame = false;
