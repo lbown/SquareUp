@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     void Update()
     {
-        if ((players.Count >= MultiplayerSettings.multiplayerSettings.maxPlayers/2 || players.Count >= 8) && readyPlayers == players.Count && !activeGame) {
+        if ((PhotonNetwork.PlayerList.Length >= MultiplayerSettings.multiplayerSettings.maxPlayers/2 || PhotonNetwork.PlayerList.Length >= 8) && readyPlayers == PhotonNetwork.PlayerList.Length && !activeGame) {
             StartGame();
         }
     }
