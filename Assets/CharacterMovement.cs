@@ -312,7 +312,7 @@ public class CharacterMovement : MonoBehaviour
             //PV.RPC("RPC_Aim", RpcTarget.AllBuffered, aimDirection);
             if (value.Get<Vector2>().magnitude >= 0.9 && gun == null && meleCooldown <= 0)
             {
-                PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, aimDirection);
+                PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, aimDirection,ID);
             }
 
             if(value.Get<Vector2>().magnitude >= 0.9 && gun != null && autoFire)
@@ -326,11 +326,12 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    IEnumerator FistDrag()
+    IEnumerator FistDrag(GameObject f)
     {
         yield return new WaitForSeconds(0.5f);
-        Fist.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-        Fist.transform.localPosition = new Vector3(0, 0, 0);
+        f.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        f.transform.localPosition = new Vector3(0, 0, 0);
+        f.GetComponent<SphereCollider>().enabled = false;
 
     }
     private void OnAbility()
@@ -459,9 +460,11 @@ public class CharacterMovement : MonoBehaviour
     [PunRPC]
     public void RPC_MeleAttack(Vector2 aim)
     {
-        meleCooldown = 30;
-        Fist.GetComponent<Rigidbody>().AddForce(aimDirection * 1000);
-        StartCoroutine(FistDrag());
+        meleCooldown = 30
+        GameObject f = PhotonView.Find(ID + 1).gameObject.GetComponentInChildren<Fist>().gameObject;
+        f.GetComponent<SphereCollider>().enabled = true;
+        f.GetComponent<Rigidbody>().AddForce(aim * 1000);
+        StartCoroutine(FistDrag(f));
     }
     [PunRPC]
     public void RPC_DropGun()
