@@ -138,9 +138,8 @@ public class CharacterMovement : MonoBehaviour
         }
 
         ammoUI = GameObject.Find("Ammo");
-        abilityUI = GameObject.Find("Ability");
-        ammoUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
-        abilityUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
+
+       
 
     }
 
@@ -207,13 +206,13 @@ public class CharacterMovement : MonoBehaviour
             {
                 meleCooldown -= 1;
             }
+            ammoUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
+            abilityUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
             if (gun == null)
             {
-                ammoUI.GetComponent<TextMeshProUGUI>().text = "Fist";
+                ammoUI.GetComponent<TextMeshProUGUI>().text = "";
             }
             else ammoUI.GetComponent<TextMeshProUGUI>().text = new string('.',ammo);
-
-            abilityUI.GetComponent<TextMeshProUGUI>().text = "Ability : " + cooldown;
         }
     }
 
