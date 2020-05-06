@@ -11,16 +11,21 @@ public class AvatarSetup : MonoBehaviour
     public int characterValue;
     public GameObject myCharacter;
     private GameManager gm;
+    private int selectedColor;
+    public CharSelectionController charSelect;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = GameObject.FindGameObjectWithTag("gm").GetComponent<GameManager>();
         PV = GetComponent<PhotonView>();
+        charSelect = GameObject.Find("MenuController").GetComponent<CharSelectionController>();
         if(PV.IsMine)
         {
             int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, GenerateNewColor(), actorNumber);
+            selectedColor = GenerateNewColor();
+            charSelect.SetUpCanvasTextOnSelect(PlayerInfo.PI.mySelectedCharacter, selectedColor);
+            PV.RPC("RPC_AddCharacter", RpcTarget.AllBuffered, PlayerInfo.PI.mySelectedCharacter, selectedColor, actorNumber);
         }    
     }
 

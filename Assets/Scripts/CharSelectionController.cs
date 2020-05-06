@@ -35,14 +35,19 @@ public class CharSelectionController : MonoBehaviour
             waitingTxt.enabled = true;
             readyTxt.enabled = true;
             readyToSpawn = true;
-            foreach(Button btn in buttons)
-            {
-                btn.GetComponent<CharSelectButtonController>().charInfo.text = charNames[whichCharacter] + " Selected";
-                btn.gameObject.SetActive(false);
-            }
             PlayerInfo.PI.mySelectedCharacter = whichCharacter;
             PlayerPrefs.SetInt("SelectedCharacter", whichCharacter);
             gm.incReadyPlayers();
+        }
+    }
+
+    public void SetUpCanvasTextOnSelect(int whichCharacter, int colorID)
+    {
+        foreach (Button btn in buttons)
+        {
+            btn.GetComponent<CharSelectButtonController>().charInfo.text = charNames[whichCharacter] + " Selected";
+            btn.GetComponent<CharSelectButtonController>().charInfo.color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
+            btn.gameObject.SetActive(false);
         }
     }
 
