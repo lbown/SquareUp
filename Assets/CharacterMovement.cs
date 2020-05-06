@@ -225,6 +225,9 @@ public class CharacterMovement : MonoBehaviour
                 impact += Vector3.Normalize(imp);
                 //ps.GetComponent<ParticleSystemRenderer>().material.color = collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial.color;
                 ps.GetComponent<ParticleSystem>().startColor = collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_BaseColor");
+                float damageApprox = collision.gameObject.transform.localScale.magnitude;
+                
+                ps.emissionRate = 4 * collision.gameObject.GetComponent<NewBulletController>().damage;
                 ps.Play();
             }
         }
