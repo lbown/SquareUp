@@ -123,6 +123,7 @@ public class CharacterMovement : MonoBehaviour
         Fist.GetComponent<Fist>().ID = ID;
         Fist.GetComponent<Fist>().damage = 50;
         meleCooldown = 20;
+        Fist.GetComponent<SphereCollider>().enabled = false;
 
     }
 

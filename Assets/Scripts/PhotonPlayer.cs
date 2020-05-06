@@ -66,6 +66,7 @@ public class PhotonPlayer : MonoBehaviour
     {
         int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
         PV.RPC("RPC_OnRespawn", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, GameSetup.gs.spawnPoints[spawnPicker].position);
+        myAvatar.GetComponentInChildren<CrownColorInterpolate>().SetCrownRenderers(false);
     }
 
     public void SetAvatarInfo(int avatarID)
@@ -198,7 +199,7 @@ public class PhotonPlayer : MonoBehaviour
         avatar.GetComponent<CharacterMovement>().enabled = true;
         avatar.GetComponent<CharacterMovement>().health = avatar.GetComponent<CharacterMovement>().startingHP;
         avatar.GetComponent<CharacterMovement>().velocity.y = 0f;
-        avatar.GetComponent<CharacterMovement>().Fist.GetComponent<SphereCollider>().enabled = true;
+        avatar.GetComponent<CharacterMovement>().Fist.GetComponent<SphereCollider>().enabled = false;
         if(avatar.GetComponent<CharacterMovement>().gun != null)
         {
             Destroy(avatar.GetComponent<CharacterMovement>().gun);
