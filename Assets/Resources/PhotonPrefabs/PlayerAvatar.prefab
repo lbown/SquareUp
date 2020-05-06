@@ -340,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterValue: 0
   myCharacter: {fileID: 0}
+  charSelect: {fileID: 0}
 --- !u!1 &4060611264255985509
 GameObject:
   m_ObjectHideFlags: 0

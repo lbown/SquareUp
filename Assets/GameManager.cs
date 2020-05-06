@@ -109,49 +109,56 @@ public class GameManager : MonoBehaviour, IPunObservable
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (PV.IsMine && activeGame)
+        if (PV.IsMine && activeGame && !timePaused)
         {
-            powerUpTimer -= Time.deltaTime;
-            rotatePowerUpTimer -= Time.deltaTime;
-            if (powerUpTimer <= 0)
-            {
-                if (currentSpawnedPowerUps < maxPowerUps)
-                {
-                    PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps + 1));
-                    ResetPowerUpTimer();
-                    int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
-                    System.Random rnd = new System.Random();
-                    PV.RPC("RPC_InstantiatePowerUp", RpcTarget.AllBuffered, spawnPicker, rnd.Next(pwrUps.Count));
-                }
-                else {
-                    ResetPowerUpTimer();
-                }
-            }
-            if (rotatePowerUpTimer <= 0)
-            {
-                if (currentSpawnedPowerUps < maxPowerUps && !currentSpawnedRotatePowerUp)
-                {
-                    PV.RPC("RPC_SynchronizeRotatePowerUps", RpcTarget.AllBuffered, true);
-                    PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps + 1));
-                    ResetPowerUpTimer();
-                    ResetRotatePowerUpTimer();
-                    int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
-                    PV.RPC("RPC_InstantiateRotatePowerUp", RpcTarget.AllBuffered, spawnPicker);
-                }
-                else {
-                    ResetRotatePowerUpTimer();
-                }
-            }
+            PowerUpHandler();
+            TimerHandler();
+        }
+    }
 
-            if (!timePaused)
-            {
-                float t = StartTime + Time.time;
-                int minutes = ((int)t / 60);
-                int seconds = (int)((t % 60));
+    private void TimerHandler()
+    {
+        float t = StartTime + Time.time;
+        int minutes = ((int)t / 60);
+        int seconds = (int)((t % 60));
 
-                string time = (TimeLimitMinutes - minutes).ToString() + ":" + (59 - seconds).ToString();
-                PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, StartTime, time);
-                
+        string time = (TimeLimitMinutes - minutes).ToString() + ":" + (59 - seconds).ToString();
+        PV.RPC("RPC_SyncTimer", RpcTarget.AllBuffered, StartTime, time);
+    }
+
+    private void PowerUpHandler()
+    {
+        powerUpTimer -= Time.deltaTime;
+        rotatePowerUpTimer -= Time.deltaTime;
+        if (powerUpTimer <= 0)
+        {
+            if (currentSpawnedPowerUps < maxPowerUps)
+            {
+                PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps + 1));
+                ResetPowerUpTimer();
+                int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
+                System.Random rnd = new System.Random();
+                PV.RPC("RPC_InstantiatePowerUp", RpcTarget.AllBuffered, spawnPicker, rnd.Next(pwrUps.Count));
+            }
+            else
+            {
+                ResetPowerUpTimer();
+            }
+        }
+        if (rotatePowerUpTimer <= 0)
+        {
+            if (currentSpawnedPowerUps < maxPowerUps && !currentSpawnedRotatePowerUp)
+            {
+                PV.RPC("RPC_SynchronizeRotatePowerUps", RpcTarget.AllBuffered, true);
+                PV.RPC("RPC_SynchronizePowerUps", RpcTarget.AllBuffered, (currentSpawnedPowerUps + 1));
+                ResetPowerUpTimer();
+                ResetRotatePowerUpTimer();
+                int spawnPicker = Random.Range(0, GameSetup.gs.powerUpLocations.Length);
+                PV.RPC("RPC_InstantiateRotatePowerUp", RpcTarget.AllBuffered, spawnPicker);
+            }
+            else
+            {
+                ResetRotatePowerUpTimer();
             }
         }
     }
