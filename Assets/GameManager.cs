@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour, IPunObservable
     private int maxPowerUps;
     [SerializeField] private float totalTimeUntilPowerUp, totalTimeUntilRotatePowerUp, powerUpTimer, rotatePowerUpTimer;
 
-    private bool gameActive;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +43,6 @@ public class GameManager : MonoBehaviour, IPunObservable
         Winner = 0;
         WinnerScore = 0;
         DisconectedPlayers = new List<GameObject>();
-        gameActive = false;
         currentSpawnedRotatePowerUp = false;
     }
 
@@ -111,7 +109,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (PV.IsMine)
+        if (PV.IsMine && activeGame)
         {
             powerUpTimer -= Time.deltaTime;
             rotatePowerUpTimer -= Time.deltaTime;
@@ -145,7 +143,7 @@ public class GameManager : MonoBehaviour, IPunObservable
                 }
             }
 
-            if (!timePaused && activeGame)
+            if (!timePaused)
             {
                 float t = StartTime + Time.time;
                 int minutes = ((int)t / 60);
