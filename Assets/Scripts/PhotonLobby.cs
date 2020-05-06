@@ -32,7 +32,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         startButton.SetActive(false);
         cancelButton.SetActive(true);
-        PhotonNetwork.JoinRandomRoom();
+        PhotonNetwork.JoinRandomRoom(null, (byte)MultiplayerSettings.multiplayerSettings.maxPlayers);
         Debug.Log("Quick Start.");
     }
 
