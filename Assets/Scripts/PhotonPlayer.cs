@@ -62,6 +62,11 @@ public class PhotonPlayer : MonoBehaviour
 
         }
     }
+    public void OnStart()
+    {
+        int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
+        PV.RPC("RPC_OnRespawn", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID, GameSetup.gs.spawnPoints[spawnPicker].position);
+    }
 
     public void SetAvatarInfo(int avatarID)
     {

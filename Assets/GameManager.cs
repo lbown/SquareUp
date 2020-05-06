@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     public List<string> pwrUps;
     private int maxPowerUps;
     [SerializeField] private float totalTimeUntilPowerUp, totalTimeUntilRotatePowerUp, powerUpTimer, rotatePowerUpTimer;
+    private bool waitingToStart;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         WinnerScore = 0;
         DisconectedPlayers = new List<GameObject>();
         currentSpawnedRotatePowerUp = false;
+        waitingToStart = false;
     }
 
     public void incReadyPlayers() {
@@ -53,8 +55,23 @@ public class GameManager : MonoBehaviour, IPunObservable
         PV.RPC("RPC_decReadyPlayers", RpcTarget.AllBuffered);
     }
 
-    public void StartGame() {
+    public void StartGame()
+    {
+        waitingToStart = true;
+        SetPlayerPositionsForStart();
         StartCoroutine(StartGameDelay());
+    }
+
+    private void SetPlayerPositionsForStart()
+    {
+        if (PV.IsMine)
+        {
+            timePaused = true;
+            foreach (GameObject player in players)
+            {
+                PhotonView.Find(player.GetComponent<CharacterMovement>().ID).gameObject.GetComponent<PhotonPlayer>().OnStart();
+            }
+        }
     }
 
     IEnumerator StartGameDelay()
@@ -67,6 +84,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         }
         else StartGame();
     }
+
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -101,7 +119,8 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     void Update()
     {
-        if ((PhotonNetwork.PlayerList.Length >= MultiplayerSettings.multiplayerSettings.maxPlayers/2 || PhotonNetwork.PlayerList.Length >= 8) && readyPlayers == PhotonNetwork.PlayerList.Length && !activeGame) {
+        if ((PhotonNetwork.PlayerList.Length >= MultiplayerSettings.multiplayerSettings.maxPlayers / 2 || PhotonNetwork.PlayerList.Length >= 8) && readyPlayers == PhotonNetwork.PlayerList.Length && !activeGame && !waitingToStart)
+        {
             StartGame();
         }
     }
@@ -256,6 +275,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     }
     [PunRPC]
     private void RPC_StartGame() {
+        timePaused = false;
         StartTime = Time.time;
         activeGame = true;
     }
