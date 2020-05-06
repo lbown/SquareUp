@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     public bool currentSpawnedRotatePowerUp;
     public TextMeshProUGUI timer;
     private float StartTime;
-    private int readyPlayers;
+    public int readyPlayers;
     public int TimeLimitMinutes;
     public bool activeGame;
     public GameObject gameOverPanel;
