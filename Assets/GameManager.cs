@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     // Start is called before the first frame update
     void Start()
-    {
+    {        
         readyPlayers = 0;
         TimeLimitMinutes = 0;
         activeGame = false;
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         if (PhotonNetwork.PlayerList.Length == readyPlayers)
         {
             PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
-            PhotonNetwork.CurrentRoom.IsVisible = false;
+            //PhotonNetwork.CurrentRoom.IsVisible = false;
         }
         else StartGame();
     }
