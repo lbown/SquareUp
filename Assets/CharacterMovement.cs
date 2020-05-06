@@ -119,6 +119,7 @@ public class CharacterMovement : MonoBehaviour
         fireCooldown = 0;
 
         crown.GetComponent<MeshRenderer>().enabled = false;
+        Fist.GetComponent<Fist>().ID = ID;
         Fist.GetComponent<Fist>().damage = 50;
         meleCooldown = 20;
 
@@ -249,6 +250,7 @@ public class CharacterMovement : MonoBehaviour
             }
             if (other.gameObject.tag == "Fist" && other.gameObject != Fist)
             {
+                lastShotMe = other.gameObject.GetComponent<Fist>().ID;
                 other.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 health -= other.gameObject.GetComponent<Fist>().damage;
                 impact += other.gameObject.GetComponent<Rigidbody>().velocity*5;
