@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour, IPunObservable
         totalTimeUntilPowerUp = 12;
         powerUpTimer = totalTimeUntilPowerUp;
         rotatePowerUpTimer = totalTimeUntilRotatePowerUp;
-        //StartGame();
         Winner = 0;
         WinnerScore = 0;
         DisconectedPlayers = new List<GameObject>();
@@ -57,9 +56,20 @@ public class GameManager : MonoBehaviour, IPunObservable
     }
 
     public void StartGame() {
-        PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
-        PhotonNetwork.CurrentRoom.IsVisible = false;
+        StartCoroutine(StartGameDelay());
     }
+
+    IEnumerator StartGameDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        if (PhotonNetwork.PlayerList.Length == readyPlayers)
+        {
+            PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
+        else StartGame();
+    }
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -243,7 +253,6 @@ public class GameManager : MonoBehaviour, IPunObservable
     private void RPC_StartGame() {
         StartTime = Time.time;
         activeGame = true;
-        //test this
     }
     [PunRPC]
     public void RPC_incReadyPlayers()
