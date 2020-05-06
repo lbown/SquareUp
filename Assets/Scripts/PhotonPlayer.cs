@@ -73,10 +73,10 @@ public class PhotonPlayer : MonoBehaviour
         if (gm.activeGame)
         {
             PhotonView.Find(ID + 1).RPC("RPC_GiveDeath", RpcTarget.AllBuffered);
+            gm.findWinner();
         }
         rumbleTimer = 0.5f;
         notWaitingForDelay = false;
-        gm.findWinner();
         PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
         StartCoroutine(SpawnDelay());
     }
