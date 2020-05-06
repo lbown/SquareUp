@@ -460,7 +460,7 @@ public class CharacterMovement : MonoBehaviour
     [PunRPC]
     public void RPC_MeleAttack(Vector2 aim)
     {
-        meleCooldown = 30
+        meleCooldown = 30;
         GameObject f = PhotonView.Find(ID + 1).gameObject.GetComponentInChildren<Fist>().gameObject;
         f.GetComponent<SphereCollider>().enabled = true;
         f.GetComponent<Rigidbody>().AddForce(aim * 1000);
