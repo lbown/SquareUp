@@ -10,6 +10,8 @@ public class CollideSplashListener : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        return;
+        //TODO: Fix this so that it doesn't expand off the edge
         transform.localScale += new Vector3(0.2f, 0, 0.2f);
 
         bool offEdge = false;
