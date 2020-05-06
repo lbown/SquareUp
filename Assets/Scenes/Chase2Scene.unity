@@ -5587,6 +5587,7 @@ MonoBehaviour:
   pwrUps:
   - SniperPowerUp
   - UziPowerUp
+  - CannonPowerUp
   totalTimeUntilPowerUp: 0
   totalTimeUntilRotatePowerUp: 0
   powerUpTimer: 0
