@@ -76,8 +76,8 @@ public class PhotonPlayer : MonoBehaviour
         }
         rumbleTimer = 0.5f;
         notWaitingForDelay = false;
-        PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
         gm.findWinner();
+        PV.RPC("RPC_OnDeath", RpcTarget.AllBuffered, myAvatar.GetComponent<PhotonView>().ViewID);
         StartCoroutine(SpawnDelay());
     }
 
