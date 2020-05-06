@@ -461,6 +461,6 @@ public class CharacterMovement : MonoBehaviour
     [PunRPC]
     public void RPC_DropGun()
     {
-        gun = null;
+        Destroy(gun);
     }
 }
