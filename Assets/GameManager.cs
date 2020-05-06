@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     void Start()
     {        
         readyPlayers = 0;
-        TimeLimitMinutes = 0;
+        TimeLimitMinutes = 3;
         activeGame = false;
         currentSpawnedPowerUps = 0;
         maxPowerUps = 2;
