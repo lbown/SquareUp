@@ -30,6 +30,7 @@ public class AvatarSetup : MonoBehaviour
         myCharacter = Instantiate(PlayerInfo.PI.allCharacters[whichCharacter], transform.position, transform.rotation, transform);
         myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
         gameObject.GetComponent<CharacterMovement>().colorID = randomMaterialID;
+        gameObject.GetComponent<CharacterMovement>().Fist.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
         PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
             if (PlayerInfo.PI.playerMaterials.ContainsKey(actorID))
             {

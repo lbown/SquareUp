@@ -174,6 +174,7 @@ public class PhotonPlayer : MonoBehaviour
             avatar.GetComponent<CharacterController>().enabled = false;
             avatar.GetComponent<CapsuleCollider>().enabled = false;
             avatar.GetComponent<CharacterMovement>().enabled = false;
+            avatar.GetComponent<CharacterMovement>().Fist.GetComponent<SphereCollider>().enabled = false;
         }
     }
     [PunRPC]
@@ -191,6 +192,7 @@ public class PhotonPlayer : MonoBehaviour
         avatar.GetComponent<CharacterMovement>().enabled = true;
         avatar.GetComponent<CharacterMovement>().health = avatar.GetComponent<CharacterMovement>().startingHP;
         avatar.GetComponent<CharacterMovement>().velocity.y = 0f;
+        avatar.GetComponent<CharacterMovement>().Fist.GetComponent<SphereCollider>().enabled = true;
         dead = false;
     }
 }

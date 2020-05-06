@@ -119,7 +119,6 @@ public class CharacterMovement : MonoBehaviour
         fireCooldown = 0;
 
         crown.GetComponent<MeshRenderer>().enabled = false;
-        Fist.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[colorID];
         Fist.GetComponent<Fist>().damage = 50;
         meleCooldown = 20;
 
