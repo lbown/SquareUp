@@ -31,6 +31,7 @@ public class AvatarSetup : MonoBehaviour
         myCharacter.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
         gameObject.GetComponent<CharacterMovement>().colorID = randomMaterialID;
         gameObject.GetComponent<CharacterMovement>().Fist.GetComponent<MeshRenderer>().sharedMaterial = PlayerInfo.PI.totalMaterials[randomMaterialID];
+        gameObject.GetComponent<CharacterMovement>().Fist.GetComponent<SphereCollider>().enabled = false;
         PlayerInfo.PI.alreadySelectedMaterials.Add(randomMaterialID);
             if (PlayerInfo.PI.playerMaterials.ContainsKey(actorID))
             {

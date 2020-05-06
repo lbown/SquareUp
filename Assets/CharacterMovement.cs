@@ -254,7 +254,9 @@ public class CharacterMovement : MonoBehaviour
                 other.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 health -= other.gameObject.GetComponent<Fist>().damage;
                 impact += other.gameObject.GetComponent<Rigidbody>().velocity*5;
-            }
+                ps.GetComponent<ParticleSystem>().startColor = other.gameObject.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_BaseColor");
+                ps.Play();
+        }
     }
 
     private void Move()
