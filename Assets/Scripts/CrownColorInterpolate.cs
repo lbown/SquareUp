@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CrownColorInterpolate : MonoBehaviour
 {
-    public MeshRenderer[] crownRenderers;
+    private MeshRenderer[] crownRenderers;
     [SerializeField] [Range(0f, 1f)] float lerpTime;
-    private List<Color> myColors;
+    [SerializeField] private List<Color> myColors;
     [SerializeField] private float t, modifier;
     private int colorIndex, len;
     // Start is called before the first frame update
@@ -33,7 +33,8 @@ public class CrownColorInterpolate : MonoBehaviour
         {
             t = 0f;
             colorIndex++;
-            colorIndex = (colorIndex >= len) ? 0 : colorIndex;
+            colorIndex = colorIndex % len;//(colorIndex >= len) ? 0 : colorIndex;
+            Debug.Log("Color Index: " + colorIndex);
         }
     }
 
@@ -55,9 +56,10 @@ public class CrownColorInterpolate : MonoBehaviour
     {
         crownRenderers = GetComponentsInChildren<MeshRenderer>();
         myColors = new List<Color>();
-        foreach (Material material in PlayerInfo.PI.totalMaterials)
+        myColors.Add(new Color(212, 175, 55));
+        foreach (int mat in PlayerInfo.PI.alreadySelectedMaterials)
         {
-            myColors.Add(material.color);
+            myColors.Add(PlayerInfo.PI.totalMaterials[mat].color);
         }
         colorIndex = 0;
         t = 0f;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UIElements;
+using System.Numerics;
 
 public class AvatarSetup : MonoBehaviour
 {
@@ -42,8 +43,13 @@ public class AvatarSetup : MonoBehaviour
     }
     private int GenerateNewColor()
     {
-        int color = Random.Range(0, PlayerInfo.PI.totalMaterials.Count);
-        if (PlayerInfo.PI.alreadySelectedMaterials.Contains(color))
+        int maxColors = Mathf.Min(MultiplayerSettings.multiplayerSettings.maxPlayers, PlayerInfo.PI.totalMaterials.Count);
+        int color = Random.Range(0, maxColors);
+        if (PlayerInfo.PI.alreadySelectedMaterials.Count >= PlayerInfo.PI.totalMaterials.Count)
+        {
+            return color;
+        }
+        else if (PlayerInfo.PI.alreadySelectedMaterials.Contains(color))
         {
             return GenerateNewColor();
         }

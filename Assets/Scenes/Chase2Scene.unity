@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3200,17 +3200,17 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 88cf8a22aaefefd4d8cb5b19ad40b08f, type: 2}
   - {fileID: 2100000, guid: 0f199d47f215d0048a93db015e760171, type: 2}
   - {fileID: 2100000, guid: ce99af20e6c1a3540ada36aeb6021a63, type: 2}
-  - {fileID: 2100000, guid: 7da8103034bdf1a4589c0e1bb672ca8b, type: 2}
-  - {fileID: 2100000, guid: 34c798c4cb3699d4ea4f5aba3515989b, type: 2}
   - {fileID: 2100000, guid: a8abed6aab743b04281c967947f5ecc2, type: 2}
   - {fileID: 2100000, guid: ec07cff9fd1502747b53198419374936, type: 2}
   - {fileID: 2100000, guid: d49ca1b70e7bf8049b57478cd634f718, type: 2}
   - {fileID: 2100000, guid: 135446791ae85ea43a668781ccc9d9f3, type: 2}
-  - {fileID: 2100000, guid: 1f3d1e7f46d010b4f9cdd62bd54e973b, type: 2}
-  - {fileID: 2100000, guid: 27046981f59ac9b40a772861411454ec, type: 2}
-  - {fileID: 2100000, guid: 6988ee0cd1c87504093ad77501b333c1, type: 2}
-  - {fileID: 2100000, guid: e77cf0d549f2df14e925553fcbe17e80, type: 2}
   - {fileID: 2100000, guid: b40d4fbf769328e4cbe94aff13e947b1, type: 2}
+  - {fileID: 2100000, guid: e77cf0d549f2df14e925553fcbe17e80, type: 2}
+  - {fileID: 2100000, guid: 6988ee0cd1c87504093ad77501b333c1, type: 2}
+  - {fileID: 2100000, guid: 27046981f59ac9b40a772861411454ec, type: 2}
+  - {fileID: 2100000, guid: 34c798c4cb3699d4ea4f5aba3515989b, type: 2}
+  - {fileID: 2100000, guid: 1f3d1e7f46d010b4f9cdd62bd54e973b, type: 2}
+  - {fileID: 2100000, guid: 7da8103034bdf1a4589c0e1bb672ca8b, type: 2}
   alreadySelectedMaterials: 
 --- !u!4 &709041245
 Transform:
