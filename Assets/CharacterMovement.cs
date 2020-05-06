@@ -9,7 +9,6 @@ using Photon.Realtime;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public Material myBulletColor;
     public int colorID;
     
     private PhotonView PV;
@@ -54,6 +53,8 @@ public class CharacterMovement : MonoBehaviour
 
     public GameObject gun;
     public GameObject crown;
+    public GameObject StickyMarkerPrefab;
+    public GameObject StickyMarker;
 
     public int numKills;
     public int numDeaths;
@@ -124,6 +125,13 @@ public class CharacterMovement : MonoBehaviour
         Fist.GetComponent<Fist>().damage = 50;
         meleCooldown = 20;
         Fist.GetComponent<SphereCollider>().enabled = false;
+
+        if(WhichPlayerAmI == 1)
+        {
+            StickyMarker = Instantiate(StickyMarkerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.sharedMaterial = PlayerInfo.PI.totalMaterials[colorID];
+            foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.enabled = false;
+        }
 
     }
 
@@ -360,6 +368,9 @@ public class CharacterMovement : MonoBehaviour
                     if (portalPos.z < 0f)
                     {   
                         portalPos = cc.transform.position;
+                        StickyMarker.transform.position = portalPos;
+                        foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.enabled = true;
+                        foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.sharedMaterial = PlayerInfo.PI.totalMaterials[colorID];
                         cooldown = 30;
                     }
                     else
@@ -370,6 +381,7 @@ public class CharacterMovement : MonoBehaviour
                         portalPos.z = -100f;
                         cooldown = 30;
                         velocity.y = 0;
+                        foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.enabled = false;
                     }
                 }
                 if (WhichPlayerAmI == 2)

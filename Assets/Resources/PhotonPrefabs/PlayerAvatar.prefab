@@ -233,6 +233,9 @@ MonoBehaviour:
   lastShotMe: 0
   gun: {fileID: 0}
   crown: {fileID: 6706783337337652106}
+  StickyMarkerPrefab: {fileID: 3680058128527789597, guid: 7617310c6e53dbc40af277231f6a72d2,
+    type: 3}
+  StickyMarker: {fileID: 0}
   numKills: 0
   numDeaths: 0
   gunLength: 0
