@@ -458,10 +458,10 @@ public class CharacterMovement : MonoBehaviour
         else crown.SetActive(false);
     }
     [PunRPC]
-    public void RPC_MeleAttack(Vector2 aim)
+    public void RPC_MeleAttack(Vector2 aim,int id)
     {
         meleCooldown = 30;
-        GameObject f = PhotonView.Find(ID + 1).gameObject.GetComponentInChildren<Fist>().gameObject;
+        GameObject f = PhotonView.Find(id+1).gameObject.GetComponentInChildren<Fist>().gameObject;
         f.GetComponent<SphereCollider>().enabled = true;
         f.GetComponent<Rigidbody>().AddForce(aim * 1000);
         StartCoroutine(FistDrag(f));

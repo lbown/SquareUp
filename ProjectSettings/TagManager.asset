@@ -13,6 +13,7 @@ TagManager:
   - PA
   - PP
   - Gun
+  - Fist
   layers:
   - Default
   - TransparentFX

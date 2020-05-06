@@ -81,5 +81,6 @@ MonoBehaviour:
   - RPC_decReadyPlayers
   - RPC_incReadyPlayers
   - RPC_StartGame
+  - RPC_DropGun
   DisableAutoOpenWizard: 1
   ShowSettings: 1
