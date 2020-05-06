@@ -193,6 +193,10 @@ public class PhotonPlayer : MonoBehaviour
         avatar.GetComponent<CharacterMovement>().health = avatar.GetComponent<CharacterMovement>().startingHP;
         avatar.GetComponent<CharacterMovement>().velocity.y = 0f;
         avatar.GetComponent<CharacterMovement>().Fist.GetComponent<SphereCollider>().enabled = true;
+        if(avatar.GetComponent<CharacterMovement>().gun != null)
+        {
+            Destroy(avatar.GetComponent<CharacterMovement>().gun);
+        }
         dead = false;
     }
 }
