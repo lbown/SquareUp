@@ -8,7 +8,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    [SerializeField] private GameObject startButton, cancelButton;
+    [SerializeField] private GameObject startButton, cancelButton, loadingTxt;
 
     private void Awake()
     {
@@ -25,6 +25,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         Debug.Log("Connected to the " + PhotonNetwork.CloudRegion + " server.");
         PhotonNetwork.AutomaticallySyncScene = true;
         startButton.SetActive(true);
+        loadingTxt.SetActive(false);
     }
 
     public void QuickStart()
