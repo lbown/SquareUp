@@ -202,12 +202,8 @@ public class CharacterMovement : MonoBehaviour
         ammo -= 1;
         if (ammo <= 0)
         {
-            dropGun();
+            PV.RPC("RPC_DropGun", RpcTarget.AllBuffered);
         }
-
-    }
-
-    private void dropGun() {
 
     }
 
@@ -462,5 +458,10 @@ public class CharacterMovement : MonoBehaviour
         meleCooldown = 30;
         Fist.GetComponent<Rigidbody>().AddForce(aimDirection * 1000);
         StartCoroutine(FistDrag());
+    }
+    [PunRPC]
+    public void RPC_DropGun()
+    {
+        gun = null;
     }
 }
