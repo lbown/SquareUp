@@ -79,8 +79,7 @@ public class CharacterMovement : MonoBehaviour
 
     public ParticleSystem ps;
 
-    private GameObject ammoUI;
-    private GameObject abilityUI;
+    private TMP_Text ammoUI;
 
 
     public void pauseTime() {
@@ -137,9 +136,7 @@ public class CharacterMovement : MonoBehaviour
             foreach (MeshRenderer m in StickyMarker.GetComponentsInChildren<MeshRenderer>()) m.enabled = false;
         }
 
-        ammoUI = GameObject.Find("Ammo");
-
-       
+        ammoUI = gm.UIPanel.GetComponentInChildren<TMP_Text>();
 
     }
 
@@ -206,13 +203,12 @@ public class CharacterMovement : MonoBehaviour
             {
                 meleCooldown -= 1;
             }
-            ammoUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
-            abilityUI.GetComponent<TextMeshProUGUI>().color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
+            ammoUI.color = PlayerInfo.PI.totalMaterials[colorID].GetColor("_BaseColor");
             if (gun == null)
             {
-                ammoUI.GetComponent<TextMeshProUGUI>().text = "";
+                ammoUI.text = "";
             }
-            else ammoUI.GetComponent<TextMeshProUGUI>().text = new string('.',ammo);
+            else ammoUI.text = new string('.', ammo);
         }
     }
 

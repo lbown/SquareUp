@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour, IPunObservable
         if (PhotonNetwork.PlayerList.Length == readyPlayers)
         {
             PV.RPC("RPC_StartGame", RpcTarget.AllBuffered);
-            //PhotonNetwork.CurrentRoom.IsVisible = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
         }
         else StartGame();
         foreach (TextMeshProUGUI t in UIPanel.GetComponentsInChildren<TextMeshProUGUI>()) t.enabled = true;
