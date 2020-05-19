@@ -20,6 +20,14 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    private void Update()
+    {
+        if(Input.touchCount >0)
+        {
+            Debug.Log("FUCK ME");
+        }
+    }
+
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to the " + PhotonNetwork.CloudRegion + " server.");

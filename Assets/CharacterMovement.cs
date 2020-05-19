@@ -81,6 +81,9 @@ public class CharacterMovement : MonoBehaviour
 
     private TMP_Text ammoUI;
 
+    public GameObject ljoy;
+    public GameObject rjoy;
+
 
     public void pauseTime() {
         timePaused = true;
@@ -137,7 +140,8 @@ public class CharacterMovement : MonoBehaviour
         }
 
         ammoUI = gm.UIPanel.GetComponentInChildren<TMP_Text>();
-
+        ljoy = GameObject.Find("LJoyStick");
+        rjoy = GameObject.Find("RJoyStick");
     }
 
 
@@ -288,7 +292,8 @@ public class CharacterMovement : MonoBehaviour
     {
         if (!timePaused)
         {
-            Vector3 move = new Vector3(lMovement.x, velocity.y, 0f);
+            float x = ljoy.GetComponent<FloatingJoystick>().Horizontal;
+            Vector3 move = new Vector3(x, velocity.y, 0f);
             if (levitate > 0)
             {
                 move.y = 0f;
