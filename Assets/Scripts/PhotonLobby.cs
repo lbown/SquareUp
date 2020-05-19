@@ -17,7 +17,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        PhotonNetwork.ConnectToMaster("75.31.198.177:5055", 0, "OnPremiseServer");//PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
